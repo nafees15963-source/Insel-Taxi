@@ -2,7 +2,7 @@ import { PageIntro, CallButton, WhatsAppButton, EmailButton } from '@/components
 import { FareCalculator } from '@/components/fare-calculator';
 import { tariff } from '@/config/tariff';
 export const metadata = {
-  title: 'Fahrpreis & Tarifinformationen',
+  title: 'Tarife & Fahrpreise',
   description:
     'Fahrpreise für regionale und bundesweite Fahrten persönlich abstimmen. Aktueller Kreistarif und optionale unverbindliche Streckenschätzung.',
   alternates: { canonical: '/fahrpreis' },
@@ -12,7 +12,7 @@ export default function Page() {
     <>
       <PageIntro
         eyebrow="Persönlich planen. Klar abstimmen."
-        title="Ihre Fahrt verdient eine individuelle Absprache."
+        title="Tarife & Fahrpreise"
       >
         <p>
           Ob Geschäftsreise, Krankenfahrt, Flughafentransfer oder lange Strecke: Fragen Sie uns nach

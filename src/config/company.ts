@@ -33,5 +33,6 @@ export const nav = [
   { href: '/leistungen', label: 'Leistungen' },
   { href: '/krankenfahrten', label: 'Krankenfahrten' },
   { href: '/flughafentransfer', label: 'Flughafentransfer' },
+  { href: '/fahrpreis', label: 'Tarife' },
   { href: '/kontakt', label: 'Kontakt' },
 ];

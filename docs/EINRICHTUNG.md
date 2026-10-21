@@ -130,7 +130,7 @@ Offizielle Informationen:
 
 Die vom Betreiber bereitgestellte Verordnung vom 25.09.2026 ist ausgewertet und die Tarife ab 01.10.2026 sind bereits konfiguriert. Sie müssen den Rechner nicht mehr freischalten.
 
-Er steht dezent unter „Tarifinformationen“ im Footer und unter `/fahrpreis` in einem zunächst geschlossenen Abschnitt. Wählen Sie für eine Streckenschätzung ausdrücklich ein Ziel innerhalb des Kreises und die passende Tarifzeit. Eine bekannte Kilometerzahl kann ohne Google eingegeben werden. Die Ausgabe enthält nur Grundpreis und Fahrtstrecke, keine Anfahrt, Wartezeiten oder zusätzliche Leistungen. Der tatsächliche Gesamtpreis kann deutlich höher ausfallen.
+Er steht dezent über den Reiter „Tarife“ im Hauptmenü und unter `/fahrpreis` in einem zunächst geschlossenen Abschnitt. Wählen Sie für eine Streckenschätzung ausdrücklich ein Ziel innerhalb des Kreises und die passende Tarifzeit. Eine bekannte Kilometerzahl kann ohne Google eingegeben werden. Die Ausgabe enthält nur Grundpreis und Fahrtstrecke, keine Anfahrt, Wartezeiten oder zusätzliche Leistungen. Der tatsächliche Gesamtpreis kann deutlich höher ausfallen.
 
 Für bundesweite Ziele außerhalb des Kreises und Auslandsfahrten wird hier kein Pauschalbetrag berechnet. Fragen Sie den Gesamtpreis per WhatsApp, E-Mail oder Telefon an. Die Absprachen vor Fahrtbeginn richten sich nach § 1 Absatz 3 der Verordnung. Die vollständige PDF ist auf der Tarifseite verlinkt.
 
