@@ -1,0 +1,239 @@
+# Schritt für Schritt: Ihre neue Taxi-Website einrichten
+
+Sie müssen nicht programmieren können. Die Website ist vorbereitet. Für die normale Fahrtanfrage brauchen Sie weder Google Maps noch eine Datenbank oder eine WhatsApp Business API.
+
+## 1. Projekt speichern
+
+Falls Sie die ZIP-Datei verwenden: herunterladen, mit der rechten Maustaste „Alle extrahieren“ wählen und den Ordner öffnen. Im Projektordner finden Sie unter anderem `package.json`, `src`, `public` und diese Anleitung.
+
+Falls Sie direkt im bereitgestellten Workspace arbeiten: Das Projekt liegt unter `/workspace/Insel-Taxi`.
+
+## 2. Zwei Programme installieren
+
+1. Aktuelle **Node.js LTS-Version** von https://nodejs.org herunterladen und installieren. Mindestens Version 22 verwenden. Die Standardoptionen reichen aus; npm wird mitinstalliert.
+2. **Visual Studio Code** von https://code.visualstudio.com herunterladen und installieren.
+3. Visual Studio Code öffnen. „Datei → Ordner öffnen“ wählen und den Projektordner auswählen.
+4. Oben „Terminal → Neues Terminal“ wählen. Unten erscheint das Eingabefenster für die folgenden Befehle.
+
+Alle Befehle einzeln einfügen und jeweils die Eingabetaste drücken. Das Terminal muss im Ordner mit `package.json` stehen.
+
+## 3. Die Website auf Ihrem Computer starten
+
+Zuerst die benötigten Pakete installieren:
+
+```sh
+npm ci
+```
+
+Dann die Konfigurationsvorlage kopieren.
+
+Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env.local
+```
+
+macOS oder Linux:
+
+```sh
+cp .env.example .env.local
+```
+
+Danach starten:
+
+```sh
+npm run dev
+```
+
+Im Browser **http://localhost:3000** öffnen. Lassen Sie das Terminal dabei geöffnet. Zum Beenden im Terminal `Strg + C` drücken.
+
+„localhost“ bedeutet: Die Website läuft auf Ihrem Computer. Das ist noch keine öffentliche Internetadresse. Falls Port 3000 belegt ist, nennt Next.js eine andere Adresse im Terminal.
+
+Falls Windows die Ausführung von `npm.ps1` verhindert: In VS Code über den Pfeil neben dem Pluszeichen im Terminal „Eingabeaufforderung“ auswählen und die Befehle dort erneut ausführen. Ändern Sie dafür nicht pauschal die Sicherheitseinstellungen Ihres Computers.
+
+## 4. Telefonnummer und Unternehmensangaben kontrollieren
+
+Öffnen Sie `src/config/company.ts`. Die Daten wurden aus der bisherigen Unternehmenswebsite übernommen:
+
+- Telefon: **04541 802080**
+- Telefon-Link international: **+494541802080**
+- WhatsApp: **491739189239** – nur Ziffern, ohne Plus oder Leerzeichen
+- E-Mail: **info@inseltaxi-ratzeburg.de**
+- Anschrift: **Zittschower Weg 11a, 23909 Ratzeburg**
+- Inhaber laut bisherigem Impressum: **Naeem Ahmed**
+
+Bitte prüfen Sie die Daten. Der bisherige Datenschutztext enthielt andere Schreibweisen von Inhaber und Adresse. Deshalb sind die Rechtstexte als Entwurf gekennzeichnet.
+
+Die Telefonnummern müssen nur in dieser zentralen Datei geändert werden. Nicht jede Seite einzeln bearbeiten.
+
+## 5. Ihr Original-Logo einfügen
+
+Das im Chat gezeigte Logo war nicht als Bilddatei im Workspace abrufbar. Deshalb gibt es derzeit einen neutralen Platzhalter.
+
+1. Speichern Sie die **Originaldatei** als `logo-original.png` im Ordner `public`.
+2. Falls Ihr Original ein JPG ist: nicht einfach die Dateiendung ändern. Entweder verlustfrei als PNG exportieren lassen oder Dateipfade in `src/components/shell.tsx` und `src/app/layout.tsx` passend ändern.
+3. Öffnen Sie `.env.local`.
+4. Ändern Sie diese Zeile:
+
+```dotenv
+NEXT_PUBLIC_LOGO_READY=true
+```
+
+5. Entwicklungsserver mit `Strg + C` beenden und mit `npm run dev` neu starten.
+
+Das Original wird dann im Header, Footer und als Browser-Icon verwendet. Es wird nicht nachgezeichnet, umgefärbt oder verzerrt. Die vollständige, sehr großzügig gerahmte Chatvorlage könnte bei kleiner Darstellung schlecht erkennbar sein. Ideal ist ein offizieller Export mit geeigneten Außenmaßen. Ein anderes Logo wird nicht erzeugt.
+
+## 6. WhatsApp und Telefon testen
+
+1. Öffnen Sie `/fahrt-anfragen` in der Website.
+2. Geben Sie eine Teststrecke und einen Termin in der Zukunft ein.
+3. Klicken Sie auf „Per WhatsApp anfragen“.
+4. Kontrollieren Sie in WhatsApp die vorbereitete Nachricht. **Eine Testnachricht müssen Sie nicht absenden.**
+5. Testen Sie auf Ihrem Smartphone auch „Anrufen“. Das Telefon öffnet die passende App; Sie entscheiden selbst, ob Sie tatsächlich anrufen.
+
+Wichtig: Eine vorbereitete oder abgesendete Nachricht ist keine bestätigte Buchung. Insel Taxi muss die Fahrt persönlich bestätigen.
+
+## 7. Google Maps freiwillig einrichten
+
+Sie können diesen Schritt zunächst überspringen. Adressen lassen sich immer selbst eintippen.
+
+Wenn Sie automatische Adressvorschläge und Streckenberechnung möchten:
+
+1. In der **Google Cloud Console** unter https://console.cloud.google.com ein Projekt anlegen oder auswählen.
+2. Ein Abrechnungskonto zuordnen. Google-Dienste können kostenpflichtig sein; die aktuellen Preise direkt bei Google prüfen.
+3. Diese APIs aktivieren: **Maps JavaScript API**, **Places API (New)** und **Routes API**.
+4. Unter „APIs & Dienste → Anmeldedaten“ zwei getrennte API-Schlüssel erstellen.
+5. Den **Browser-Schlüssel** auf Ihre tatsächlichen Website-Domains und nur auf Maps JavaScript/Places API beschränken. Für die lokale Entwicklung gegebenenfalls zusätzlich `http://localhost:3000/*` zulassen.
+6. Den **Server-Schlüssel** ausschließlich auf Routes API beschränken. Wenn Ihr Host eine feste Ausgangs-IP bietet, zusätzlich darauf einschränken. Bei einem Host ohne feste IP die passende sichere Lösung des Anbieters verwenden; den Schlüssel niemals als `NEXT_PUBLIC_` konfigurieren.
+7. In `.env.local` eintragen:
+
+```dotenv
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=IHR_BROWSER_SCHLUESSEL
+GOOGLE_ROUTES_API_KEY=IHR_SERVER_SCHLUESSEL
+```
+
+8. In Google Cloud sinnvolle API-Quoten und Budgetwarnungen setzen. Eine Budgetwarnung allein stoppt keine Kosten.
+9. Die Datenschutzerklärung um die konkrete Nutzung und Verträge ergänzen und prüfen lassen.
+10. Server neu starten. Im Formular „Adressvorschläge freiwillig aktivieren“ wählen, Datenschutzhinweis lesen und freigeben.
+
+Ohne diese Freigabe werden keine Google-Adressvorschläge geladen. Unter „Datenschutzeinstellungen“ im Footer kann die Freigabe widerrufen werden; die Seite lädt dann neu.
+
+Offizielle Informationen:
+
+- https://developers.google.com/maps/documentation/javascript/place-autocomplete-new
+- https://developers.google.com/maps/documentation/routes/compute_route_directions
+- https://developers.google.com/maps/api-security-best-practices
+
+**Die Google-Keys konnten ohne Ihre Zugangsdaten nicht mit echten API-Aufrufen getestet werden.** Fehler- und Ohne-Key-Zustände wurden geprüft.
+
+## 8. Den Fahrpreisrechner freischalten
+
+Der Rechner ist absichtlich gegen ungeprüfte Preisangaben gesperrt. Die alte Website nennt Werte von 2024. Der Kreis nennt inzwischen eine Verordnung ab **1. Oktober 2026**, deren verlinktes PDF beim Abruf nicht erreichbar war.
+
+So gehen Sie vor:
+
+1. Die aktuell gültige Verordnung beim Kreis Herzogtum Lauenburg beschaffen: https://www.kreis-rz.de/bekanntmachungen
+2. Grundpreis, Kilometerstufen, Wartezeit, Zuschläge und Geltungsbereich prüfen.
+3. `src/config/tariff.ts` durch eine fachkundige Person ausfüllen lassen. `null` bedeutet „noch nicht konfiguriert“ und darf nicht unbesehen durch 0 ersetzt werden.
+4. Quelle, Gültigkeitsbeginn und Prüfdatum ergänzen.
+5. Erst nach vollständiger Prüfung `verified: true` setzen.
+6. Sonderfälle und tarifliche Regeln mit der Berechnungsfunktion in `src/lib/fare.ts` abgleichen. Diese bildet eine unverbindliche stetige Kilometer-Schätzung ab, keinen vollständigen Taxameter.
+7. Tests und Build ausführen.
+
+Bis dahin können Kunden ihren Preis direkt per WhatsApp oder Telefon anfragen. Es werden keine Fantasiepreise ausgegeben.
+
+## 9. Google-Bewertungslink ergänzen
+
+1. Das echte Google-Unternehmensprofil öffnen und genau prüfen, ob es zu Ihrem Unternehmen und Ihrer Adresse gehört.
+2. Den direkten Profil- oder Bewertungslink kopieren.
+3. In `.env.local` eintragen:
+
+```dotenv
+NEXT_PUBLIC_GOOGLE_REVIEW_URL=https://IHR-VERIFIZIERTER-GOOGLE-LINK
+```
+
+4. Server neu starten beziehungsweise neu bauen.
+
+Die Website zeigt dann den echten Profil-Link. Bewertungen oder Sterne werden nicht erfunden. Ohne Link gibt es eine Rückmeldemöglichkeit per E-Mail.
+
+## 10. Rechtstexte fertigstellen
+
+Öffnen Sie die Seiten `/impressum` und `/datenschutz`. Alle noch offenen Stellen sind sichtbar markiert. Für den öffentlichen Betrieb insbesondere prüfen:
+
+- Richtiger Inhaber, Anschrift, Rechtsform und gegebenenfalls Registerangaben
+- Zuständige Genehmigungsbehörde
+- Hosting-Anbieter, Verträge, Logs und Speicherdauer
+- Tatsächliche Nutzung von WhatsApp und Google
+- Rechtsgrundlagen, Empfänger und Löschfristen
+- Pflichtangaben zur Verbraucherschlichtung
+
+Lassen Sie die fertigen Texte passend zu Ihrem Betrieb prüfen. Die vorhandenen Texte sind **keine rechtlich geprüfte Datenschutzerklärung**. Die alten veralteten Verweise auf TMG und die EU-OS-Plattform wurden nicht als aktuelle Rechtsaussagen übernommen.
+
+## 11. Vor dem Hochladen kontrollieren
+
+Nacheinander ausführen:
+
+```sh
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
+
+Dann die fertige Produktionsversion lokal starten:
+
+```sh
+npm start
+```
+
+Erneut http://localhost:3000 öffnen. Probieren Sie alle Formulare mit einem Smartphone und einem Computer aus. Eine echte Testnachricht nur absenden, wenn Sie das möchten.
+
+## 12. Die Website ins Internet bringen
+
+Sie benötigen **Next.js-/Node.js-Hosting**. Ein gewöhnliches FTP-Webspace-Paket für reine HTML-/PHP-Seiten reicht für die hier enthaltene Serverfunktion nicht.
+
+Eine mögliche Vorgehensweise mit einem Next.js-Hosting-Anbieter wie Vercel:
+
+1. Quellcode mit GitHub Desktop in ein **privates** GitHub-Repository übertragen. `.env.local` nicht hochladen; sie ist bereits ausgeschlossen.
+2. Beim Hosting-Anbieter ein Konto anlegen und das Repository als Next.js-Projekt importieren.
+3. Die Variablen aus `.env.local` in der Projektkonfiguration des Hosting-Anbieters eintragen. Echte Schlüssel gehören in die Hosting-Einstellungen, nicht in GitHub-Dateien.
+4. Zunächst `NEXT_PUBLIC_LAUNCH_READY=false` lassen. Die Seite ist damit für Suchmaschinen gesperrt. **Das ist kein Passwortschutz**; Zugriffsschutz gegebenenfalls beim Hoster aktivieren.
+5. Bereitstellen/Deploy wählen. Die neue Vorschauadresse kontrollieren. Diese ersetzt Ihre alte Website noch nicht.
+6. Original-Logo, Rechtstexte, Telefonnummern und alle offenen Angaben final kontrollieren.
+7. Ihre Domain beim Hoster hinzufügen. Die dort konkret angezeigten DNS-Einträge bei Ihrem Domainanbieter setzen. Keine pauschalen IP-Adressen aus einer fremden Anleitung verwenden.
+8. Bestehende E-Mail-Einträge wie **MX, SPF, DKIM und DMARC** bewahren. Die Website-Umstellung darf den E-Mail-Empfang nicht beschädigen. Alte Website vorher sichern.
+9. HTTPS-Zertifikat beim Hoster aktivieren beziehungsweise prüfen.
+10. `NEXT_PUBLIC_SITE_URL=https://inseltaxi-ratzeburg.de` setzen, wenn genau diese Hauptdomain verwendet wird. Die www-Variante dauerhaft auf die Hauptdomain umleiten.
+11. Sobald alle Pflichtangaben und Funktionen freigegeben sind: `NEXT_PUBLIC_LAUNCH_READY=true` setzen und **neu bereitstellen**.
+12. Google-Browser-Key auf die endgültige Domain einschränken. Nicht mehr benötigte Vorschau- und localhost-Freigaben entfernen.
+13. Bei Google Search Console die Domain bestätigen und `/sitemap.xml` als Sitemap einreichen.
+
+Die DNS-Werte, Hosting-Verträge und Kontozugänge sind anbieterspezifisch. Diese Einrichtung wurde nicht in Ihrem Namen vorgenommen. Ihre bestehende Website bleibt von diesem Projekt unberührt.
+
+Auf einem eigenen Node.js-Server sind `npm ci`, `npm run build` und `npm start` die Grundlage; Prozessverwaltung, TLS, Reverse Proxy, Backups und Updates müssen zusätzlich eingerichtet werden.
+
+## 13. Häufige Probleme
+
+**„npm wurde nicht gefunden“**: Node.js installieren, VS Code danach vollständig schließen und erneut öffnen.
+
+**„package.json fehlt“**: Sie befinden sich im falschen Ordner. Den Projektordner in VS Code öffnen.
+
+**Google-Vorschläge fehlen**: Browser-Key, Domainbeschränkung, freigeschaltete APIs, Abrechnung und aktive Einwilligung prüfen. Manuelle Eingabe bleibt verfügbar.
+
+**Route kann nicht berechnet werden**: Server-Key und Routes API prüfen. `NEXT_PUBLIC_SITE_URL` muss exakt zur geöffneten Hauptadresse passen, sonst blockiert die Origin-Prüfung die Anfrage. Auch Domainweiterleitungen prüfen.
+
+**Kein Eurobetrag**: Das ist beim ausgelieferten Stand korrekt. Erst nach verifizierter Tarifkonfiguration werden Werte berechnet.
+
+**WhatsApp öffnet nicht**: Pop-up-/App-Einstellungen prüfen, den angezeigten Link „WhatsApp erneut öffnen“ verwenden oder anrufen.
+
+**Logo fehlt**: Dateiname und Dateiendung in `public` sowie `NEXT_PUBLIC_LOGO_READY=true` prüfen. Danach neu starten oder neu bauen.
+
+**Änderungen an `.env.local` erscheinen nicht**: Den Server neu starten. Bei veröffentlichter Produktionsversion neu bauen und bereitstellen.
+
+## 14. Später aktuell halten
+
+- Telefonnummern und Firmendaten zentral kontrollieren.
+- Aktuelle Tarifänderungen prüfen und dokumentieren.
+- Regelmäßig Sicherheitsupdates einspielen und die Formulare erneut testen.
+- Rechtstexte bei Änderungen an Hosting oder Diensten anpassen.
+- API-Kontingente und Betriebskosten im Blick behalten.

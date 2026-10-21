@@ -1,0 +1,76 @@
+{
+  "viewports": [
+    {
+      "width": 320,
+      "routes": 9,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "routes": 9,
+      "passed": true
+    },
+    {
+      "width": 768,
+      "routes": 9,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "routes": 9,
+      "passed": true
+    }
+  ],
+  "accessibility": [
+    {
+      "route": "/",
+      "violations": []
+    },
+    {
+      "route": "/leistungen",
+      "violations": []
+    },
+    {
+      "route": "/fahrt-anfragen",
+      "violations": []
+    },
+    {
+      "route": "/fahrpreis",
+      "violations": []
+    },
+    {
+      "route": "/krankenfahrten",
+      "violations": []
+    },
+    {
+      "route": "/flughafentransfer",
+      "violations": []
+    },
+    {
+      "route": "/kontakt",
+      "violations": []
+    },
+    {
+      "route": "/impressum",
+      "violations": []
+    },
+    {
+      "route": "/datenschutz",
+      "violations": []
+    }
+  ],
+  "flows": [
+    "Ride: invalid fields, focus and encoded WhatsApp data passed",
+    "Medical: all 6 steps, return validation and message passed",
+    "Airport: direction, airport and flight data passed",
+    "Fare: manual decimal distance and unverified tariff blocked passed",
+    "Privacy dialog: opens and closes without Google passed",
+    "No external resources before consent passed",
+    "Mobile navigation: keyboard focus trap and Escape passed",
+    "Keyboard: skip link and FAQ passed",
+    "Routes API: missing server key returns controlled 503 passed",
+    "Without JavaScript: forms hidden, direct contact remains available"
+  ],
+  "failures": [],
+  "runtimeErrors": []
+}
