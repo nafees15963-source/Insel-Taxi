@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { ArrowUpRight, MessageCircle, Phone, ArrowRight, Check } from 'lucide-react';
+import { ArrowUpRight, MessageCircle, Phone, Mail, ArrowRight, Check } from 'lucide-react';
 import { company } from '@/config/company';
-import { defaultMessage, whatsappLink } from '@/lib/booking';
+import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
 import type { ReactNode } from 'react';
 export function WhatsAppButton({
   children = 'WhatsApp-Anfrage starten',
@@ -22,6 +22,22 @@ export function WhatsAppButton({
       <MessageCircle size={20} aria-hidden="true" />
       {children}
       <ArrowUpRight size={17} className="button-end" aria-hidden="true" />
+    </a>
+  );
+}
+export function EmailButton({
+  children = 'Per E-Mail anfragen',
+  message = defaultMessage,
+  className = '',
+}: {
+  children?: ReactNode;
+  message?: string;
+  className?: string;
+}) {
+  return (
+    <a className={`button button-outline ${className}`} href={emailLink(message)}>
+      <Mail size={19} aria-hidden="true" />
+      {children}
     </a>
   );
 }
@@ -97,10 +113,11 @@ export function ContactStrip() {
             <br />
             Einfach kurz melden.
           </h2>
-          <p>Per WhatsApp anfragen oder direkt mit uns sprechen.</p>
+          <p>Per WhatsApp oder E-Mail anfragen – oder direkt mit uns sprechen.</p>
         </div>
         <div className="contact-strip-actions">
           <WhatsAppButton />
+          <EmailButton />
           <a className="contact-big-phone" href={`tel:${company.phone}`}>
             <Phone size={24} aria-hidden="true" />
             {company.phoneDisplay}

@@ -58,7 +58,15 @@ export default function Page() {
               vorgesehen. Name, Gepäck und besondere Wünsche sind freiwillig. Bitte geben Sie keine
               Diagnosen, medizinischen Unterlagen oder sonstigen unnötigen Gesundheitsdaten ein.
             </p>
-            <h2>4. WhatsApp und telefonischer Kontakt</h2>
+            <h2>4. WhatsApp, E-Mail und telefonischer Kontakt</h2>
+            <p>
+              Bei „Per E-Mail anfragen“ wird ein mailto-Link mit Empfänger, Betreff und Ihren
+              Fahrtangaben an Ihr eingerichtetes E-Mail-Programm übergeben. Ein Entwurf wird
+              vorbereitet; die Website versendet keine E-Mails. Sie müssen die Nachricht selbst
+              absenden. Ein eingerichtetes E-Mail-Programm ist erforderlich; alternativ können Sie
+              den angezeigten Nachrichtentext kopieren. Es erfolgt keine Speicherung Ihrer Anfrage
+              auf diesem Webserver.
+            </p>
             <p>
               Erst wenn Sie einen WhatsApp-Link aktiv öffnen, wird die vorbereitete Nachricht als
               Bestandteil einer URL an WhatsApp übergeben. Dadurch können Ihre Fahrtangaben bereits

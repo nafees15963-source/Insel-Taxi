@@ -8,22 +8,23 @@ import './globals.css';
 import { Header, Footer } from '@/components/shell';
 import { MapsProvider } from '@/components/maps';
 import { company, launchReady, siteUrl } from '@/config/company';
-import { defaultMessage, whatsappLink } from '@/lib/booking';
+import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Insel Taxi Ratzeburg | Taxi per WhatsApp & Telefon',
+    default: 'Insel Taxi Ratzeburg | Regional & bundesweit unterwegs',
     template: '%s | Insel Taxi Ratzeburg',
   },
   description:
-    'Taxi in Ratzeburg einfach per WhatsApp oder Telefon anfragen. Alltagsfahrten, Krankenfahrten und Flughafentransfers. Telefon 04541 802080.',
+    'Regional und bundesweit unterwegs. Taxi per WhatsApp, E-Mail oder Telefon anfragen. Geschäftsreisen, Krankenfahrten, Fernfahrten und Flughafentransfers. Ausland auf Anfrage. Telefon 04541 802080.',
   robots: launchReady ? { index: true, follow: true } : { index: false, follow: false },
   openGraph: {
     type: 'website',
     locale: 'de_DE',
     siteName: company.name,
     title: company.name,
-    description: 'Ihre Fahrt in Ratzeburg. Einfach per WhatsApp oder Telefon anfragen.',
+    description:
+      'Ihre Fahrt – regional und bundesweit. Einfach per WhatsApp, E-Mail oder Telefon anfragen.',
   },
   icons: company.logoReady
     ? { icon: '/logo-original.png', apple: '/logo-original.png' }
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     email: company.email,
     areaServed: [
       { '@type': 'City', name: 'Ratzeburg' },
+      { '@type': 'Country', name: 'Deutschland' },
       { '@type': 'AdministrativeArea', name: 'Kreis Herzogtum Lauenburg' },
     ],
     provider: {
@@ -77,7 +79,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <p className="notice">
                 Ihre Fahrt können Sie direkt telefonisch unter{' '}
                 <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a> oder{' '}
-                <a href={whatsappLink(defaultMessage)}>per WhatsApp anfragen</a>.
+                <a href={whatsappLink(defaultMessage)}>per WhatsApp</a> oder{' '}
+                <a href={emailLink(defaultMessage)}>per E-Mail anfragen</a>.
               </p>
             </div>
           </noscript>

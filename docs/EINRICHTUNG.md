@@ -128,19 +128,13 @@ Offizielle Informationen:
 
 ## 8. Den Fahrpreisrechner freischalten
 
-Der Rechner ist absichtlich gegen ungeprüfte Preisangaben gesperrt. Die alte Website nennt Werte von 2024. Der Kreis nennt inzwischen eine Verordnung ab **1. Oktober 2026**, deren verlinktes PDF beim Abruf nicht erreichbar war.
+Die vom Betreiber bereitgestellte Verordnung vom 25.09.2026 ist ausgewertet und die Tarife ab 01.10.2026 sind bereits konfiguriert. Sie müssen den Rechner nicht mehr freischalten.
 
-So gehen Sie vor:
+Er steht dezent unter „Tarifinformationen“ im Footer und unter `/fahrpreis` in einem zunächst geschlossenen Abschnitt. Wählen Sie für eine Streckenschätzung ausdrücklich ein Ziel innerhalb des Kreises und die passende Tarifzeit. Eine bekannte Kilometerzahl kann ohne Google eingegeben werden. Die Ausgabe enthält nur Grundpreis und Fahrtstrecke, keine Anfahrt, Wartezeiten oder zusätzliche Leistungen. Der tatsächliche Gesamtpreis kann deutlich höher ausfallen.
 
-1. Die aktuell gültige Verordnung beim Kreis Herzogtum Lauenburg beschaffen: https://www.kreis-rz.de/bekanntmachungen
-2. Grundpreis, Kilometerstufen, Wartezeit, Zuschläge und Geltungsbereich prüfen.
-3. `src/config/tariff.ts` durch eine fachkundige Person ausfüllen lassen. `null` bedeutet „noch nicht konfiguriert“ und darf nicht unbesehen durch 0 ersetzt werden.
-4. Quelle, Gültigkeitsbeginn und Prüfdatum ergänzen.
-5. Erst nach vollständiger Prüfung `verified: true` setzen.
-6. Sonderfälle und tarifliche Regeln mit der Berechnungsfunktion in `src/lib/fare.ts` abgleichen. Diese bildet eine unverbindliche stetige Kilometer-Schätzung ab, keinen vollständigen Taxameter.
-7. Tests und Build ausführen.
+Für bundesweite Ziele außerhalb des Kreises und Auslandsfahrten wird hier kein Pauschalbetrag berechnet. Fragen Sie den Gesamtpreis per WhatsApp, E-Mail oder Telefon an. Die Absprachen vor Fahrtbeginn richten sich nach § 1 Absatz 3 der Verordnung. Die vollständige PDF ist auf der Tarifseite verlinkt.
 
-Bis dahin können Kunden ihren Preis direkt per WhatsApp oder Telefon anfragen. Es werden keine Fantasiepreise ausgegeben.
+Tarifänderungen werden künftig zentral in `src/config/tariff.ts` eingetragen. Tag-/Nachttarif und Staffelgrenze sind durch Tests abgesichert. Die Website simuliert keinen vollständigen Taxameter.
 
 ## 9. Google-Bewertungslink ergänzen
 
@@ -222,7 +216,7 @@ Auf einem eigenen Node.js-Server sind `npm ci`, `npm run build` und `npm start` 
 
 **Route kann nicht berechnet werden**: Server-Key und Routes API prüfen. `NEXT_PUBLIC_SITE_URL` muss exakt zur geöffneten Hauptadresse passen, sonst blockiert die Origin-Prüfung die Anfrage. Auch Domainweiterleitungen prüfen.
 
-**Kein Eurobetrag**: Das ist beim ausgelieferten Stand korrekt. Erst nach verifizierter Tarifkonfiguration werden Werte berechnet.
+**Kein Eurobetrag**: Wählen Sie für die optionale Schätzung ein Ziel innerhalb des Kreises und geben Sie eine Entfernung an oder aktivieren Sie freiwillig Google. Für andere Ziele wird der Preis persönlich vereinbart.
 
 **WhatsApp öffnet nicht**: Pop-up-/App-Einstellungen prüfen, den angezeigten Link „WhatsApp erneut öffnen“ verwenden oder anrufen.
 
@@ -237,3 +231,7 @@ Auf einem eigenen Node.js-Server sind `npm ci`, `npm run build` und `npm start` 
 - Regelmäßig Sicherheitsupdates einspielen und die Formulare erneut testen.
 - Rechtstexte bei Änderungen an Hosting oder Diensten anpassen.
 - API-Kontingente und Betriebskosten im Blick behalten.
+
+## E-Mail als Alternative zu WhatsApp
+
+In jeder Fahrtanfrage können Sie „Per E-Mail anfragen“ wählen. Die gleichen Angaben werden als Entwurf an info@inseltaxi-ratzeburg.de vorbereitet. Sie müssen ihn selbst absenden. Falls kein E-Mail-Programm öffnet, kopieren Sie die angezeigte Nachricht in Ihr Webmail. Für dringende Fahrten bitte anrufen. Es werden keine Nachrichten automatisch versendet und keine SMTP-Schlüssel benötigt.

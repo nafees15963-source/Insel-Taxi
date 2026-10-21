@@ -1,9 +1,9 @@
 import { PageIntro, CheckList, CallButton } from '@/components/ui';
 import { RideForm } from '@/components/ride-form';
 export const metadata = {
-  title: 'Flughafentransfer Ratzeburg – Hamburg & Lübeck',
+  title: 'Flughafentransfer – regional & bundesweit',
   description:
-    'Flughafentransfer ab Ratzeburg nach Hamburg oder Lübeck anfragen. Hin- und Rückfahrt, Gepäck und Flugnummer bequem per WhatsApp übermitteln.',
+    'Flughafentransfers für Reisende und Geschäftsreisende regional und bundesweit anfragen. Hin- und Rückfahrt, Gepäck und Flugnummer per WhatsApp oder E-Mail übermitteln.',
   alternates: { canonical: '/flughafentransfer' },
 };
 export default function Page() {
@@ -11,8 +11,9 @@ export default function Page() {
     <>
       <PageIntro eyebrow="Von Ihrer Haustür in die Welt" title="Entspannt zum Flughafen.">
         <p>
-          Starten Sie Ihre Reise mit einer persönlich abgestimmten Fahrt. Fragen Sie einen Transfer
-          nach Hamburg oder Lübeck an. Weitere Flughäfen sind nach Absprache möglich.
+          Für private Reisen und Geschäftsreisen – regional und bundesweit. Starten Sie mit einer
+          persönlich abgestimmten Fahrt. Fragen Sie einen Transfer nach Hamburg oder Lübeck an.
+          Weitere Flughäfen sind nach Absprache möglich.
         </p>
       </PageIntro>
       <section className="page-content">

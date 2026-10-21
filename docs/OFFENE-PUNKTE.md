@@ -10,7 +10,6 @@
 
 ## Für die optionalen Zusatzfunktionen
 
-- **Aktueller Taxitarif**: Bekanntmachung einer neuen Verordnung ab 01.10.2026 gefunden, PDF nicht abrufbar. Vollständigen Tarif samt Geltungsbereich, Staffelungen, Wartezeit und zulässigen Zuschlägen beschaffen und fachlich bestätigen. Bis dahin absichtlich kein Europreis.
 - **Google Maps/Places Browser-Key** und **Google Routes Server-Key**: getrennt erstellen und einschränken. Ohne Keys bleibt die Website nutzbar.
 - **Google-Unternehmensprofil**: echten Profil-/Bewertungslink bestätigen. Kein beliebiger Suchlink und kein erfundener Place-ID-Wert verwendet.
 
@@ -26,3 +25,7 @@
 ## Bewusst ohne Zusatzaufwand
 
 Keine MySQL-Datenbank, Registrierung, Onlinezahlung, WhatsApp Business API oder Kundenverwaltung erforderlich. Keine externen Inhalte ohne aktive Freigabe; Schriftdateien werden lokal bereitgestellt.
+
+## Erledigte Aktualisierung
+
+Tarifverordnung vom 25.09.2026 als Betreiber-PDF erhalten und ausgewertet. Tag-/Nachttarife ab 01.10.2026 sind konfiguriert; Geltungsbereich, Anfahrt und mögliche Zusatzkosten sind ausdrücklich erklärt. Der Betreiber bestätigt regionale und bundesweite Fahrten einschließlich Krankenfahrten; Auslandsfahrten auf Anfrage. E-Mail ist in allen Fahrtformularen als gleichwertiger Anfrageweg ergänzt.

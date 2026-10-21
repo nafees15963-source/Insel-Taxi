@@ -1,4 +1,4 @@
-# Prüfbericht
+# Prüfbericht des ursprünglichen Relaunch-Stands
 
 Geprüft am **21. Oktober 2026** im vorhandenen Linux-Workspace. Getestet wurde ein lokaler Produktions-Build mit Next.js 16.4.2, React 19.3.1, Node.js 24.19.0 und systemseitigem Chromium. Es wurde keine Nachricht versendet, kein Anruf ausgelöst und keine bestehende Website geändert.
 
@@ -77,3 +77,10 @@ npx lighthouse http://localhost:3000 --chrome-path=/usr/bin/chromium --chrome-fl
 ```
 
 Den Browserpfad an das eigene System anpassen. Für einen Freigabe-Build die Umgebungsvariablen wie in der Einrichtungsanleitung setzen und neu bauen. Die Indexierung erst nach vollständiger Betreiberfreigabe tatsächlich aktivieren.
+
+
+## Aktuelle Änderungen
+
+Die oben dokumentierten Lighthouse-Werte beziehen sich auf den ursprünglichen Stand. Die neue Änderung ergänzt bundesweite Kommunikation und E-Mail-Entwürfe und aktiviert die anhand des Betreiber-PDFs verifizierten 2026-Tarife. Der Rechner liegt nun in einem geschlossenen optionalen Bereich. Neue Prüfergebnisse werden separat unter docs/reports/update-*.txt bzw. update-browser.json abgelegt. Echte E-Mails und WhatsApp-Nachrichten werden in Tests nicht versendet.
+
+Aktualisierte Prüfung: neun fachliche Tests erfolgreich; Tag-/Nachttarife, 3-km-Grenze, 10-Cent-Rundung und E-Mail-URL geprüft. Alle neun Seiten bei 320, 390, 768 und 1440 Pixeln ohne Layoutüberlauf; axe-core ohne Befund auf den neun Seiten. E-Mail-Entwurf samt Kopiervorlage, Fahrpreisgebiet-Sperre und Tag-/Nachtwechsel im Browser geprüft. Lighthouse nach der Änderung: Performance 94, Accessibility 100, Best Practices 100, SEO 66 (Indexierung weiterhin bewusst gesperrt). Original-PDF stimmt im SHA-256-Hash mit dem Betreiber-Upload überein. Keine echten Nachrichten versendet; Google bleibt ohne reale Schlüssel nicht live geprüft.

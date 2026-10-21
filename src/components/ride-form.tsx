@@ -2,6 +2,7 @@
 import { useId, useRef, useState } from 'react';
 import {
   MessageCircle,
+  Mail,
   ArrowRight,
   ArrowLeft,
   Check,
@@ -23,6 +24,7 @@ import {
   RideMode,
   validateBooking,
   whatsappLink,
+  emailLink,
 } from '@/lib/booking';
 import { AddressField, MapsOption } from './maps';
 import Link from 'next/link';
@@ -49,7 +51,8 @@ export function RideForm({
   const [errors, setErrors] = useState<Errors>({}),
     [step, setStep] = useState(0),
     [extra, setExtra] = useState(false),
-    [ready, setReady] = useState(false);
+    [ready, setReady] = useState(false),
+    [channel, setChannel] = useState<'whatsapp' | 'email'>('whatsapp');
   const form = useRef<HTMLFormElement>(null);
   const stepHeading = useRef<HTMLHeadingElement>(null);
   function update<K extends keyof Booking>(k: K, v: Booking[K]) {
@@ -97,8 +100,18 @@ export function RideForm({
       focusFirst(all);
       return;
     }
+    const selected =
+      ((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null)?.value === 'email'
+        ? 'email'
+        : 'whatsapp';
+    setChannel(selected);
     setReady(true);
-    window.open(whatsappLink(bookingMessage(b, mode)), '_blank', 'noopener,noreferrer');
+    const message = bookingMessage(b, mode);
+    window.open(
+      selected === 'email' ? emailLink(message) : whatsappLink(message),
+      selected === 'email' ? '_self' : '_blank',
+      'noopener,noreferrer',
+    );
   }
   function field(
     key: keyof Booking,
@@ -457,30 +470,67 @@ export function RideForm({
         </div>
       ) : (
         <>
-          <button className="button button-primary submit-button" type="submit">
+          <button
+            className="button button-primary submit-button"
+            type="submit"
+            name="channel"
+            value="whatsapp"
+          >
             <MessageCircle size={20} />
             Per WhatsApp anfragen
             <ArrowRight size={18} className="button-end" />
           </button>
+          <button
+            className="button button-outline submit-button"
+            type="submit"
+            name="channel"
+            value="email"
+          >
+            <Mail size={19} />
+            Per E-Mail anfragen
+          </button>
           {ready && (
-            <p className="notice" role="status">
-              Ihre Nachricht wurde vorbereitet. Bitte senden Sie sie in WhatsApp ab. Ihre Fahrt ist
-              noch nicht bestätigt.{' '}
+            <div className="notice" role="status">
+              {channel === 'email'
+                ? 'Ihr E-Mail-Entwurf wurde vorbereitet. Bitte senden Sie ihn in Ihrem E-Mail-Programm selbst ab. Falls sich kein Programm öffnet, können Sie die Nachricht unten kopieren.'
+                : 'Ihre Nachricht wurde vorbereitet. Bitte senden Sie sie in WhatsApp selbst ab.'}{' '}
+              Ihre Fahrt ist noch nicht bestätigt.{' '}
               <a
-                href={whatsappLink(bookingMessage(b, mode))}
-                target="_blank"
+                href={
+                  channel === 'email'
+                    ? emailLink(bookingMessage(b, mode))
+                    : whatsappLink(bookingMessage(b, mode))
+                }
+                target={channel === 'email' ? undefined : '_blank'}
                 rel="noopener noreferrer"
               >
-                WhatsApp erneut öffnen
+                {channel === 'email' ? 'E-Mail-Entwurf erneut öffnen' : 'WhatsApp erneut öffnen'}
               </a>
-            </p>
+              {channel === 'email' && (
+                <div className="email-draft">
+                  <p>Empfänger: {company.email}</p>
+                  <label htmlFor={id('email-draft')}>Ihre Nachricht zum Kopieren</label>
+                  <textarea
+                    id={id('email-draft')}
+                    readOnly
+                    rows={9}
+                    value={bookingMessage(b, mode)}
+                  />
+                </div>
+              )}
+            </div>
           )}
           <p className="form-disclaimer">
             <ShieldCheck size={14} aria-hidden="true" />
             <span>
               Unverbindliche Anfrage. Buchung erst nach Bestätigung.
               <br />
-              {!compact && <>Ihre Daten bleiben bis zum Öffnen von WhatsApp im Browser. </>}
+              {!compact && (
+                <>
+                  Ihre Daten bleiben bis zum Öffnen von WhatsApp oder Ihres E-Mail-Programms im
+                  Browser.{' '}
+                </>
+              )}
               <Link href="/datenschutz">Datenschutzhinweise</Link>
             </span>
           </p>

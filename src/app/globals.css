@@ -2847,3 +2847,99 @@ h3,
   cursor: default;
   background: white;
 }
+
+/* Fahrten und persönliche Kontaktwege stehen vor der optionalen Schätzung. */
+.hero-actions {
+  flex-wrap: wrap;
+}
+.hero-local {
+  flex-wrap: wrap;
+}
+.fare-secondary {
+  padding: 28px 0;
+  border-block: 1px solid var(--line);
+  background: #fafbfd;
+}
+.fare-secondary .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.fare-secondary p {
+  font-size: 14px;
+  max-width: 640px;
+}
+.optional-calculator {
+  margin-top: 48px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.optional-calculator > summary {
+  cursor: pointer;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.optional-calculator .fare-calculator {
+  margin-top: 24px;
+}
+.fare-contact-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 42px;
+}
+.email-contact {
+  margin-bottom: 28px;
+}
+.email-draft label {
+  display: block;
+  font-size: 13px;
+  margin: 12px 0 8px;
+}
+.email-draft textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font: inherit;
+  font-size: 13px;
+  background: white;
+  color: var(--ink);
+}
+@media (max-width: 1150px) and (min-width: 951px) {
+  .header-actions .button-outline {
+    display: inline-flex;
+  }
+  .header-actions .button-outline:last-child {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .mobile-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+  }
+  .mobile-actions a {
+    font-size: 12px;
+    gap: 6px;
+  }
+  .mobile-actions a:first-child {
+    background: #f0f3f8;
+  }
+  .hero-actions .button {
+    flex: auto;
+  }
+  .hero-actions .button:last-child {
+    flex-basis: 100%;
+  }
+  .fare-secondary .container {
+    display: block;
+  }
+  .optional-calculator {
+    padding: 18px;
+  }
+}

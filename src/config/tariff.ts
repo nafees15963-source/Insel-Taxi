@@ -1,4 +1,5 @@
 export type Tariff = {
+  roundingIncrement?: number;
   verified: boolean;
   validFrom: string | null;
   sourceUrl: string;
@@ -8,14 +9,26 @@ export type Tariff = {
   waitingPerHour: number | null;
   surcharge: number | null;
 };
-/** Keine 2024-Werte aktivieren: aktuelle Verordnung ab 01.10.2026 gefunden, PDF nicht abrufbar. */
+/** Vom Betreiber bereitgestellte Kreisverordnung vom 25.09.2026, §§ 1–2, gültig ab 01.10.2026. */
 export const tariff: Tariff = {
-  verified: false,
-  validFrom: null,
-  sourceUrl: 'https://www.kreis-rz.de/bekanntmachungen',
+  verified: true,
+  validFrom: '2026-10-01',
+  sourceUrl: '/tarife/kreisverordnung-2026-10-01.pdf',
   checkedAt: '2026-10-21',
-  base: null,
-  bands: [],
-  waitingPerHour: null,
-  surcharge: null,
+  base: 5.5,
+  bands: [
+    { upToKm: 3, perKm: 2.9 },
+    { upToKm: null, perKm: 2.7 },
+  ],
+  waitingPerHour: 50,
+  surcharge: 0,
+  roundingIncrement: 0.1,
 };
+export const nightTariff: Tariff = {
+  ...tariff,
+  bands: [
+    { upToKm: 3, perKm: 3.2 },
+    { upToKm: null, perKm: 2.9 },
+  ],
+};
+export const tariffExtras = { largeVehicleMoreThanFourPassengers: 12 };

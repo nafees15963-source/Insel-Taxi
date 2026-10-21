@@ -3,9 +3,9 @@ import { PageIntro, CheckList, CallButton } from '@/components/ui';
 import { RideForm } from '@/components/ride-form';
 import { company } from '@/config/company';
 export const metadata = {
-  title: 'Krankenfahrten Ratzeburg – einfach anfragen',
+  title: 'Krankenfahrten regional & bundesweit – einfach anfragen',
   description:
-    'Krankenfahrt zum Arzt, zur Klinik oder zur regelmäßigen Behandlung in Ratzeburg anfragen. Einfacher Assistent und persönliche Hilfe per Telefon.',
+    'Krankenfahrt zum Arzt, zur Klinik oder zur regelmäßigen Behandlung regional und bundesweit anfragen. Einfacher Assistent und persönliche Hilfe per Telefon.',
   alternates: { canonical: '/krankenfahrten' },
 };
 export default function Page() {
@@ -16,9 +16,9 @@ export default function Page() {
         title="Ihr Termin ist wichtig. Ihr Weg auch."
       >
         <p>
-          Wir bieten Taxifahrten zum Arzt, in die Klinik, zur Reha und zu regelmäßigen Behandlungen
-          an. Fragen Sie Ihre Fahrt mit unserem einfachen Assistenten an – oder sprechen Sie direkt
-          mit uns.
+          Wir bieten Krankenfahrten zum Arzt, in die Klinik, zur Reha und zu regelmäßigen
+          Behandlungen an – regional und bundesweit, auch über längere Entfernungen. Fragen Sie Ihre
+          Fahrt mit unserem einfachen Assistenten an – oder sprechen Sie direkt mit uns.
         </p>
       </PageIntro>
       <section className="page-content">

@@ -1,8 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { bookingMessage, emptyBooking, validateBooking, whatsappLink } from '../src/lib/booking';
+import {
+  bookingMessage,
+  emptyBooking,
+  validateBooking,
+  emailLink,
+  whatsappLink,
+} from '../src/lib/booking';
 import { estimateFare } from '../src/lib/fare';
-import { tariff, type Tariff } from '../src/config/tariff';
+import { tariff, nightTariff, type Tariff } from '../src/config/tariff';
 const booking = {
   ...emptyBooking,
   pickup: 'Am Markt 4, Ratzeburg',
@@ -48,7 +54,7 @@ test('medical and airport messages retain required information', () => {
   assert.deepEqual(validateBooking(booking), {});
 });
 test('unverified tariff never produces a fare', () => {
-  assert.equal(estimateFare(10, 0, tariff), null);
+  assert.equal(estimateFare(10, 0, { ...tariff, verified: false }), null);
 });
 // Synthetic fixture only; these are deliberately NOT actual Ratzeburg tariff values.
 const fixture: Tariff = {
@@ -69,4 +75,20 @@ test('price structure accounts for tier boundaries, waiting and surcharge', () =
   assert.equal(estimateFare(5, 10, fixture), 21);
   assert.throws(() => estimateFare(-1, 0, fixture));
   assert.throws(() => estimateFare(NaN, 0, fixture));
+});
+
+test('provided 2026 ordinance: day/night bands, 10-cent rounding and waiting', () => {
+  assert.equal(estimateFare(3, 0, tariff), 14.2);
+  assert.equal(estimateFare(10, 0, tariff), 33.1);
+  assert.equal(estimateFare(10, 0, nightTariff), 35.4);
+  assert.equal(estimateFare(12.5, 0, tariff), 39.9);
+  assert.equal(estimateFare(10, 60, tariff), 83.1);
+});
+test('email draft preserves complete booking data without sending', () => {
+  const message = bookingMessage(booking, 'airport');
+  const url = new URL(emailLink(message));
+  assert.equal(url.protocol, 'mailto:');
+  assert.equal(url.pathname, 'info@inseltaxi-ratzeburg.de');
+  assert.equal(url.searchParams.get('body'), message);
+  assert.equal(url.searchParams.get('subject'), 'Fahrtanfrage – Insel Taxi');
 });

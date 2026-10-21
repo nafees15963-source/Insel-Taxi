@@ -109,3 +109,8 @@ export function validateBooking(b: Booking, mode: RideMode = 'ride', now = new D
   }
   return errors;
 }
+
+/** Öffnet nur einen E-Mail-Entwurf, versendet nichts automatisch. */
+export function emailLink(message: string = defaultMessage) {
+  return `mailto:${company.email}?subject=${encodeURIComponent('Fahrtanfrage – Insel Taxi')}&body=${encodeURIComponent(message)}`;
+}

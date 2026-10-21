@@ -3,6 +3,7 @@ import { ArrowUpRight, HeartPulse, Plane, Phone, MessageCircle, ArrowRight } fro
 import { company } from '@/config/company';
 import {
   WhatsAppButton,
+  EmailButton,
   CallButton,
   Eyebrow,
   TextLink,
@@ -10,7 +11,6 @@ import {
   CheckList,
 } from '@/components/ui';
 import { RideForm } from '@/components/ride-form';
-import { FareCalculator } from '@/components/fare-calculator';
 import { Benefits, FAQ, Reviews, RouteIllustration, Services } from '@/components/sections';
 export const metadata = { alternates: { canonical: '/' } };
 export default function Home() {
@@ -19,23 +19,27 @@ export default function Home() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <Eyebrow>Ihr Weg beginnt in Ratzeburg</Eyebrow>
+            <Eyebrow>Regional verwurzelt. Bundesweit unterwegs.</Eyebrow>
             <h1>
-              Ihr Taxi in <br />
-              Ratzeburg.
+              Ihr Ziel. Unser Weg.
+              <br />
+              Bundesweit.
               <br />
               <span>
-                Einfach. Schnell. <br />
-                Zuverlässig.
+                Regional. Überregional.
+                <br />
+                Persönlich.
               </span>
             </h1>
             <p className="hero-description">
-              Ob Alltagsfahrt, Krankenfahrt oder Flughafentransfer – fragen Sie Ihre Fahrt bequem
-              per WhatsApp oder Telefon an.
+              Ob lange Geschäftsreise, private Fahrt, Krankenfahrt oder Flughafentransfer: Wir
+              fahren regional und bundesweit. Fragen Sie Ihre Fahrt per WhatsApp, E-Mail oder
+              Telefon an.
             </p>
             <div className="hero-actions">
               <WhatsAppButton />
               <CallButton />
+              <EmailButton />
             </div>
             <a className="hero-phone" href={`tel:${company.phone}`}>
               {company.phoneDisplay}
@@ -43,7 +47,7 @@ export default function Home() {
             </a>
             <div className="hero-local">
               <span className="status-dot" />
-              In Ratzeburg zu Hause. Für Sie unterwegs.
+              Regional & bundesweit · Fahrten ins Ausland auf Anfrage.
             </div>
           </div>
           <div className="hero-booking">
@@ -53,8 +57,8 @@ export default function Home() {
                   <MessageCircle size={17} />
                   Fahrt anfragen
                 </span>
-                <Link href="/fahrpreis">
-                  <span>Fahrpreis</span>
+                <Link href="/fahrt-anfragen">
+                  <span>Fernfahrt planen</span>
                   <ArrowUpRight size={16} />
                 </Link>
               </div>
@@ -129,9 +133,10 @@ export default function Home() {
             <li>
               <span>02</span>
               <div>
-                <h3>WhatsApp-Nachricht senden</h3>
+                <h3>WhatsApp oder E-Mail wählen</h3>
                 <p>
-                  Wir bereiten Ihre Nachricht vor. Sie prüfen die Angaben und senden sie selbst ab.
+                  Wir bereiten Ihre Nachricht vor. Sie prüfen die Angaben und senden sie per
+                  WhatsApp oder E-Mail selbst ab.
                 </p>
               </div>
             </li>
@@ -148,42 +153,13 @@ export default function Home() {
           </ol>
         </div>
       </section>
-      <section className="section fare-home">
-        <div className="container fare-home-grid">
-          <div>
-            <Eyebrow>Mit einem guten Gefühl losfahren</Eyebrow>
-            <h2>
-              Was kostet
-              <br />
-              meine Fahrt?
-            </h2>
-            <p>
-              Eine klare Frage verdient eine ehrliche Antwort. Fragen Sie Ihre Strecke an – wir
-              helfen Ihnen bei der Einschätzung.
-            </p>
-            <div className="tariff-status">
-              <span className="small-label">TRANSPARENT VON ANFANG AN</span>
-              <h3>Keine ungeprüften Preisangaben.</h3>
-              <p>
-                Die aktuelle Tarifkonfiguration wird geprüft. Bis dahin erhalten Sie den
-                voraussichtlichen Preis direkt von uns.
-              </p>
-            </div>
-            <TextLink href="/fahrpreis">Mehr zu Tarif & Berechnung</TextLink>
-          </div>
-          <div className="panel">
-            <h3>Ihre Strecke, Ihr Fahrpreis.</h3>
-            <FareCalculator compact />
-          </div>
-        </div>
-      </section>
       <section className="section feature-section">
         <div className="container feature-grid">
           <article className="medical-feature">
             <span className="feature-icon">
               <HeartPulse size={27} strokeWidth={1.5} />
             </span>
-            <Eyebrow>Krankenfahrten in Ratzeburg</Eyebrow>
+            <Eyebrow>Krankenfahrten – regional & bundesweit</Eyebrow>
             <h2>
               Ein wichtiger Termin.
               <br />
@@ -242,6 +218,15 @@ export default function Home() {
               <span>Ihr Flughafen</span>
             </div>
           </article>
+        </div>
+      </section>
+      <section className="fare-secondary">
+        <div className="container">
+          <p>
+            Sie möchten Ihre Fahrt vorab planen? Für lange Strecken und individuelle Ziele stimmen
+            wir den Preis persönlich mit Ihnen ab.
+          </p>
+          <TextLink href="/fahrpreis">Tarifinformationen & optionale Streckenschätzung</TextLink>
         </div>
       </section>
       <Reviews />

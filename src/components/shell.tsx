@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Phone, MessageCircle, ArrowUpRight, Clock3, MapPin } from 'lucide-react';
+import { Menu, X, Phone, Mail, MessageCircle, ArrowUpRight, Clock3, MapPin } from 'lucide-react';
 import { company, nav } from '@/config/company';
-import { defaultMessage, whatsappLink } from '@/lib/booking';
-import { CallButton, WhatsAppButton } from './ui';
+import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
+import { CallButton, WhatsAppButton, EmailButton } from './ui';
 function Brand({ footer = false }: { footer?: boolean }) {
   return (
     <Link href="/" className={`brand ${footer ? 'brand-footer' : ''}`}>
@@ -63,7 +63,7 @@ export function Header() {
         <div className="container utility-inner">
           <span>
             <MapPin size={13} aria-hidden="true" />
-            Ratzeburg & Umgebung
+            Regional & bundesweit
           </span>
           <span>
             <Clock3 size={13} aria-hidden="true" />
@@ -88,6 +88,7 @@ export function Header() {
           </nav>
           <div className="header-actions">
             <WhatsAppButton>WhatsApp</WhatsAppButton>
+            <EmailButton>E-Mail</EmailButton>
             <CallButton />
           </div>
           <button
@@ -124,6 +125,7 @@ export function Header() {
               <ArrowUpRight size={17} />
             </Link>
             <WhatsAppButton />
+            <EmailButton />
             <CallButton>{company.phoneDisplay}</CallButton>
           </nav>
         )}
@@ -142,9 +144,9 @@ export function Footer() {
               <p>
                 Von hier. Für Ihre Wege.
                 <br />
-                Ihr Taxiservice in Ratzeburg und im
+                Ihr Fahrpartner – regional und
                 <br />
-                Kreis Herzogtum Lauenburg.
+                bundesweit. Ausland auf Anfrage.
               </p>
             </div>
             <div>
@@ -152,7 +154,7 @@ export function Footer() {
               <Link href="/leistungen">Unsere Leistungen</Link>
               <Link href="/krankenfahrten">Krankenfahrten</Link>
               <Link href="/flughafentransfer">Flughafentransfer</Link>
-              <Link href="/fahrpreis">Fahrpreis</Link>
+              <Link href="/fahrpreis">Tarifinformationen</Link>
             </div>
             <div>
               <h2>Direkter Kontakt</h2>
@@ -188,6 +190,9 @@ export function Footer() {
         </div>
       </footer>
       <div className="floating-contact" aria-label="Schneller Kontakt">
+        <a href={emailLink(defaultMessage)} aria-label="Fahrt per E-Mail anfragen">
+          <Mail size={21} />
+        </a>
         <a
           className="float-whatsapp"
           href={whatsappLink(defaultMessage)}
@@ -202,6 +207,10 @@ export function Footer() {
         </a>
       </div>
       <div className="mobile-actions">
+        <a href={emailLink(defaultMessage)}>
+          <Mail size={20} />
+          E-Mail
+        </a>
         <a href={whatsappLink(defaultMessage)} target="_blank" rel="noopener noreferrer">
           <MessageCircle size={21} />
           WhatsApp

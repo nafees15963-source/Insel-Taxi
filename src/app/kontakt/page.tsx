@@ -1,8 +1,8 @@
 import { MessageCircle, Phone, Mail, ArrowUpRight } from 'lucide-react';
-import { PageIntro, WhatsAppButton, CallButton } from '@/components/ui';
+import { PageIntro, WhatsAppButton, CallButton, EmailButton } from '@/components/ui';
 import { company } from '@/config/company';
 export const metadata = {
-  title: 'Kontakt – Telefon & WhatsApp',
+  title: 'Kontakt – Telefon, WhatsApp & E-Mail',
   description:
     'Insel Taxi Ratzeburg: Telefon 04541 802080, WhatsApp 0173 9189239. Täglich rund um die Uhr erreichbar. Taxi direkt anfragen.',
   alternates: { canonical: '/kontakt' },
@@ -45,6 +45,15 @@ export default function Page() {
               <CallButton />
             </article>
           </div>
+          <article className="contact-card email-contact">
+            <Mail size={28} />
+            <h2>Per E-Mail anfragen</h2>
+            <p>
+              Für geplante Fahrten, Geschäftsreisen, längere Strecken und individuelle Wünsche. Für
+              kurzfristige Fahrten bitte anrufen.
+            </p>
+            <EmailButton />
+          </article>
           <div className="address-block">
             <div>
               <h2>Insel Taxi Ratzeburg</h2>

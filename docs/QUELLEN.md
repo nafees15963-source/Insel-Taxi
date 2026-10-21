@@ -28,3 +28,11 @@ Die Telefonnummern und das aktuelle Impressum stimmen mit der Kontaktseite über
 ## Logo
 
 Der Nutzer stellte eine sichtbare gelb-schwarze Logoabbildung im Chat bereit. In den verfügbaren Workspace-Verzeichnissen und Dateianhängen war keine abrufbare Originaldatei vorhanden. Die Anwendung bereitet die Einbindung unter `public/logo-original.png` vor. Bis die Datei vorliegt, bleibt ein ausdrücklich neutraler Platzhalter sichtbar. Es wurde kein Logo generiert oder nachgezeichnet.
+
+## Aktualisierung nach Betreiberangaben vom 21.10.2026
+
+Der Betreiber bestätigt regionale und bundesweite Fahrten, auch Krankenfahrten, Geschäfts- und längere Reisefahrten; Ausland auf Anfrage. Keine Flottengröße oder Kapazitätsversprechen daraus abgeleitet.
+
+Die als `3150_3602_1.pdf` hochgeladene Verordnung vom 25.09.2026 wurde vollständig als Text ausgewertet (3 Seiten). § 1 begrenzt den Tarif auf das Kreisgebiet und regelt die vorherige Preisvereinbarung für andere Ziele. § 2 enthält Grundpreis 5,50 €, Tagestufen 2,90/2,70 €/km, Nacht-/Sonn-/Feiertagsstufen 3,20/2,90 €/km (Staffelgrenze 3 km), Wartezeit 50 €/h, 0,10-€-Fortschaltungen und 12 € Großraumzuschlag unter den dortigen Voraussetzungen. § 2 Abs. 4 regelt eine gegebenenfalls kostenpflichtige Anfahrt, § 4 besondere Ausstattung, § 5 Gepäck. Inkrafttreten laut § 9: 01.10.2026.
+
+Diese neue bereitgestellte Primärquelle löst den früheren Abrufblocker ab. PDF: `public/tarife/kreisverordnung-2026-10-01.pdf`.

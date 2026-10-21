@@ -19,14 +19,14 @@ export const services = [
   {
     icon: CarFront,
     title: 'Taxi & Alltagsfahrten',
-    text: 'Zum Bahnhof, zum Einkauf oder nach Hause. Für Ihre Wege in Ratzeburg und darüber hinaus.',
+    text: 'Ob kurzer Weg oder lange Strecke: Wir fahren regional und bundesweit. Fahrten ins Ausland auf Anfrage.',
     href: '/fahrt-anfragen',
     tag: 'Ihre täglichen Wege',
   },
   {
     icon: HeartPulse,
     title: 'Krankenfahrten',
-    text: 'Zum Arzt, zur Behandlung oder in die Klinik. Mit Zeit für Ihre Fragen und einer einfachen Anfrage.',
+    text: 'Zum Arzt, zur Behandlung oder in die Klinik – regional und bundesweit. Auch für längere Krankenfahrten.',
     href: '/krankenfahrten',
     tag: 'Gut begleitet',
   },
@@ -40,7 +40,7 @@ export const services = [
   {
     icon: BriefcaseBusiness,
     title: 'Geschäftsfahrten',
-    text: 'Für Mitarbeitende, Gäste und Termine. Abrechnung auf Rechnung nach Vereinbarung.',
+    text: 'Für Geschäftsreisende, Mitarbeitende und Gäste – auch auf langen Strecken bundesweit. Rechnung nach Vereinbarung.',
     href: '/kontakt',
     tag: 'Beruflich unterwegs',
   },
@@ -54,7 +54,7 @@ export const services = [
   {
     icon: Package,
     title: 'Kurierfahrten',
-    text: 'Dokumente, Pakete und Waren im Stadtgebiet und im Kreis Herzogtum Lauenburg.',
+    text: 'Dokumente, Pakete und Waren – regional und auf längeren Strecken nach persönlicher Abstimmung.',
     href: '/kontakt',
     tag: 'Wichtiges auf den Weg bringen',
   },
@@ -127,12 +127,16 @@ export function Reviews() {
 }
 const faqs = [
   [
-    'Wie bestelle ich ein Taxi in Ratzeburg?',
-    'Rufen Sie uns unter 04541 802080 an oder fragen Sie Ihre Fahrt per WhatsApp an. Im Formular können Sie Abholort, Ziel und Wunschzeit eingeben. Wir bestätigen die Verfügbarkeit persönlich.',
+    'Fahren Sie auch bundesweit und ins Ausland?',
+    'Ja. Wir bieten regionale und bundesweite Fahrten an – auch für Geschäftsreisende, längere private Reisen und Krankenfahrten. Fahrten ins Ausland sind auf Anfrage möglich. Strecke, Verfügbarkeit und Preis stimmen wir persönlich ab.',
   ],
   [
-    'Ist meine WhatsApp-Anfrage schon eine feste Buchung?',
-    'Nein. Das Formular bereitet nur Ihre Nachricht vor. Sie senden diese selbst in WhatsApp ab. Erst wenn Insel Taxi die Fahrt bestätigt hat, ist sie verbindlich gebucht. Für dringende Fahrten rufen Sie bitte direkt an.',
+    'Wie bestelle ich ein Taxi in Ratzeburg?',
+    'Rufen Sie uns unter 04541 802080 an oder fragen Sie Ihre Fahrt per WhatsApp oder E-Mail an. Im Formular können Sie Abholort, Ziel und Wunschzeit eingeben. Wir bestätigen die Verfügbarkeit persönlich.',
+  ],
+  [
+    'Ist meine Anfrage schon eine feste Buchung?',
+    'Nein. Das Formular bereitet nur Ihre Nachricht vor. Sie senden diese selbst per WhatsApp oder E-Mail ab. Erst wenn Insel Taxi die Fahrt bestätigt hat, ist sie verbindlich gebucht. Für dringende Fahrten rufen Sie bitte direkt an.',
   ],
   [
     'Kann ich eine Fahrt im Voraus anfragen?',
@@ -148,7 +152,7 @@ const faqs = [
   ],
   [
     'Funktioniert die Anfrage auch ohne Google Maps?',
-    'Ja. Sie können alle Adressen selbst eingeben und die Fahrt per WhatsApp oder Telefon anfragen. Google-Adressvorschläge und Routenberechnung sind freiwillige Zusatzfunktionen.',
+    'Ja. Sie können alle Adressen selbst eingeben und die Fahrt per WhatsApp, E-Mail oder Telefon anfragen. Google-Adressvorschläge und Routenberechnung sind freiwillige Zusatzfunktionen.',
   ],
 ];
 export function FAQ() {
@@ -212,7 +216,7 @@ export function RouteIllustration() {
       </svg>
       <div className="route-label">
         <MapPin size={15} />
-        Ratzeburg & Umgebung
+        Regional & bundesweit
       </div>
       <span className="route-caption">Kleine Wege. Große Pläne.</span>
     </div>

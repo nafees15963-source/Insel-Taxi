@@ -112,8 +112,8 @@ export function MapsProvider({ children }: { children: React.ReactNode }) {
           außerhalb der EU stattfinden.
         </p>
         <p>
-          Ohne Freigabe können Sie Ihre Fahrt genauso per WhatsApp oder Telefon anfragen. Die
-          Freigabe gilt nur für diesen Seitenbesuch.
+          Ohne Freigabe können Sie Ihre Fahrt genauso per WhatsApp, E-Mail oder Telefon anfragen.
+          Die Freigabe gilt nur für diesen Seitenbesuch.
         </p>
         <Link href="/datenschutz" onClick={() => setDialog(false)}>
           Mehr zum Datenschutz
@@ -216,7 +216,7 @@ export function AddressField({
         session.current ??= new google.maps.places.AutocompleteSessionToken();
         const r = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
           input: value,
-          includedRegionCodes: ['de'],
+
           language: 'de',
           sessionToken: session.current,
         });

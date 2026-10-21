@@ -89,6 +89,15 @@ const text = new URL(opened[0]).searchParams.get('text');
 if (!text.includes('Personen: 3') || !text.includes('Rollator & Hilfe'))
   failures.push('WhatsApp data missing');
 report.flows.push('Ride: invalid fields, focus and encoded WhatsApp data passed');
+await page.getByRole('button', { name: 'Per E-Mail anfragen', exact: true }).click();
+const emailOpened = await page.evaluate(() => window.__opened);
+const mail = new URL(emailOpened.at(-1));
+if (mail.protocol !== 'mailto:' || !mail.searchParams.get('body').includes('Rollator & Hilfe'))
+  failures.push('Email booking data missing');
+if (!(await page.getByLabel('Ihre Nachricht zum Kopieren').isVisible()))
+  failures.push('Email copy fallback missing');
+report.flows.push('Email: complete draft and copy fallback passed');
+
 await page.goto('http://localhost:3000/krankenfahrten');
 await page.getByText('Regelmäßige Behandlungsfahrt', { exact: true }).click();
 await page.getByRole('button', { name: 'Weiter', exact: true }).click();
@@ -140,16 +149,33 @@ if (!new URL(airport[0]).searchParams.get('text').includes('LH123'))
   failures.push('flight number missing');
 report.flows.push('Airport: direction, airport and flight data passed');
 await page.goto('http://localhost:3000/fahrpreis');
+await page.getByText('Optional: unverbindliche Streckenschätzung öffnen').click();
 await page.getByLabel('Startadresse').fill('Ratzeburg Bahnhof');
 await page.getByLabel('Zieladresse').fill('Mölln Bahnhof');
-await page.getByText('Entfernung selbst angeben & Wartezeit').click();
-await page.getByLabel('Entfernung in km').fill('12,5');
-await page.getByRole('button', { name: 'Fahrpreis prüfen', exact: true }).click();
-if (!(await page.getByText('Preis persönlich erfragen', { exact: true }).isVisible()))
-  failures.push('unverified fare displayed');
-if (!(await page.getByText('12,5 km', { exact: true }).isVisible()))
-  failures.push('manual km missing');
-report.flows.push('Fare: manual decimal distance and unverified tariff blocked passed');
+await page.getByLabel('Wo verläuft Ihre Fahrt?').selectOption('outside');
+await page.getByRole('button', { name: 'Unverbindliche Strecke einschätzen', exact: true }).click();
+if (await page.locator('.fare-value').count())
+  failures.push('Outside area must not show Kreis tariff price');
+await page.getByLabel('Wo verläuft Ihre Fahrt?').selectOption('inside');
+await page.getByLabel('Entfernung in km').fill('10');
+await page.getByRole('button', { name: 'Unverbindliche Strecke einschätzen', exact: true }).click();
+if (
+  !(await page
+    .locator('.fare-value')
+    .innerText()
+    .then((t) => t.includes('33,10')))
+)
+  failures.push('Provided day tariff wrong');
+await page.getByLabel('Tarifzeit für bis zu 4 Fahrgäste').selectOption('night');
+await page.getByRole('button', { name: 'Unverbindliche Strecke einschätzen', exact: true }).click();
+if (
+  !(await page
+    .locator('.fare-value')
+    .innerText()
+    .then((t) => t.includes('35,40')))
+)
+  failures.push('Provided night tariff wrong');
+report.flows.push('Fare: day/night rates and outside-area guard passed');
 await page.getByRole('button', { name: 'Datenschutzeinstellungen', exact: true }).click();
 if (!(await page.getByRole('dialog').isVisible())) failures.push('privacy settings missing');
 await page.getByRole('button', { name: 'Ohne Google fortfahren' }).click();

@@ -1,6 +1,6 @@
 # Insel Taxi Ratzeburg
 
-Umgesetzter Website-Relaunch mit Next.js App Router, React, TypeScript, lokal ausgelieferter Manrope und Lucide-Icons. Keine Fahrzeugbilder, keine Tracking-Skripte, keine Datenbank. Der Schwerpunkt liegt auf WhatsApp-Anfragen und Telefonkontakt.
+Umgesetzter Website-Relaunch mit Next.js App Router, React, TypeScript, lokal ausgelieferter Manrope und Lucide-Icons. Keine Fahrzeugbilder, keine Tracking-Skripte, keine Datenbank. Der Schwerpunkt liegt auf WhatsApp-, E-Mail-Anfragen und Telefonkontakt.
 
 **Für die Einrichtung ohne Vorkenntnisse:** [Schritt-für-Schritt-Anleitung](docs/EINRICHTUNG.md).
 
@@ -23,7 +23,7 @@ Dieses Projekt ist ein lauffähiger Arbeitsstand mit bewusst gesperrter Suchmasc
 1. [Offene Betreiberangaben](docs/OFFENE-PUNKTE.md) prüfen.
 2. Original-Logo als Datei bereitstellen: `public/logo-original.png`. Die im Chat sichtbare Vorlage war nicht als abrufbare Datei im Workspace vorhanden. Sie wurde weder nachgezeichnet noch durch ein anderes Logo ersetzt.
 3. Impressum und Datenschutzhinweise auf Hosting und Betrieb abstimmen und prüfen lassen.
-4. Aktuellen Taxitarif beschaffen und `src/config/tariff.ts` nach Prüfung konfigurieren. Bis dahin gibt es keine Euro-Schätzung.
+4. Der aktuelle Tarif aus der bereitgestellten Verordnung ist konfiguriert. Die optionale Schätzung gilt nur für bis zu vier Fahrgäste im Kreisgebiet und ersetzt keine Preisabsprache.
 5. Echten direkten Google-Unternehmensprofil-Link eintragen, falls gewünscht.
 6. `NEXT_PUBLIC_SITE_URL` auf die eigene HTTPS-Domain setzen. Erst nach der Freigabe `NEXT_PUBLIC_LAUNCH_READY=true` setzen und neu bauen.
 
@@ -54,7 +54,7 @@ Dieses Projekt ist ein lauffähiger Arbeitsstand mit bewusst gesperrter Suchmasc
 
 ## Funktionen
 
-Die Fahrtanfrage, der Assistent mit sechs Schritten und das Transferformular öffnen einen `wa.me`-Link mit den eingegebenen Daten. Es wird nichts automatisch an Insel Taxi gesendet, nichts als bestätigt dargestellt und keine Onlinezahlung verlangt. Der Nutzer muss die Nachricht selbst in WhatsApp senden. Alle Seiten bieten `tel:`-Links.
+Die Fahrtanfrage, der Assistent mit sechs Schritten und das Transferformular öffnen wahlweise einen `wa.me`-Link oder einen E-Mail-Entwurf mit den eingegebenen Daten. Es wird nichts automatisch an Insel Taxi gesendet, nichts als bestätigt dargestellt und keine Onlinezahlung verlangt. Der Nutzer muss die Nachricht selbst in WhatsApp senden. Alle Seiten bieten `tel:`-Links.
 
 Die Formulare speichern Eingaben nur im Browser-Arbeitsspeicher. Medizinische Diagnosen werden nicht abgefragt. Es gibt keine Registrierung und keine Buchungsdatenbank.
 
@@ -75,9 +75,13 @@ Ohne Keys: manuelle Adresseingabe, WhatsApp und Telefon funktionieren. Im Rechne
 
 ## Tarifstatus
 
-Der Rechner veröffentlicht **keine ungeprüften Preise**. Die alte Website nennt den Tarif von 2024. Der Kreis führt eine Verordnung ab 01.10.2026 auf, deren verlinktes PDF bei der Prüfung nicht erreichbar war. Deshalb stehen `verified: false`, leere Tarifstufen und `null`-Beträge in der Konfiguration.
+Der Betreiber hat die Verordnung vom 25.09.2026 (gültig ab 01.10.2026) bereitgestellt. Die Werte sind in `src/config/tariff.ts` zentral hinterlegt: Grundpreis 5,50 €, werktags 06–22 Uhr 2,90 €/km für die ersten 3 km, danach 2,70 €/km; nachts sowie sonn-/feiertags 3,20 €/km, danach 2,90 €/km. Wartezeit 50 €/h, Großraumzuschlag unter den tariflichen Voraussetzungen 12 €. Die Originalverordnung wird unter `public/tarife/kreisverordnung-2026-10-01.pdf` ausgeliefert.
 
-Bei Aktivierung muss geprüft werden, ob der konfigurierte Tarif zum Fahrzeug, Pflichtfahrgebiet und zur konkreten Fahrt passt. Sonderfälle, Tag/Nacht-Regeln, Tarifwechsel oder genehmigte Vereinbarungen dürfen nicht pauschal mit einem unpassenden Tarif berechnet werden. Die vorhandene Struktur ist eine stetige Kilometer-Schätzung; exakte Taxameter-Schalteinheiten werden nicht simuliert. Bei komplizierten Tarifregeln die Funktion vor Aktivierung entsprechend erweitern. Nicht einfach historische Werte als aktuell markieren.
+Die Berechnung steht zurückhaltend in einem geschlossenen Abschnitt unter `/fahrpreis`, nicht im Hero oder als großer Startseiten-Rechner. Nutzer wählen das Tarifgebiet und die passende Tarifzeit ausdrücklich. Für Ziele außerhalb des Kreises oder unklare Zuordnung wird kein Betrag berechnet: laut § 1 Abs. 3 ist der Preis vor Fahrtbeginn für die gesamte Strecke zu vereinbaren; ohne Vereinbarung gilt der Kreistarif als vereinbart. Die UI zeigt nur Grundpreis und angegebene besetzte Strecke, keine Anfahrt, Wartezeit oder besondere Ausstattung. Der tatsächliche Gesamtpreis kann deutlich höher liegen. Tarifwechsel während einer Fahrt und genaue Taxameter-Schaltereignisse werden nicht simuliert.
+
+## E-Mail-Anfragen
+
+Alle Fahrtformulare bieten denselben validierten Inhalt wahlweise per WhatsApp oder als `mailto:`-Entwurf an. Für E-Mail ist ein eingerichtetes E-Mail-Programm nötig. Die Website versendet nichts automatisch und behauptet keine Zustellung oder Buchungsbestätigung. Eine Kopiervorlage mit Empfänger wird nach Öffnen des Entwurfs angezeigt. Es sind keine SMTP-Zugangsdaten erforderlich; es wird keine Server-Buchungsdatenbank angelegt.
 
 ## Bereitstellung
 

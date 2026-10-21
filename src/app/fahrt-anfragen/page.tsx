@@ -4,9 +4,9 @@ import { PageIntro, CheckList } from '@/components/ui';
 import { RideForm } from '@/components/ride-form';
 import { company } from '@/config/company';
 export const metadata = {
-  title: 'Fahrt per WhatsApp anfragen',
+  title: 'Fahrt per WhatsApp oder E-Mail anfragen',
   description:
-    'Taxi in Ratzeburg ohne Registrierung anfragen: Strecke, Datum und Uhrzeit eingeben und die vorbereitete Nachricht per WhatsApp senden.',
+    'Taxi in Ratzeburg ohne Registrierung anfragen: Strecke, Datum und Uhrzeit eingeben und die vorbereitete Nachricht per WhatsApp oder E-Mail senden.',
   alternates: { canonical: '/fahrt-anfragen' },
 };
 export default function Page() {
@@ -14,8 +14,9 @@ export default function Page() {
     <>
       <PageIntro eyebrow="Wenige Angaben. Direkter Kontakt." title="Wohin dürfen wir Sie bringen?">
         <p>
-          Tragen Sie Ihre Fahrt ein. Wir bereiten eine übersichtliche WhatsApp-Nachricht vor, die
-          Sie selbst absenden. Anschließend bestätigen wir persönlich die Verfügbarkeit.
+          Tragen Sie Ihre Fahrt ein. Wir bereiten eine übersichtliche Nachricht für WhatsApp oder
+          E-Mail vor, die Sie selbst absenden. Anschließend bestätigen wir persönlich die
+          Verfügbarkeit.
         </p>
       </PageIntro>
       <section className="page-content">
@@ -37,7 +38,8 @@ export default function Page() {
                 ]}
               />
               <p>
-                Das Öffnen oder Absenden der WhatsApp-Nachricht ist noch keine verbindliche Buchung.
+                Das Öffnen oder Absenden einer WhatsApp-Nachricht oder E-Mail ist noch keine
+                verbindliche Buchung.
               </p>
               <Link href="/datenschutz" className="text-link">
                 So gehen wir mit Ihren Daten um

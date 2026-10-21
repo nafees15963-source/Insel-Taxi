@@ -1,66 +1,74 @@
-import { PageIntro, CallButton, WhatsAppButton } from '@/components/ui';
+import { PageIntro, CallButton, WhatsAppButton, EmailButton } from '@/components/ui';
 import { FareCalculator } from '@/components/fare-calculator';
 import { tariff } from '@/config/tariff';
 export const metadata = {
-  title: 'Fahrpreis – Strecke & Taxitarif',
+  title: 'Fahrpreis & Tarifinformationen',
   description:
-    'Fahrpreis für Ihr Taxi in Ratzeburg anfragen. Transparente Tarifinformationen, optionale Routenberechnung und direkter Kontakt zu Insel Taxi.',
+    'Fahrpreise für regionale und bundesweite Fahrten persönlich abstimmen. Aktueller Kreistarif und optionale unverbindliche Streckenschätzung.',
   alternates: { canonical: '/fahrpreis' },
 };
 export default function Page() {
   return (
     <>
       <PageIntro
-        eyebrow="Transparenz vor der Fahrt"
-        title="Ihre Strecke. Eine ehrliche Einschätzung."
+        eyebrow="Persönlich planen. Klar abstimmen."
+        title="Ihre Fahrt verdient eine individuelle Absprache."
       >
         <p>
-          Geben Sie Start und Ziel ein. Sobald die aktuellen Tarifwerte vollständig geprüft sind,
-          kann hier eine unverbindliche Schätzung berechnet werden. Bis dahin nennen wir Ihnen den
-          voraussichtlichen Preis persönlich.
+          Ob Geschäftsreise, Krankenfahrt, Flughafentransfer oder lange Strecke: Fragen Sie uns nach
+          dem voraussichtlichen Gesamtpreis. Wir berücksichtigen Ihre Strecke und die konkreten
+          Anforderungen. Fahrten ins Ausland sind auf Anfrage möglich.
         </p>
       </PageIntro>
       <section className="page-content">
-        <div className="container content-grid">
-          <div className="form-panel">
-            <h2>Fahrpreis prüfen</h2>
-            <p className="form-description">
-              Google-Dienste sind freiwillig. Eine bekannte Entfernung können Sie selbst eintragen.
+        <div className="container prose-narrow">
+          <div className="fare-contact-options">
+            <WhatsAppButton>Fahrt & Preis anfragen</WhatsAppButton>
+            <EmailButton />
+            <CallButton />
+          </div>
+          <div className="prose">
+            <h2>Regionaler Taxitarif – verständlich erklärt</h2>
+            <p>
+              Für Fahrten im Geltungsbereich gilt die Kreisverordnung Herzogtum Lauenburg vom 25.
+              September 2026, gültig ab 1. Oktober 2026. Für Ziele außerhalb des Geltungsbereichs
+              wird das Entgelt für die gesamte Strecke vor Fahrtbeginn vereinbart. Kommt keine
+              Vereinbarung zustande, sieht § 1 Absatz 3 den Kreistarif als vereinbart vor.
+            </p>
+            <ul>
+              <li>Grundpreis: 5,50 €.</li>
+              <li>Werktags 06–22 Uhr: bis 3 km 2,90 €/km, danach 2,70 €/km.</li>
+              <li>22–06 Uhr sowie sonn- und feiertags: bis 3 km 3,20 €/km, danach 2,90 €/km.</li>
+              <li>Wartezeit: 50,00 €/Stunde; Taxameter-Fortschaltung: 0,10 €.</li>
+              <li>
+                Großraumzuschlag bei mehr als vier Fahrgästen im entsprechend zugelassenen Fahrzeug:
+                12,00 €. Verfügbarkeit bitte anfragen.
+              </li>
+              <li>
+                Eine Anfahrt kann unter den Voraussetzungen des § 2 Absatz 4 berechnet werden.
+                Besondere Ausstattung kann nach Aufwand hinzukommen. Übliches Gepäck wird nach
+                Maßgabe von § 5 unentgeltlich befördert.
+              </li>
+            </ul>
+            <a href={tariff.sourceUrl} target="_blank" rel="noopener noreferrer">
+              Vollständige Tarifverordnung als PDF ansehen
+            </a>
+            <h2>Für lange Strecken sprechen wir persönlich mit Ihnen.</h2>
+            <p>
+              Ein Kilometerwert allein sagt wenig über Ihren Gesamtpreis aus. Abholort, Anfahrt,
+              Wartezeiten, Strecke und besondere Wünsche können relevant sein. Eine
+              Krankenfahrt-Schätzung ist zudem keine Zusage zur Kostenübernahme durch eine
+              Krankenkasse.
+            </p>
+          </div>
+          <details className="optional-calculator">
+            <summary>Optional: unverbindliche Streckenschätzung öffnen</summary>
+            <p className="field-note">
+              Nur für die ausgewählte Tarifzeit und bis zu vier Fahrgäste innerhalb des Kreises.
+              Kein Angebot und kein Höchstpreis.
             </p>
             <FareCalculator />
-          </div>
-          <aside>
-            <div className="aside-card">
-              <h2>Zum geltenden Taxitarif</h2>
-              <p>
-                Die bisherige Website verweist auf die Kreisverordnung von 2024. Auf der Website des
-                Kreises ist eine neue Verordnung ab 1. Oktober 2026 aufgeführt.
-              </p>
-              <p>
-                Die aktuellen Tarifwerte konnten noch nicht vollständig geprüft werden. Deshalb
-                veröffentlichen wir keine Eurobeträge aus der alten Tarifliste.
-              </p>
-              <a
-                className="text-link"
-                href={tariff.sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Amtliche Bekanntmachungen ansehen ↗
-              </a>
-            </div>
-            <div className="help-panel">
-              <h3>Wir rechnen mit Ihren Fragen.</h3>
-              <p>
-                Bei Überlandfahrten, besonderen Anforderungen oder Fragen zu möglichen Zuschlägen
-                sprechen Sie uns bitte direkt an.
-              </p>
-              <div className="fare-result-actions">
-                <WhatsAppButton>Fahrpreis anfragen</WhatsAppButton>
-                <CallButton />
-              </div>
-            </div>
-          </aside>
+          </details>
         </div>
       </section>
     </>

@@ -32,5 +32,7 @@ export function estimateFare(km: number, waitingMinutes: number, t: Tariff): num
     if (remaining <= 0) break;
   }
   if (remaining > 0) throw new Error('Tarif deckt die Strecke nicht ab.');
-  return Math.round((total + (waitingMinutes / 60) * t.waitingPerHour + t.surcharge) * 100) / 100;
+  const amount = total + (waitingMinutes / 60) * t.waitingPerHour + t.surcharge;
+  const increment = t.roundingIncrement ?? 0.01;
+  return Math.round(Math.round(amount / increment + 1e-9) * increment * 100) / 100;
 }
