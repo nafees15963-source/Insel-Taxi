@@ -18,7 +18,6 @@ Das funktioniert zunächst ohne Google-Keys. Telefon und WhatsApp sind bereits z
 
 ## Vor dem öffentlichen Start
 
-- Original-Logo als echte PNG-Datei in `public/logo-original.png` ablegen und `NEXT_PUBLIC_LOGO_READY=true` setzen. Die sichtbare Chatabbildung war nicht als Datei im Workspace verfügbar.
 - Betreiberangaben und Rechtstexte bestätigen und prüfen lassen.
 - Der Tarif ab 01.10.2026 ist anhand der bereitgestellten Verordnung konfiguriert. Optionaler Rechner nur für das Kreisgebiet; Fernfahrten und Ausland persönlich abstimmen.
 - Optional Google-API-Keys und den echten Unternehmensprofil-Link einrichten.
@@ -36,3 +35,5 @@ Weitere Dateien:
 - `docs/Vorschau-Mobil.png`: Smartphonevorschau
 
 Die bisherige Website wurde nicht verändert. Eine öffentliche Veröffentlichung wurde nicht vorgenommen.
+
+Original-Logo ist inzwischen unter `public/logo-original.png` vorhanden und ohne Aktivierungsschalter in Header, Footer und Favicon eingebunden.

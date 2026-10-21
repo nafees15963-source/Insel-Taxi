@@ -2,7 +2,6 @@
 
 ## Erforderlich
 
-- **Original-Logo als abrufbare Datei**: die Abbildung im Chat ist sichtbar, wurde aber nicht als Datei im Workspace bereitgestellt. Unter `public/logo-original.png` einfügen, danach `NEXT_PUBLIC_LOGO_READY=true`. Den vollständigen Originalrahmen nicht eigenmächtig entfernen.
 - **Inhaber und Adresse**: bisheriges Impressum nennt Naeem Ahmed / Zittschower Weg 11a. Der bisherige Datenschutztext weist abweichende Schreibweisen auf. Betreiberbestätigung erforderlich.
 - **Vollständiges Impressum**: Rechtsform, Registerpflicht, Aufsicht und Streitbeilegungsangaben durch Betreiber prüfen; vorhandene USt-ID bestätigen.
 - **Datenschutzerklärung**: auf den realen Hosting-Anbieter, Logs, Dienstleister, WhatsApp-Nutzung und optionale Google-Dienste abstimmen und rechtlich prüfen lassen. Markierte Stellen in den Seiten vervollständigen.
@@ -29,3 +28,5 @@ Keine MySQL-Datenbank, Registrierung, Onlinezahlung, WhatsApp Business API oder 
 ## Erledigte Aktualisierung
 
 Tarifverordnung vom 25.09.2026 als Betreiber-PDF erhalten und ausgewertet. Tag-/Nachttarife ab 01.10.2026 sind konfiguriert; Geltungsbereich, Anfahrt und mögliche Zusatzkosten sind ausdrücklich erklärt. Der Betreiber bestätigt regionale und bundesweite Fahrten einschließlich Krankenfahrten; Auslandsfahrten auf Anfrage. E-Mail ist in allen Fahrtformularen als gleichwertiger Anfrageweg ergänzt.
+
+Original-Logo ist inzwischen unter `public/logo-original.png` vorhanden und ohne Aktivierungsschalter in Header, Footer und Favicon eingebunden.

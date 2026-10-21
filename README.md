@@ -21,7 +21,7 @@ Unter Windows PowerShell statt `cp` bei Bedarf `Copy-Item .env.example .env.loca
 Dieses Projekt ist ein lauffähiger Arbeitsstand mit bewusst gesperrter Suchmaschinenindexierung. Nicht als rechtlich geprüfte, bereits freigegebene Unternehmenswebsite behandeln.
 
 1. [Offene Betreiberangaben](docs/OFFENE-PUNKTE.md) prüfen.
-2. Original-Logo als Datei bereitstellen: `public/logo-original.png`. Die im Chat sichtbare Vorlage war nicht als abrufbare Datei im Workspace vorhanden. Sie wurde weder nachgezeichnet noch durch ein anderes Logo ersetzt.
+2. Das Original-Logo ist unter `public/logo-original.png` eingebunden. Zum Austauschen die Originaldatei unter demselben Namen ersetzen und neu bereitstellen.
 3. Impressum und Datenschutzhinweise auf Hosting und Betrieb abstimmen und prüfen lassen.
 4. Der aktuelle Tarif aus der bereitgestellten Verordnung ist konfiguriert. Die optionale Schätzung gilt nur für bis zu vier Fahrgäste im Kreisgebiet und ersetzt keine Preisabsprache.
 5. Echten direkten Google-Unternehmensprofil-Link eintragen, falls gewünscht.
@@ -111,7 +111,7 @@ TLS und Reverse Proxy entsprechend dem gewählten Anbieter einrichten. Unter HTT
 
 ## Original-Logo
 
-Die Website prüft `NEXT_PUBLIC_LOGO_READY`. Bei `true` wird ausschließlich `/logo-original.png` im Header, Footer und als Icon verwendet. Ohne Datei bleibt die neutrale Fläche „Logo“ sichtbar. Farben, Proportionen oder Bestandteile werden nicht verändert. Die vollständige Vorlage besitzt viel dunklen Rand; eine bessere Original-Exportdatei mit passenden Außenmaßen ist für die Lesbarkeit sinnvoll. Zuschnitt/Freistellung nur mit ausdrücklicher Betreiberfreigabe. Die aktuelle Bilddatei wird nicht eigenmächtig durch KI bearbeitet.
+Das vom Betreiber auf GitHub bereitgestellte Original liegt unter `public/logo-original.png`. Header, Footer und Favicon verwenden diese Datei direkt. Eine zusätzliche Freigabevariable ist nicht mehr erforderlich; alte Werte von `NEXT_PUBLIC_LOGO_READY` haben keine Wirkung. Next.js liefert das Bild in passender Größe optimiert aus. Die Originaldatei, Farben und Proportionen bleiben unverändert.
 
 ## Dokumentation
 

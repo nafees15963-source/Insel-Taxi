@@ -68,20 +68,9 @@ Die Telefonnummern müssen nur in dieser zentralen Datei geändert werden. Nicht
 
 ## 5. Ihr Original-Logo einfügen
 
-Das im Chat gezeigte Logo war nicht als Bilddatei im Workspace abrufbar. Deshalb gibt es derzeit einen neutralen Platzhalter.
+Ihr Original ist inzwischen unter `public/logo-original.png` hochgeladen und wird automatisch im Header, Footer und als Browser-Icon verwendet. **Keine Umgebungsvariable ist dafür nötig.**
 
-1. Speichern Sie die **Originaldatei** als `logo-original.png` im Ordner `public`.
-2. Falls Ihr Original ein JPG ist: nicht einfach die Dateiendung ändern. Entweder verlustfrei als PNG exportieren lassen oder Dateipfade in `src/components/shell.tsx` und `src/app/layout.tsx` passend ändern.
-3. Öffnen Sie `.env.local`.
-4. Ändern Sie diese Zeile:
-
-```dotenv
-NEXT_PUBLIC_LOGO_READY=true
-```
-
-5. Entwicklungsserver mit `Strg + C` beenden und mit `npm run dev` neu starten.
-
-Das Original wird dann im Header, Footer und als Browser-Icon verwendet. Es wird nicht nachgezeichnet, umgefärbt oder verzerrt. Die vollständige, sehr großzügig gerahmte Chatvorlage könnte bei kleiner Darstellung schlecht erkennbar sein. Ideal ist ein offizieller Export mit geeigneten Außenmaßen. Ein anderes Logo wird nicht erzeugt.
+Möchten Sie das Logo später austauschen, ersetzen Sie auf GitHub die Datei in `public`, speichern Sie mit „Commit changes“ und warten Sie in Vercel auf das erfolgreiche Deployment. Bei lokaler Entwicklung den neuesten Stand laden und den Server neu starten. Das Logo wird nicht nachgezeichnet, umgefärbt oder verzerrt.
 
 ## 6. WhatsApp und Telefon testen
 
@@ -220,7 +209,7 @@ Auf einem eigenen Node.js-Server sind `npm ci`, `npm run build` und `npm start` 
 
 **WhatsApp öffnet nicht**: Pop-up-/App-Einstellungen prüfen, den angezeigten Link „WhatsApp erneut öffnen“ verwenden oder anrufen.
 
-**Logo fehlt**: Dateiname und Dateiendung in `public` sowie `NEXT_PUBLIC_LOGO_READY=true` prüfen. Danach neu starten oder neu bauen.
+**Logo fehlt**: Die Datei muss `public/logo-original.png` heißen. Prüfen Sie, ob Vercel den neuesten GitHub-Stand erfolgreich bereitgestellt hat; danach die Website neu laden. Eine Aktivierungsvariable wird nicht mehr benötigt.
 
 **Änderungen an `.env.local` erscheinen nicht**: Den Server neu starten. Bei veröffentlichter Produktionsversion neu bauen und bereitstellen.
 

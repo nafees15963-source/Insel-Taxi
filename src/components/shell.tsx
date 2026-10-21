@@ -10,20 +10,15 @@ import { CallButton, WhatsAppButton, EmailButton } from './ui';
 function Brand({ footer = false }: { footer?: boolean }) {
   return (
     <Link href="/" className={`brand ${footer ? 'brand-footer' : ''}`}>
-      {company.logoReady ? (
-        <Image
-          src="/logo-original.png"
-          alt=""
-          width={60}
-          height={60}
-          className="original-logo"
-          unoptimized
-        />
-      ) : (
-        <span className="logo-placeholder" aria-hidden="true">
-          Logo
-        </span>
-      )}
+      <Image
+        src="/logo-original.png"
+        alt=""
+        width={60}
+        height={60}
+        sizes="60px"
+        priority={!footer}
+        className="original-logo"
+      />
       <span className="brand-type">
         INSEL TAXI <small>RATZEBURG</small>
       </span>

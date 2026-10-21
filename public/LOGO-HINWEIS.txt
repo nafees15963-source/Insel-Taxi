@@ -1,3 +1,1 @@
-Hier die unveränderte Originaldatei als logo-original.png ablegen.
-Danach in .env.local NEXT_PUBLIC_LOGO_READY=true setzen und neu starten/neu bauen.
-Der neutrale Platzhalter wird nicht als offizielles Firmenlogo ausgegeben.
+Das Original-Logo liegt in logo-original.png und wird automatisch eingebunden. Keine Aktivierungsvariable erforderlich.

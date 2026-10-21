@@ -26,9 +26,7 @@ export const metadata: Metadata = {
     description:
       'Ihre Fahrt – regional und bundesweit. Einfach per WhatsApp, E-Mail oder Telefon anfragen.',
   },
-  icons: company.logoReady
-    ? { icon: '/logo-original.png', apple: '/logo-original.png' }
-    : { icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>' },
+  icons: { icon: '/logo-original.png', apple: '/logo-original.png' },
 };
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#14263D' };
 export default function RootLayout({ children }: { children: React.ReactNode }) {

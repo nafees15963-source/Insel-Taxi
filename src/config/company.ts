@@ -13,7 +13,6 @@ export const company = {
   hours: 'Täglich, rund um die Uhr',
   vatId: 'DE221613879',
   institutionId: '600138210',
-  logoReady: process.env.NEXT_PUBLIC_LOGO_READY === 'true',
   reviewUrl: process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL || '',
 };
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(
