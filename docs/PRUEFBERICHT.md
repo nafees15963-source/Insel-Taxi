@@ -1,89 +1,59 @@
-# Prüfbericht des ursprünglichen Relaunch-Stands
+# Prüfbericht zum Relaunch
 
-Geprüft am **21. Oktober 2026** im vorhandenen Linux-Workspace. Getestet wurde ein lokaler Produktions-Build mit Next.js 16.4.2, React 19.3.1, Node.js 24.19.0 und systemseitigem Chromium. Es wurde keine Nachricht versendet, kein Anruf ausgelöst und keine bestehende Website geändert.
+Stand: 24. Oktober 2026. Geprüft wurde der lokal erstellte statische Produktionsbuild mit Chromium und Playwright. Die Prüfung ersetzt keine vollständige manuelle WCAG-Zertifizierung oder rechtliche Prüfung.
 
-## Ergebnisse
+## Browserprüfung
 
-- Produktions-Build erfolgreich; neun Inhaltsseiten, Fehlerseiten, Sitemap, robots.txt und Routen-API erzeugt.
-- ESLint ohne Fehler und Warnungen.
-- TypeScript-Prüfung erfolgreich.
-- Formatprüfung erfolgreich.
-- Sieben automatisierte fachliche Tests erfolgreich.
-- Alle neun Inhaltsseiten bei 320, 390, 768 und 1440 Pixeln geprüft: keine horizontalen Layoutüberläufe nach Korrekturen.
-- axe-core-Prüfung aller neun Seiten mit WCAG-2-A/AA-, WCAG-2.1-AA- und WCAG-2.2-AA-Tags: keine automatisiert festgestellten Verstöße.
-- Keine JavaScript-Laufzeitfehler in den Browserabläufen.
+Reproduzierbares Skript: `tests/browser-qa.mjs`. Ausführung nach `npm run build` und `npm run preview` mit `node tests/browser-qa.mjs`. Standardmäßig wird `http://localhost:3000` geprüft; `QA_BASE_URL`, `QA_REPORT_DIR` und `CHROME_PATH` können angepasst werden.
 
-## Lighthouse
+- Alle neun vorgesehenen Seiten bei 1440, 768, 390 und 320 Pixeln Breite geprüft (36 Kombinationen).
+- Pro Kombination: eine Hauptüberschrift, horizontale Überläufe, Seitenfehler und axe-core mit den Tags WCAG 2 A/AA, WCAG 2.1 AA und WCAG 2.2 AA geprüft.
+- Ergebnis des abschließenden Laufs: **36 von 36 Kombinationen bestanden**, keine von axe erkannten Verstöße in den genannten Prüfregeln, kein horizontaler Überlauf und jeweils genau eine Hauptüberschrift.
+- Keine externen Netzwerkanfragen beim Seitenaufruf und bei der Formularbedienung ohne aktivierte Google-Funktion beobachtet.
+- Keine JavaScript-Seitenfehler oder fehlgeschlagenen internen Ressourcenanfragen beobachtet.
 
-Lokale mobile Simulation mit Standarddrosselung und Produktionsserver. Keine reale Mobilfunkverbindung und kein öffentliches Hosting. Einzelmessungen können schwanken.
+## Erfolgreiche Funktionsprüfungen
 
-| Konfiguration | Performance | Accessibility | Best Practices | SEO |
-| --- | ---: | ---: | ---: | ---: |
-| Auslieferungsstand mit Indexierungssperre | 98 | 100 | 100 | 66 |
-| Lokal getesteter Freigabestand mit `NEXT_PUBLIC_LAUNCH_READY=true` | 94 | 100 | 100 | 100 |
+- Mobiles Menü: Tastatur-Fokusumlauf, Escape, Schließen nach Navigation und nach Wechsel auf Desktopbreite.
+- Schnellformular: Adressen werden im URL-Fragment übergeben, im vollständigen Formular übernommen und anschließend aus dem Fragment entfernt. Keine Adresse im Query-String.
+- Taxi-, Krankenfahrt- und Flughafenformular: Pflichtfeldfehler, vergangene Termine, zukünftige Termine, neun Fahrgäste als Gruppenanfrage, Gepäck, Name, Sonderzeichen, Rückfahrt und Zurück-Navigation.
+- Vollständiger WhatsApp-Link aller drei Formulare mit unabhängig erwarteter Nachricht verglichen, einschließlich Umlauten, Zeilenumbrüchen, Ampersand und Pluszeichen. Keine WhatsApp-Nachricht wurde versendet und kein Telefonanruf ausgelöst.
+- Telefonlinks enthalten `tel:+494541802080`.
+- Datenschutz-Anker vorhanden, Tarif-PDF erreichbar, Original-Logo erreichbar, unbekannte URL liefert HTTP 404.
+- Ohne JavaScript sind interaktive Formulare ausgeblendet; Telefonkontakt bleibt vorhanden.
+- Original-Logo mit dem übernommenen Original bytegenau abgeglichen. SHA-256: `db271bb1d02cd3284f767ed9520b1c0160fa5b4e7a84ae948a8cb7ba8b086742`.
 
-Der SEO-Abzug im Auslieferungsstand entsteht durch die bewusst gesetzten `noindex`-/robots-Sperren. Zur Prüfung des Freigabestands wurden ausschließlich lokal `NEXT_PUBLIC_LAUNCH_READY=true` und die vorgesehene Hauptdomain beim Build gesetzt. Es fand keine öffentliche Veröffentlichung statt. Anschließend wurde der Standardzustand mit gesperrter Indexierung wiederhergestellt.
+## Abschließende Nachprüfung
 
-Die Messberichte liegen unter `docs/reports/`. Diese Werte sind keine Garantie für einen anderen Host, ein anderes Endgerät, ein später ergänztes Logo oder aktivierte Google-Dienste.
+Der zugängliche Name des mobilen Telefonlinks, der Kontrast der Leistungsnummern sowie die Überläufe im Leistungsraster und bei langen Impressumsüberschriften wurden korrigiert. Die vollständige Wiederholung aller 36 Seiten-/Viewport-Kombinationen und aller sieben Funktionsgruppen am 24. Oktober 2026 war erfolgreich. Auch alle drei Formular-Zusammenfassungen bestanden die zusätzlichen axe-Prüfungen bei 390 Pixeln Breite. Desktop- und Mobilansichten wurden als Screenshots dokumentiert und die mobile Formularanordnung visuell geprüft.
 
-## Geprüfte Abläufe
+Die Maschinenprüfung schreibt `browser-qa.json` und Screenshots in das über `QA_REPORT_DIR` festgelegte Verzeichnis. Die lokale Standardablage ist `/workspace/work/qa`.
 
-- Leere und vergangene Fahrtangaben erzeugen verständliche Fehlermeldungen.
-- Nach Formularfehlern erhält das erste fehlerhafte Eingabefeld den Fokus.
-- WhatsApp-Nachrichten enthalten Strecke, Datum, Uhrzeit, Fahrgäste, Sonderzeichen und Freitext korrekt URL-codiert.
-- Eine Anfrage wird nirgends automatisch als bestätigt ausgegeben.
-- Krankenfahrten: alle sechs Schritte, Rückfahrtvalidierung und Zusammenfassung.
-- Flughafentransfer: Richtung, Flughafenwechsel, Gepäck-/Flugnummernfelder und Nachricht.
-- Preisrechner: manuelle Dezimalentfernung; keine Euro-Ausgabe bei ungeprüftem Tarif.
-- Datenschutzdialog ohne konfigurierte Google-Dienste.
-- Keine externen Ressourcen vor freiwilliger Google-Freigabe.
-- Mobile Navigation, Tastaturbedienung und Escape-Verhalten.
-- Ohne JavaScript bleiben direkte Kontaktwege verfügbar; Formulare werden ausgeblendet, damit keine Fahrtangaben durch einen ungewollten GET-Submit in die URL geraten.
-- Routen-API: fehlender Key, Origin-Prüfung, Einwilligungsprüfung, Größenlimit, eingeschränkte Datenausgabe, Anbieterfehler, keine gefundene Route und simulierte Verbindungsfehler.
+## Grenzen und offene Voraussetzungen
 
-## Grenzen der Prüfung
+- Google Places ist ohne API-Key nicht aktiviert. Ein echter API-Aufruf und die vertraglichen Voraussetzungen können erst mit einem eingeschränkten Produktionsschlüssel geprüft werden; die manuelle Eingabe funktioniert ohne Google.
+- Telefonzustellung, WhatsApp-Zustellung und eine tatsächliche Fahrtbestätigung sind keine automatisierten Websitefunktionen und wurden nicht ausgelöst.
+- Produktionshosting, Sicherheitsheader des endgültigen Hosters und dessen Logverarbeitung müssen bei der Bereitstellung geprüft werden.
+- Lighthouse-Werte der finalen lokalen Messung stehen unten; Produktionswerte sind vom tatsächlichen Hosting abhängig.
+- Fehlende rechtliche und betriebliche Angaben sind in `docs/OFFENE-PUNKTE.md` dokumentiert.
 
-- **Original-Logo:** nicht als abrufbare Datei vorhanden; nur Einbindungsstruktur und neutraler Platzhalter umgesetzt. Das tatsächliche Originalbild muss noch eingefügt und optisch geprüft werden.
-- **Google Maps/Routes:** keine echten API-Schlüssel vorhanden. Die Serverintegration wurde mit simulierten Antworten getestet. Ein erfolgreicher realer Google-Aufruf und echte Autocomplete-Ergebnisse sind nicht bestätigt.
-- **Tarif:** aktuelle Beträge nicht vollständig verifiziert; deshalb absichtlich deaktiviert. Synthetische Tests der Kilometerstaffelung stellen keinen Ratzeburger Tarif dar.
-- **WhatsApp/Telefon:** Linkerzeugung und Browserabläufe getestet; keine echten Nachrichten/Anrufe durchgeführt. App-Übergaben auf einem echten iPhone und Android-Gerät sind noch durch den Betreiber zu testen.
-- **Barrierefreiheit:** automatische Prüfungen und ausgewählte Tastaturabläufe ersetzen keine vollständige manuelle WCAG-Konformitätsbewertung oder Screenreader-Prüfung.
-- **Recht/Hosting:** Rechtstexte als Entwurf markiert. Keine juristische Prüfung, kein Produktionshost, keine DNS-Änderung und kein Lasttest durchgeführt.
+## Build, Typen und Funktionstests
 
-## Reproduzieren
+`npm run build`, `npm run lint`, `npm run typecheck` und alle 8 Unit-Tests bestanden. Die Tests decken unter anderem die Zeitzone Europe/Berlin, beide Sommerzeitwechsel, Rückfahrten, neun Fahrgäste und verlustfreie WhatsApp-URL-Codierung ab.
 
-```sh
-npm ci
-npm run lint
-npm run typecheck
-npm test
-npm run format:check
-npm run build
-npm start
-```
+## Lighthouse: finale mobile Messung
 
-In einem zweiten Terminal:
+Gemessen am 24.10.2026 gegen den statischen Produktionsbuild, ohne parallele Browserlast:
 
-```sh
-npm run test:browser
-```
+| Kategorie | Punkte |
+| --- | ---: |
+| Performance | 100 |
+| Accessibility | 100 |
+| Best Practices | 100 |
+| SEO | 69 |
 
-Für Playwright gegebenenfalls vorher `npx playwright install chromium` ausführen oder `CHROMIUM_PATH` setzen. Das Skript schreibt Browserbericht und Screenshots in den ignorierten Ordner `work/`.
+FCP 0,8 s; LCP 1,8 s; Total Blocking Time 40 ms; Cumulative Layout Shift 0. Das sind lokale Labormessungen, keine Garantie für jedes Endgerät oder Produktionshosting.
 
-Lighthouse lässt sich auf einem Rechner mit Chromium so wiederholen:
+Der einzige fehlgeschlagene SEO-Test ist die bewusst deaktivierte Indexierung der Vorschau (`noindex` und robots.txt). Die endgültige Produktionskonfiguration verwendet nach Vervollständigung der Rechtstexte `NEXT_PUBLIC_LAUNCH_READY=true` und muss neu gebaut werden. Für diesen späteren Zustand wird hier kein ungemessener SEO-Wert behauptet. Cache-Header müssen vom tatsächlichen Hoster ausgeliefert werden.
 
-```sh
-npx lighthouse http://localhost:3000 --chrome-path=/usr/bin/chromium --chrome-flags="--headless --no-sandbox" --output=json --output-path=work/lighthouse.json
-```
-
-Den Browserpfad an das eigene System anpassen. Für einen Freigabe-Build die Umgebungsvariablen wie in der Einrichtungsanleitung setzen und neu bauen. Die Indexierung erst nach vollständiger Betreiberfreigabe tatsächlich aktivieren.
-
-
-## Aktuelle Änderungen
-
-Die oben dokumentierten Lighthouse-Werte beziehen sich auf den ursprünglichen Stand. Die neue Änderung ergänzt bundesweite Kommunikation und E-Mail-Entwürfe und aktiviert die anhand des Betreiber-PDFs verifizierten 2026-Tarife. Der Rechner liegt nun in einem geschlossenen optionalen Bereich. Neue Prüfergebnisse werden separat unter docs/reports/update-*.txt bzw. update-browser.json abgelegt. Echte E-Mails und WhatsApp-Nachrichten werden in Tests nicht versendet.
-
-Aktualisierte Prüfung: neun fachliche Tests erfolgreich; Tag-/Nachttarife, 3-km-Grenze, 10-Cent-Rundung und E-Mail-URL geprüft. Alle neun Seiten bei 320, 390, 768 und 1440 Pixeln ohne Layoutüberlauf; axe-core ohne Befund auf den neun Seiten. E-Mail-Entwurf samt Kopiervorlage, Fahrpreisgebiet-Sperre und Tag-/Nachtwechsel im Browser geprüft. Lighthouse nach der Änderung: Performance 94, Accessibility 100, Best Practices 100, SEO 66 (Indexierung weiterhin bewusst gesperrt). Original-PDF stimmt im SHA-256-Hash mit dem Betreiber-Upload überein. Keine echten Nachrichten versendet; Google bleibt ohne reale Schlüssel nicht live geprüft.
-
-
-Logo-Korrektur am 22.10.2026: Produktions-Build bewusst mit altem `NEXT_PUBLIC_LOGO_READY=false` geprüft. Originalbild im Header und Footer bei 390 und 1440 Pixeln erfolgreich geladen und dekodiert; kein Platzhalter mehr vorhanden. Build und Lint erfolgreich. Eine zusätzliche Freigabevariable ist nicht mehr erforderlich.
+Maschinenlesbare Ergebnisse liegen in `docs/reports/`. Die lokale Vorschau lieferte keine eigenen Sicherheitsheader; Hostkonfigurationen sind vorbereitet, die endgültige Domain wurde nicht geändert.

@@ -1,12 +1,10 @@
 # Insel Taxi Ratzeburg
 
-Umgesetzter Website-Relaunch mit Next.js App Router, React, TypeScript, lokal ausgelieferter Manrope und Lucide-Icons. Keine Fahrzeugbilder, keine Tracking-Skripte, keine Datenbank. Der Schwerpunkt liegt auf WhatsApp-, E-Mail-Anfragen und Telefonkontakt.
+Vollständig neu entwickelter Website-Relaunch. Next.js 16, React 19 und TypeScript, mit statisch exportierten Seiten. Weiß, Dunkelblau und das Gelb des unveränderten Original-Logos bilden das Design. Kein Backend, keine Datenbank, keine Benutzerkonten und keine Zahlung nötig.
 
-**Für die Einrichtung ohne Vorkenntnisse:** [Schritt-für-Schritt-Anleitung](docs/EINRICHTUNG.md).
+## Lokal starten
 
-## Start in 5 Minuten
-
-Voraussetzung: Node.js LTS (mindestens 22), npm.
+Voraussetzung: Node.js 22 LTS oder neuer, npm.
 
 ```sh
 npm ci
@@ -14,112 +12,67 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Unter Windows PowerShell statt `cp` bei Bedarf `Copy-Item .env.example .env.local` verwenden. Danach http://localhost:3000 öffnen. Telefon- und WhatsApp-Links funktionieren bereits ohne Google-Keys. Eine Telefonnummer im Browser zu öffnen löst nicht selbst einen Anruf aus; eine geeignete Telefon-App muss vorhanden sein.
-
-## Vor dem öffentlichen Start
-
-Dieses Projekt ist ein lauffähiger Arbeitsstand mit bewusst gesperrter Suchmaschinenindexierung. Nicht als rechtlich geprüfte, bereits freigegebene Unternehmenswebsite behandeln.
-
-1. [Offene Betreiberangaben](docs/OFFENE-PUNKTE.md) prüfen.
-2. Das Original-Logo ist unter `public/logo-original.png` eingebunden. Zum Austauschen die Originaldatei unter demselben Namen ersetzen und neu bereitstellen.
-3. Impressum und Datenschutzhinweise auf Hosting und Betrieb abstimmen und prüfen lassen.
-4. Der aktuelle Tarif aus der bereitgestellten Verordnung ist konfiguriert. Die optionale Schätzung gilt nur für bis zu vier Fahrgäste im Kreisgebiet und ersetzt keine Preisabsprache.
-5. Echten direkten Google-Unternehmensprofil-Link eintragen, falls gewünscht.
-6. `NEXT_PUBLIC_SITE_URL` auf die eigene HTTPS-Domain setzen. Erst nach der Freigabe `NEXT_PUBLIC_LAUNCH_READY=true` setzen und neu bauen.
-
-## Befehle
-
-| Befehl | Zweck |
-| --- | --- |
-| `npm run dev` | Entwicklungsserver, Port 3000 |
-| `npm run build` | Produktions-Build inklusive TypeScript-Prüfung |
-| `npm start` | Produktionsserver, vorher bauen |
-| `npm run lint` | ESLint ohne Warnungen |
-| `npm run typecheck` | TypeScript separat prüfen |
-| `npm test` | Tests für WhatsApp, Validierung, Tariflogik und Routen-API |
-| `npm run test:browser` | Browserprüfung aller Seiten; laufender Produktionsserver nötig |
-| `npm run format` | Quellcode formatieren |
-| `npm run format:check` | Formatierung prüfen |
-
-## Aufbau
-
-- `src/app`: neun Seiten, Fehlerseiten, Sitemap, robots.txt, Route-API
-- `src/components`: gemeinsame Navigation, Footer, Formulare, Datenschutzfreigabe, Rechner
-- `src/config/company.ts`: Kontaktdaten, angebotene Flughafenziele, Logo- und Profilkonfiguration
-- `src/config/tariff.ts`: zentrale Tarifkonfiguration mit Verifizierungssperre
-- `src/lib/booking.ts`: Datentypen, Validierung und URL-codierte WhatsApp-Nachrichten
-- `src/lib/fare.ts`: Berechnung mit Kilometerstufen, Wartezeit und Zuschlag
-- `tests`: automatisierte fachliche Tests
-- `docs`: Einrichtung, Quellen, offene Angaben und Prüfbericht
-
-## Funktionen
-
-Die Fahrtanfrage, der Assistent mit sechs Schritten und das Transferformular öffnen wahlweise einen `wa.me`-Link oder einen E-Mail-Entwurf mit den eingegebenen Daten. Es wird nichts automatisch an Insel Taxi gesendet, nichts als bestätigt dargestellt und keine Onlinezahlung verlangt. Der Nutzer muss die Nachricht selbst in WhatsApp senden. Alle Seiten bieten `tel:`-Links.
-
-Die Formulare speichern Eingaben nur im Browser-Arbeitsspeicher. Medizinische Diagnosen werden nicht abgefragt. Es gibt keine Registrierung und keine Buchungsdatenbank.
-
-## Google-Dienste – optional
-
-Vollständige Beschreibung: [Einrichtung](docs/EINRICHTUNG.md#google-maps-freiwillig-einrichten).
-
-| Variable | Wo sichtbar? | Freizuschaltende APIs |
-| --- | --- | --- |
-| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Öffentlich im Browser, zwingend einschränken | Maps JavaScript API, Places API (New) |
-| `GOOGLE_ROUTES_API_KEY` | Nur auf dem Server | Routes API |
-
-Ein Google-Cloud-Projekt mit aktivierter Abrechnung ist für diese APIs nötig. Google legt Preise und Kontingente fest. Es werden keine aktuellen Gebühren versprochen.
-
-Adressvorschläge nutzen `AutocompleteSuggestion` mit Session-Token. Die Google-Bibliothek lädt erst nach ausdrücklicher Freigabe in einem nativen Dialog. Diese gilt für den Seitenbesuch und kann im Footer widerrufen werden. Der Widerruf lädt die Seite neu und verwirft ungesendete Formulareingaben. Die API `/api/route` leitet ausschließlich Start und Ziel weiter. Keine Kartenansicht wird unnötig eingebettet.
-
-Ohne Keys: manuelle Adresseingabe, WhatsApp und Telefon funktionieren. Im Rechner kann eine Entfernung manuell eingegeben werden; eine Dauer wird dafür nicht erfunden. Ein fehlender oder fehlerhafter Google-Dienst führt zu einer verständlichen Meldung.
-
-## Tarifstatus
-
-Der Betreiber hat die Verordnung vom 25.09.2026 (gültig ab 01.10.2026) bereitgestellt. Die Werte sind in `src/config/tariff.ts` zentral hinterlegt: Grundpreis 5,50 €, werktags 06–22 Uhr 2,90 €/km für die ersten 3 km, danach 2,70 €/km; nachts sowie sonn-/feiertags 3,20 €/km, danach 2,90 €/km. Wartezeit 50 €/h, Großraumzuschlag unter den tariflichen Voraussetzungen 12 €. Die Originalverordnung wird unter `public/tarife/kreisverordnung-2026-10-01.pdf` ausgeliefert.
-
-Die Berechnung steht zurückhaltend in einem geschlossenen Abschnitt unter `/fahrpreis`, nicht im Hero oder als großer Startseiten-Rechner. Nutzer wählen das Tarifgebiet und die passende Tarifzeit ausdrücklich. Für Ziele außerhalb des Kreises oder unklare Zuordnung wird kein Betrag berechnet: laut § 1 Abs. 3 ist der Preis vor Fahrtbeginn für die gesamte Strecke zu vereinbaren; ohne Vereinbarung gilt der Kreistarif als vereinbart. Die UI zeigt nur Grundpreis und angegebene besetzte Strecke, keine Anfahrt, Wartezeit oder besondere Ausstattung. Der tatsächliche Gesamtpreis kann deutlich höher liegen. Tarifwechsel während einer Fahrt und genaue Taxameter-Schaltereignisse werden nicht simuliert.
-
-## E-Mail-Anfragen
-
-Alle Fahrtformulare bieten denselben validierten Inhalt wahlweise per WhatsApp oder als `mailto:`-Entwurf an. Für E-Mail ist ein eingerichtetes E-Mail-Programm nötig. Die Website versendet nichts automatisch und behauptet keine Zustellung oder Buchungsbestätigung. Eine Kopiervorlage mit Empfänger wird nach Öffnen des Entwurfs angezeigt. Es sind keine SMTP-Zugangsdaten erforderlich; es wird keine Server-Buchungsdatenbank angelegt.
-
-## Bereitstellung
-
-Für lokale Vorschau keine Veröffentlichung nötig. Dieses Projekt wurde im vorhandenen Workspace implementiert; weder die bestehende Domain noch der Webserver wurden geändert. Der Sites-Helfer und das Vinext-Starterpaket waren in dieser Ausführungsumgebung nicht installiert. Es wurde deshalb keine Sites-Veröffentlichung erstellt.
-
-Geeignet: ein Next.js-fähiger Hosting-Anbieter oder ein Node.js-Server. Ein reines PHP-/FTP-Webspace-Paket genügt für die Serverfunktion nicht. Alle Variablen mit `NEXT_PUBLIC_` werden beim Build fest eingebunden: nach Änderungen neu bauen.
-
-### Node.js-Server
+Website: `http://localhost:3000`.
 
 ```sh
-npm ci
+npm run lint
+npm run test
+npm run typecheck
 npm run build
-npm start
+npm run preview
 ```
 
-TLS und Reverse Proxy entsprechend dem gewählten Anbieter einrichten. Unter HTTPS wird HSTS über die Hosting-Konfiguration empfohlen; auf localhost wird kein HSTS erzwungen.
+`npm run build` exportiert alle Seiten nach `out/`. `npm run preview` stellt diesen fertigen Export auf Port 3000 bereit. Der Export kann auf einem beliebigen HTTPS-Hosting mit Unterstützung für Verzeichnis-Indexdateien bereitgestellt werden. Es ist kein Node-Server im Produktionsbetrieb nötig.
 
-### Sicherheit und Betrieb
+## Funktionen und Seiten
 
-- `.env.local` und Secrets sind ignoriert; keine realen Schlüssel liegen im Quellcode.
-- Sicherheitsheader in `next.config.ts`: CSP, Frame-Schutz, MIME-Schutz, Referrer- und Permissions-Policy.
-- Die CSP erlaubt die für Next.js erforderlichen Inline-Skripte. Sie ist kein vollständiger Ersatz für Eingabevalidierung; für einen strengeren Betrieb sind Nonces möglich.
-- Google-Routen: Origin-Prüfung, Größenlimit, Validierung, Timeout, kleine Antwort mit `no-store`, keine eigenen Adresslogs.
-- Das eingebaute Anfragebudget von 30 Routenberechnungen pro Minute gilt pro Serverprozess. In einem skalierten/serverlosen Betrieb ist zusätzlich ein zentraler Hosting-/WAF-Limiter erforderlich. Google-API-Quoten unbedingt begrenzen, Budgetwarnungen allein begrenzen keine Kosten.
-- API-Schlüssel separat und mit passenden API-/Domain-/Serverbeschränkungen erstellen.
-- Provider-Logs und Datenschutzvereinbarungen vor öffentlichem Betrieb prüfen.
+| Adresse | Inhalt |
+| --- | --- |
+| `/` | Startseite, schnelle Streckeneingabe, Leistungen und FAQ |
+| `/leistungen/` | Leistungen und Flotte einschließlich 9-Sitzer |
+| `/fahrt-anfragen/` | Dreistufige Fahrtanfrage mit Zusammenfassung |
+| `/krankenfahrten/` | Verständliche Hinweise und eigener Assistent |
+| `/flughafentransfer/` | Flughafenauswahl, Flugnummer, Gepäck und Rückfahrt |
+| `/fahrpreis/` | Nachvollziehbare Tarifübersicht und Original-PDF |
+| `/kontakt/` | Telefon, WhatsApp, E-Mail und Google-Bewertungslink |
+| `/impressum/`, `/datenschutz/` | Rechtstexte mit benannten offenen Betreiberangaben |
 
-## Original-Logo
+Anfragen öffnen eine korrekt codierte WhatsApp-Nachricht. Erst der Nutzer sendet sie in WhatsApp ab; die Website bestätigt keine Buchung. Alle Formulare lassen 1–9 Fahrgäste zu. Ein 9-Sitzer transportiert höchstens 8 Fahrgäste plus Fahrer; bei 9 Fahrgästen wird ausdrücklich die Aufteilung auf Fahrzeuge angefragt. Zeiten beziehen sich auf Europe/Berlin; Vergangenheits- und Sommerzeitfehler werden geprüft.
 
-Das vom Betreiber auf GitHub bereitgestellte Original liegt unter `public/logo-original.png`. Header, Footer und Favicon verwenden diese Datei direkt. Eine zusätzliche Freigabevariable ist nicht mehr erforderlich; alte Werte von `NEXT_PUBLIC_LOGO_READY` haben keine Wirkung. Next.js liefert das Bild in passender Größe optimiert aus. Die Originaldatei, Farben und Proportionen bleiben unverändert.
+Wie gewünscht wurde auf den Preisrechner verzichtet. Verbindliche Berechnungs- oder Flugüberwachungsfunktionen werden nicht vorgetäuscht.
 
-## Dokumentation
+## Zentrale Pflege
 
-- [Einrichtung für Einsteiger](docs/EINRICHTUNG.md)
-- [Quellen und Analyse](docs/QUELLEN.md)
-- [Noch offene Informationen](docs/OFFENE-PUNKTE.md)
-- [Prüfbericht](docs/PRUEFBERICHT.md)
+- `src/config/company.ts`: Rufnummern, WhatsApp, Anschrift, Inhaber, Flughäfen und Bewertungslink.
+- `src/config/tariff.ts`: Beträge aus der bereitgestellten Kreisverordnung ab 01.10.2026.
+- `src/lib/booking.ts`: Validierung und vollständige WhatsApp-Zusammenfassung.
+- `src/app/globals.css`: responsive Gestaltung und Fokuszustände.
+- `public/logo-original.png`: unveränderte Originaldatei. `logo.webp`, Favicon und Apple-Icon sind ausschließlich maßstabsgerechte Größenvarianten, ohne Freistellung oder Veränderung des Motivs.
+- `public/tarife/kreisverordnung-2026-10-01.pdf`: vom Betreiber bereitgestellte Primärquelle.
 
-## Browserprüfungen wiederholen
+## Umgebungsvariablen und Google
 
-Zuerst `npm run build` und `npm start` ausführen. In einem zweiten Terminal `npm run test:browser` starten. Das Skript verwendet unter Linux vorhandenes `/usr/bin/chromium`; andernfalls vorher `npx playwright install chromium` ausführen. Einen anderen Browserpfad können Sie über `CHROMIUM_PATH` angeben. Die Ergebnisse und Screenshots werden unter `work/` abgelegt. Es werden keine WhatsApp-Nachrichten versendet; der Browser fängt das Öffnen zu Testzwecken ab.
+Alle Funktionen laufen ohne API-Schlüssel. Die Browser-Variablen werden beim Build eingebunden; nach einer Änderung neu bauen.
+
+| Variable | Verwendung |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Produktionsdomain für Canonical, Open Graph und Sitemap |
+| `NEXT_PUBLIC_GOOGLE_MAPS_KEY` | Optionaler Browser-Schlüssel für Maps JavaScript API und Places API |
+| `NEXT_PUBLIC_GOOGLE_REVIEW_URL` | Optionaler Ersatz für den verifizierten Google-Profil-Link |
+| `NEXT_PUBLIC_LAUNCH_READY` | Erst nach Vervollständigung der Rechtstexte `true`: erlaubt Suchmaschinenindexierung |
+
+Google Places lädt erst, wenn ein Nutzer die Option ausdrücklich einschaltet und eine Adresse eingibt. Ein Fehlschlag lässt die manuelle Eingabe zu. Es gibt keinen eingebetteten Kartendienst, keine Routenberechnung und deshalb auch keinen Server-Key. Den Browser-Key in der Google Cloud auf die benötigten APIs und die eigenen HTTPS-Domains/Referrer beschränken, Quoten und Abrechnungslimits festlegen. Browser-Keys sind technisch öffentlich. Keine vertraulichen Schlüssel unter `NEXT_PUBLIC_` verwenden. Die Live-Anbindung konnte ohne bereitgestellten Schlüssel nicht geprüft werden.
+
+## Datenschutz und Hosting
+
+Schriften und Logo werden lokal ausgeliefert. Keine eigenen Cookies, Tracker, localStorage oder Datenbank. Formularangaben bleiben bis zur bewussten Weitergabe an WhatsApp im Browser. Die schnelle Startseitenanfrage übergibt ihre Felder über ein URL-Fragment, das nicht an den Webserver gesendet und nach dem Einlesen aus der Zieladresse entfernt wird. Ohne JavaScript bleibt die telefonische Anfrage nutzbar.
+
+`public/_headers` enthält Header für kompatibles statisches Hosting; `vercel.json` entsprechende Vercel-Konfiguration und Weiterleitungen alter `.html`-Adressen. Auf anderen Hosts müssen dieselben Header im Webserver eingerichtet werden. Die CSP erlaubt die Inline-Hydration von Next.js und optional Google Places; sie ersetzt keine Hostprüfung. HTTPS vorsehen. Bei GitHub Pages sind individuelle Sicherheitsheader nicht konfigurierbar.
+
+**Vor einem öffentlichen Domainwechsel:** Die konkret markierten Hosting-/Logdaten, Betreiberangaben und betrieblichen Datenschutzprozesse ergänzen. Die Texte sind nicht als rechtlich geprüft ausgegeben. Siehe [offene Punkte](docs/OFFENE-PUNKTE.md), [Quellen](docs/QUELLEN.md) und [Prüfbericht](docs/PRUEFBERICHT.md).
+
+## GitHub
+
+Zielrepository: `nafees15963-source/Insel-Taxi`, Standardbranch `main2`. Die bisherige Anwendung wurde vollständig ersetzt; das Original-Logo und die bereitgestellte Verordnung wurden erhalten. Git bewahrt die frühere Version in der Commit-Historie. Keine getrennte Leer-Version wird veröffentlicht.
+
+Eine zusätzliche private Sites-Vorschau wird über `.openai/hosting.json` zugeordnet. Diese Vorschau ersetzt keine DNS-Einrichtung der Produktionsdomain.

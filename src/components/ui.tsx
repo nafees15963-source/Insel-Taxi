@@ -1,130 +1,21 @@
 import Link from 'next/link';
-import { ArrowUpRight, MessageCircle, Phone, Mail, ArrowRight, Check } from 'lucide-react';
+import { ArrowUpRight, MessageCircle, Phone, type LucideIcon } from 'lucide-react';
 import { company } from '@/config/company';
-import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
+import { whatsappUrl } from '@/lib/contact';
 import type { ReactNode } from 'react';
-export function WhatsAppButton({
-  children = 'WhatsApp-Anfrage starten',
-  message = defaultMessage,
-  className = '',
-}: {
-  children?: ReactNode;
-  message?: string;
-  className?: string;
-}) {
-  return (
-    <a
-      className={`button button-primary ${className}`}
-      href={whatsappLink(message)}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <MessageCircle size={20} aria-hidden="true" />
-      {children}
-      <ArrowUpRight size={17} className="button-end" aria-hidden="true" />
-    </a>
-  );
+
+export function ContactActions({ message, className = '' }: { message?: string; className?: string }) {
+  return <div className={`contact-actions ${className}`}><a className="button button-primary" href={whatsappUrl(message)}><MessageCircle size={20} aria-hidden="true"/>Per WhatsApp anfragen<ArrowUpRight size={18} aria-hidden="true"/></a><a className="button button-secondary" href={`tel:${company.phone}`}><Phone size={19} aria-hidden="true"/>Jetzt anrufen</a></div>;
 }
-export function EmailButton({
-  children = 'Per E-Mail anfragen',
-  message = defaultMessage,
-  className = '',
-}: {
-  children?: ReactNode;
-  message?: string;
-  className?: string;
-}) {
-  return (
-    <a className={`button button-outline ${className}`} href={emailLink(message)}>
-      <Mail size={19} aria-hidden="true" />
-      {children}
-    </a>
-  );
+export function PageIntro({ eyebrow, title, description, children }: { eyebrow: string; title: string; description: string; children?: ReactNode }) {
+  return <section className="page-intro"><div className="container"><Link className="breadcrumb" href="/">Startseite <span aria-hidden="true">/</span></Link><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="intro-copy">{description}</p>{children}</div></section>;
 }
-export function CallButton({
-  children = 'Jetzt anrufen',
-  className = '',
-}: {
-  children?: ReactNode;
-  className?: string;
-}) {
-  return (
-    <a className={`button button-outline ${className}`} href={`tel:${company.phone}`}>
-      <Phone size={19} aria-hidden="true" />
-      {children}
-    </a>
-  );
+export function SectionHeading({ eyebrow, title, children }: { eyebrow?: string; title: string; children?: ReactNode }) {
+  return <div className="section-heading">{eyebrow && <p className="eyebrow">{eyebrow}</p>}<h2>{title}</h2>{children && <div className="section-description">{children}</div>}</div>;
 }
-export function TextLink({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <Link className="text-link" href={href}>
-      {children}
-      <ArrowRight size={17} aria-hidden="true" />
-    </Link>
-  );
+export function IconCard({ icon: Icon, title, description, href, linkLabel = 'Mehr erfahren' }: { icon: LucideIcon; title: string; description: string; href?: string; linkLabel?: string }) {
+  return <article className="card icon-card"><span className="icon-box"><Icon size={26} strokeWidth={1.6} aria-hidden="true"/></span><h3>{title}</h3><p>{description}</p>{href && <Link className="text-link" href={href}>{linkLabel}<ArrowUpRight size={18} aria-hidden="true"/></Link>}</article>;
 }
-export function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
-  return (
-    <p className={`eyebrow ${light ? 'eyebrow-light' : ''}`}>
-      <span />
-      {children}
-    </p>
-  );
-}
-export function PageIntro({
-  eyebrow,
-  title,
-  children,
-}: {
-  eyebrow: string;
-  title: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="page-intro">
-      <div className="container">
-        <Eyebrow>{eyebrow}</Eyebrow>
-        <h1>{title}</h1>
-        <div className="intro-copy">{children}</div>
-      </div>
-    </div>
-  );
-}
-export function CheckList({ items }: { items: string[] }) {
-  return (
-    <ul className="check-list">
-      {items.map((x) => (
-        <li key={x}>
-          <Check size={18} aria-hidden="true" />
-          {x}
-        </li>
-      ))}
-    </ul>
-  );
-}
-export function ContactStrip() {
-  return (
-    <section className="contact-strip">
-      <div className="container contact-strip-inner">
-        <div>
-          <Eyebrow light>Persönlich für Sie da</Eyebrow>
-          <h2>
-            Ihre nächste Fahrt?
-            <br />
-            Einfach kurz melden.
-          </h2>
-          <p>Per WhatsApp oder E-Mail anfragen – oder direkt mit uns sprechen.</p>
-        </div>
-        <div className="contact-strip-actions">
-          <WhatsAppButton />
-          <EmailButton />
-          <a className="contact-big-phone" href={`tel:${company.phone}`}>
-            <Phone size={24} aria-hidden="true" />
-            {company.phoneDisplay}
-          </a>
-          <span>Täglich, rund um die Uhr erreichbar</span>
-        </div>
-      </div>
-    </section>
-  );
+export function ContactBand() {
+  return <section className="contact-band"><div className="container contact-band-inner"><div><p className="eyebrow">WIR SIND FÜR SIE DA</p><h2>Ihr nächster Weg?<br/>Ein Anruf genügt.</h2><a className="contact-number" href={`tel:${company.phone}`}>{company.phoneDisplay}<ArrowUpRight aria-hidden="true"/></a><p>Täglich rund um die Uhr · Ratzeburg & Umgebung</p></div><div className="contact-band-action"><span className="contact-or">Lieber schreiben?</span><a className="button button-primary" href={whatsappUrl()}><MessageCircle aria-hidden="true" size={20}/>WhatsApp öffnen<ArrowUpRight aria-hidden="true" size={18}/></a><p>Ihre Fahrt ist erst nach unserer<br/>persönlichen Bestätigung gebucht.</p></div></div></section>;
 }

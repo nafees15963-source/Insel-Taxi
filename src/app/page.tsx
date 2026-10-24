@@ -1,237 +1,33 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowUpRight, HeartPulse, Plane, Phone, MessageCircle, ArrowRight } from 'lucide-react';
-import { company } from '@/config/company';
-import {
-  WhatsAppButton,
-  EmailButton,
-  CallButton,
-  Eyebrow,
-  TextLink,
-  ContactStrip,
-  CheckList,
-} from '@/components/ui';
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, Clock3, HeartHandshake, MapPin, MessageCircle, Phone, Plane, UsersRound, BriefcaseBusiness, MoveUpRight } from 'lucide-react';
+import { ContactActions, ContactBand, SectionHeading } from '@/components/ui';
 import { RideForm } from '@/components/ride-form';
-import { Benefits, FAQ, Reviews, RouteIllustration, Services } from '@/components/sections';
-export const metadata = { alternates: { canonical: '/' } };
+import { company } from '@/config/company';
+
+export const metadata: Metadata = { alternates: { canonical: '/' } };
+const services = [
+  { n: '01', icon: MapPin, title: 'Taxi & Alltagsfahrten', text: 'Zum Bahnhof, zum Einkauf oder wieder nach Hause. In Ratzeburg und darüber hinaus.', href: '/leistungen/' },
+  { n: '02', icon: HeartHandshake, title: 'Krankenfahrten', text: 'Zur Behandlung und zurück. Wir besprechen Ihre Fahrt und die nötigen Unterlagen mit Ihnen.', href: '/krankenfahrten/' },
+  { n: '03', icon: Plane, title: 'Flughafentransfer', text: 'Der Urlaub beginnt an Ihrer Haustür. Transfer nach Hamburg, Lübeck und zu weiteren Zielen auf Anfrage.', href: '/flughafentransfer/' },
+  { n: '04', icon: UsersRound, title: 'Großraum & Gruppen', text: 'Zusammen losfahren: Unsere Flotte umfasst auch 9-Sitzer für bis zu 8 Fahrgäste.', href: '/leistungen/#flotte' },
+];
+const faqs = [
+  ['Wie bestelle ich ein Taxi?', 'Rufen Sie uns unter 04541 802080 an oder schreiben Sie per WhatsApp. Über unsere Fahrtanfrage können Sie Abholort, Ziel und Termin vorbereiten. Ihre Fahrt ist erst gebucht, wenn wir sie persönlich bestätigt haben.'],
+  ['Kann ich ein Taxi vorbestellen?', 'Ja, fragen Sie Ihre Fahrt für den gewünschten Tag und die gewünschte Uhrzeit an. Wir stimmen den Termin und die Verfügbarkeit mit Ihnen ab. Für kurzfristige Fahrten rufen Sie am besten direkt an.'],
+  ['Wie viele Personen können mitfahren?', 'Unsere Kombis bieten Platz für bis zu 4 Fahrgäste, unsere 9-Sitzer für bis zu 8 Fahrgäste plus Fahrer. Für 9 Personen stimmen wir die Aufteilung auf Fahrzeuge persönlich ab. Bitte geben Sie auch Ihr Gepäck an.'],
+  ['Übernimmt die Krankenkasse meine Fahrt?', 'Das hängt unter anderem von Ihrer Verordnung und einer gegebenenfalls nötigen Genehmigung ab. Klären Sie die Kostenübernahme vor der Fahrt mit Ihrer Krankenkasse. Bei Fragen zu den Unterlagen können Sie uns gern anrufen.'],
+  ['Was kostet meine Fahrt?', 'Innerhalb des Kreises Herzogtum Lauenburg gilt die Taxitarifverordnung. Auf unserer Tarifseite finden Sie die geltenden Beträge und das Originaldokument. Bei Zielen außerhalb des Kreisgebiets besprechen wir den Preis vor Fahrtbeginn.'],
+];
 export default function Home() {
-  return (
-    <>
-      <section className="hero">
-        <div className="container hero-grid">
-          <div className="hero-copy">
-            <Eyebrow>Regional verwurzelt. Bundesweit unterwegs.</Eyebrow>
-            <h1>
-              Ihr Ziel. Unser Weg.
-              <br />
-              Bundesweit.
-              <br />
-              <span>
-                Regional. Überregional.
-                <br />
-                Persönlich.
-              </span>
-            </h1>
-            <p className="hero-description">
-              Ob lange Geschäftsreise, private Fahrt, Krankenfahrt oder Flughafentransfer: Wir
-              fahren regional und bundesweit. Fragen Sie Ihre Fahrt per WhatsApp, E-Mail oder
-              Telefon an.
-            </p>
-            <div className="hero-actions">
-              <WhatsAppButton />
-              <CallButton />
-              <EmailButton />
-            </div>
-            <a className="hero-phone" href={`tel:${company.phone}`}>
-              {company.phoneDisplay}
-              <span>Ein Anruf. Ein persönlicher Ansprechpartner.</span>
-            </a>
-            <div className="hero-local">
-              <span className="status-dot" />
-              Regional & bundesweit · Fahrten ins Ausland auf Anfrage.
-            </div>
-          </div>
-          <div className="hero-booking">
-            <div className="booking-card">
-              <div className="booking-tabs">
-                <span>
-                  <MessageCircle size={17} />
-                  Fahrt anfragen
-                </span>
-                <Link href="/fahrt-anfragen">
-                  <span>Fernfahrt planen</span>
-                  <ArrowUpRight size={16} />
-                </Link>
-              </div>
-              <div className="booking-card-body">
-                <div className="booking-card-title">
-                  <div>
-                    <p className="small-label">WENIGE ANGABEN. DIREKTER KONTAKT.</p>
-                    <h2>Wohin darf’s gehen?</h2>
-                  </div>
-                  <span className="card-title-icon">
-                    <ArrowUpRight size={22} />
-                  </span>
-                </div>
-                <RideForm compact />
-              </div>
-              <div className="booking-card-bottom">
-                <Phone size={15} />
-                Kurzfristige Fahrt?{' '}
-                <a href={`tel:${company.phone}`}>
-                  Am besten anrufen
-                  <ArrowRight size={14} />
-                </a>
-              </div>
-            </div>
-            <RouteIllustration />
-          </div>
-        </div>
-      </section>
-      <div className="container">
-        <Benefits />
-      </div>
-      <section className="section services-section">
-        <div className="container">
-          <div className="section-heading">
-            <div>
-              <Eyebrow>Für Ihren Alltag. Und alles darüber hinaus.</Eyebrow>
-              <h2>
-                Jeder Weg hat einen Anlass.
-                <br />
-                Wir haben die passende Fahrt.
-              </h2>
-            </div>
-            <TextLink href="/leistungen">Alle Leistungen entdecken</TextLink>
-          </div>
-          <Services />
-        </div>
-      </section>
-      <section className="section process-section">
-        <div className="container process-layout">
-          <div>
-            <Eyebrow>So einfach geht’s</Eyebrow>
-            <h2>
-              Wenig tippen.
-              <br />
-              Persönlich ankommen.
-            </h2>
-            <p>
-              Sie sagen uns, wohin es geht.
-              <br />
-              Den Rest besprechen wir direkt mit Ihnen.
-            </p>
-            <TextLink href="/fahrt-anfragen">Fahrt mit allen Details anfragen</TextLink>
-          </div>
-          <ol className="process-steps">
-            <li>
-              <span>01</span>
-              <div>
-                <h3>Ihre Fahrt eintragen</h3>
-                <p>Abholort, Ziel und Wunschzeit. Mehr braucht es für den Anfang nicht.</p>
-              </div>
-            </li>
-            <li>
-              <span>02</span>
-              <div>
-                <h3>WhatsApp oder E-Mail wählen</h3>
-                <p>
-                  Wir bereiten Ihre Nachricht vor. Sie prüfen die Angaben und senden sie per
-                  WhatsApp oder E-Mail selbst ab.
-                </p>
-              </div>
-            </li>
-            <li>
-              <span>03</span>
-              <div>
-                <h3>Persönliche Bestätigung erhalten</h3>
-                <p>
-                  Wir melden uns zur Verfügbarkeit. Erst mit unserer Bestätigung ist Ihre Fahrt
-                  gebucht.
-                </p>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </section>
-      <section className="section feature-section">
-        <div className="container feature-grid">
-          <article className="medical-feature">
-            <span className="feature-icon">
-              <HeartPulse size={27} strokeWidth={1.5} />
-            </span>
-            <Eyebrow>Krankenfahrten – regional & bundesweit</Eyebrow>
-            <h2>
-              Ein wichtiger Termin.
-              <br />
-              Ein vertrauter Kontakt.
-            </h2>
-            <p>
-              Ob Arzttermin, Klinik oder regelmäßige Behandlung: Fragen Sie Ihre Fahrt mit wenigen,
-              gut verständlichen Schritten an.
-            </p>
-            <CheckList
-              items={[
-                'Einfacher Assistent ohne medizinische Angaben',
-                'Hin- und Rückfahrt nach Absprache',
-                'Fragen zur Abrechnung persönlich klären',
-              ]}
-            />
-            <Link className="button button-navy" href="/krankenfahrten">
-              Krankenfahrt anfragen
-              <ArrowRight size={18} />
-            </Link>
-            <p className="field-note">
-              Eine Kostenübernahme muss vorab mit der Krankenkasse geklärt werden.
-            </p>
-          </article>
-          <article className="airport-feature">
-            <span className="feature-icon">
-              <Plane size={28} strokeWidth={1.5} />
-            </span>
-            <Eyebrow>Flughafentransfer</Eyebrow>
-            <h2>
-              Die Reise beginnt
-              <br />
-              an Ihrer Haustür.
-            </h2>
-            <p>
-              Nach Hamburg, Lübeck oder auf Anfrage zu einem weiteren Flughafen. Abholzeit, Gepäck
-              und Rückfahrt stimmen wir persönlich ab.
-            </p>
-            <div className="airport-tags">
-              <span>
-                Hamburg <b>HAM</b>
-              </span>
-              <span>
-                Lübeck <b>LBC</b>
-              </span>
-            </div>
-            <Link className="button button-outline" href="/flughafentransfer">
-              Transfer planen
-              <ArrowRight size={18} />
-            </Link>
-            <div className="airport-line" aria-hidden="true">
-              <span>Ratzeburg</span>
-              <i />
-              <Plane size={21} />
-              <i />
-              <span>Ihr Flughafen</span>
-            </div>
-          </article>
-        </div>
-      </section>
-      <section className="fare-secondary">
-        <div className="container">
-          <p>
-            Sie möchten Ihre Fahrt vorab planen? Für lange Strecken und individuelle Ziele stimmen
-            wir den Preis persönlich mit Ihnen ab.
-          </p>
-          <TextLink href="/fahrpreis">Tarifinformationen & optionale Streckenschätzung</TextLink>
-        </div>
-      </section>
-      <Reviews />
-      <FAQ />
-      <ContactStrip />
-    </>
-  );
+  return <>
+    <section className="hero"><div className="container hero-grid"><div className="hero-copy"><p className="eyebrow"><span className="status-dot"/>IHR TAXI IN RATZEBURG</p><h1>Hier zu Hause.<br/>Für Sie <span className="word-accent">unterwegs.<svg viewBox="0 0 600 20" aria-hidden="true" preserveAspectRatio="none"><path d="M4 14 Q295 0 596 10"/></svg></span></h1><p className="hero-description">Zum Alltag. Zum Abflug. Zu den Menschen, die Ihnen wichtig sind. Wir bringen Sie hin – persönlich und rund um die Uhr.</p><ContactActions/><p className="hero-contact"><Phone size={15} aria-hidden="true"/>Einfach anrufen: <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a></p></div><div className="hero-booking"><div className="booking-topline"><span>GUTE FAHRT FÄNGT HIER AN</span><MoveUpRight size={24} strokeWidth={1.5} aria-hidden="true"/></div><h2>Wohin soll’s gehen?</h2><p>Ihre Fahrt. In wenigen Schritten angefragt.</p><RideForm compact/><div className="booking-foot"><Clock3 size={17} aria-hidden="true"/><span>Dringend unterwegs? <a href={`tel:${company.phone}`}>Direkt anrufen</a></span></div><div className="route-decoration" aria-hidden="true"><span>RATZEBURG</span><svg viewBox="0 0 380 75"><path d="M5 45H80C140 45 95 10 160 10S200 65 260 65H370"/><circle cx="5" cy="45" r="4"/><circle cx="370" cy="65" r="5"/></svg><span>IHR ZIEL</span></div></div></div><div className="container hero-bottom"><span><Clock3 size={19} aria-hidden="true"/>24 Stunden für Sie erreichbar</span><span><MessageCircle size={19} aria-hidden="true"/>Persönlich per Telefon & WhatsApp</span><span><UsersRound size={19} aria-hidden="true"/>Auch mit Großraumtaxi</span><a href="#leistungen" aria-label="Unsere Leistungen entdecken"><ArrowDown size={20} aria-hidden="true"/></a></div></section>
+    <section id="leistungen" className="section services-section"><div className="container"><div className="heading-row"><SectionHeading eyebrow="FÜR DIE KLEINEN UND GROSSEN WEGE" title="Ihr Ziel. Unsere Fahrt."><p>Manchmal geht’s nur ein paar Straßen weiter.<br/>Manchmal beginnt eine große Reise.</p></SectionHeading><Link className="text-link" href="/leistungen/">Alle Leistungen<ArrowUpRight size={19} aria-hidden="true"/></Link></div><div className="service-grid">{services.map(({ n, icon: Icon, title, text, href }) => <Link className="service-item" href={href} key={n}><div className="service-top"><Icon size={29} strokeWidth={1.5} aria-hidden="true"/><span>{n}</span></div><h3>{title}</h3><p>{text}</p><span className="service-arrow"><ArrowUpRight size={22} aria-hidden="true"/><span className="sr-only">{title} entdecken</span></span></Link>)}</div><div className="service-extra"><BriefcaseBusiness size={20} aria-hidden="true"/><p>Auch für Geschäftskunden, Kinder- und Kurierfahrten sind wir unterwegs.</p><Link href="/leistungen/" aria-label="Weitere Leistungen ansehen"><ArrowRight size={21} aria-hidden="true"/></Link></div></div></section>
+    <section className="section section-muted how-section"><div className="container how-layout"><SectionHeading eyebrow="EINFACH ANKOMMEN" title="Wenige Angaben. Ein persönlicher Kontakt."><p>Kein Konto, keine App und kein kompliziertes Buchen. Sie sagen uns, wohin es geht. Den Rest besprechen wir gemeinsam.</p><Link className="text-link" href="/fahrt-anfragen/">Fahrt jetzt vorbereiten<ArrowUpRight size={19} aria-hidden="true"/></Link></SectionHeading><ol className="steps-list"><li><span>01</span><div><h3>Fahrt angeben</h3><p>Wo dürfen wir Sie abholen? Wohin und wann möchten Sie fahren?</p></div></li><li><span>02</span><div><h3>Kontakt aufnehmen</h3><p>Senden Sie Ihre Angaben per WhatsApp oder rufen Sie uns einfach an.</p></div></li><li><span>03</span><div><h3>Persönlich bestätigen lassen</h3><p>Wir stimmen Ihre Fahrt mit Ihnen ab. Erst unsere Bestätigung macht die Buchung verbindlich.</p></div></li></ol></div></section>
+    <section className="section"><div className="container"><div className="feature-grid"><article className="feature-panel medical-panel"><span className="feature-icon"><HeartHandshake size={38} strokeWidth={1.3} aria-hidden="true"/></span><p className="eyebrow">KRANKENFAHRTEN</p><h2>Ein guter Weg.<br/>Auch zum Arzt.</h2><p>Zur Praxis, zur Klinik oder zur regelmäßigen Behandlung: Wir helfen Ihnen, Ihre Fahrt in Ruhe zu planen.</p><ul className="check-list"><li><Check size={17} aria-hidden="true"/>Einfache telefonische Abstimmung</li><li><Check size={17} aria-hidden="true"/>Hin- und Rückfahrt anfragen</li><li><Check size={17} aria-hidden="true"/>Hinweise zu Verordnung & Genehmigung</li></ul><Link className="button button-navy" href="/krankenfahrten/">Mehr zu Krankenfahrten<ArrowUpRight size={18} aria-hidden="true"/></Link></article><article className="feature-panel airport-panel"><span className="feature-icon"><Plane size={38} strokeWidth={1.3} aria-hidden="true"/></span><p className="eyebrow">FLUGHAFENTRANSFER</p><h2>Von der Haustür<br/>Richtung Urlaub.</h2><p>Mit Koffern und Vorfreude unterwegs. Fragen Sie Ihren Transfer zum Flughafen frühzeitig an.</p><div className="airport-tags"><span>Hamburg <b>HAM</b></span><span>Lübeck <b>LBC</b></span></div><p className="small-copy">Weitere Flughäfen auf Anfrage. Auch für Ihre Rückreise.</p><Link className="button button-navy" href="/flughafentransfer/">Flughafentransfer planen<ArrowUpRight size={18} aria-hidden="true"/></Link></article></div></div></section>
+    <section className="fleet-section"><div className="container fleet-layout"><div className="fleet-number"><span className="eyebrow">MEHR PLATZ. MEHR GEMEINSAM.</span><div>9<span>SITZER</span></div><p>8 Fahrgäste + 1 Fahrer</p></div><div><p className="eyebrow">UNSERE FLOTTE</p><h2>Alle zusammen.<br/>Gut unterwegs.</h2><p>Allein, zu zweit oder mit der ganzen Gruppe: vom Kombi bis zum Großraumtaxi finden wir die passende Lösung für Ihre Fahrt.</p><p>Auch 9 Personen können eine Gruppenfahrt anfragen. Wir klären gemeinsam, wie viele Fahrzeuge und wie viel Platz für Gepäck benötigt werden.</p><Link className="text-link" href="/leistungen/#flotte">Flotte kennenlernen<ArrowUpRight size={19} aria-hidden="true"/></Link></div></div></section>
+    <section className="section"><div className="container faq-layout"><div><SectionHeading eyebrow="GUT ZU WISSEN" title="Noch eine Frage?"><p>Hier finden Sie die wichtigsten Antworten. Und wenn etwas offenbleibt: Wir sind nur einen Anruf entfernt.</p></SectionHeading><a className="text-link" href={`tel:${company.phone}`}><Phone size={18} aria-hidden="true"/>{company.phoneDisplay}</a></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<span className="faq-plus" aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
+    <section className="review-strip"><div className="container review-inner"><div><span className="eyebrow">IHRE ERFAHRUNG ZÄHLT</span><h2>Schon mit uns gefahren?</h2><p>Wir freuen uns über Ihre ehrliche Bewertung bei Google.</p></div><a className="button button-secondary" href={company.reviewUrl || '/kontakt/'} target={company.reviewUrl ? '_blank' : undefined} rel={company.reviewUrl ? 'noopener noreferrer' : undefined}>Bei Google bewerten<ArrowUpRight size={19} aria-hidden="true"/></a></div></section>
+    <ContactBand/>
+  </>;
 }

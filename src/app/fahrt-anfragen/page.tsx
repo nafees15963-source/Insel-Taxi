@@ -1,61 +1,31 @@
-import { Phone } from 'lucide-react';
-import Link from 'next/link';
-import { PageIntro, CheckList } from '@/components/ui';
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
+import { Phone, Check } from 'lucide-react';
+import { PageIntro } from '@/components/ui';
 import { RideForm } from '@/components/ride-form';
 import { company } from '@/config/company';
-export const metadata = {
-  title: 'Fahrt per WhatsApp oder E-Mail anfragen',
-  description:
-    'Taxi in Ratzeburg ohne Registrierung anfragen: Strecke, Datum und Uhrzeit eingeben und die vorbereitete Nachricht per WhatsApp oder E-Mail senden.',
-  alternates: { canonical: '/fahrt-anfragen' },
+
+export const metadata: Metadata = {
+  title: 'Taxi einfach anfragen',
+  description: 'Taxi in Ratzeburg per WhatsApp anfragen. Abholort, Ziel und Termin eintragen – ohne Registrierung. Auch Gruppen bis 9 Personen anfragen.',
+  alternates: { canonical: '/fahrt-anfragen/' },
 };
-export default function Page() {
-  return (
-    <>
-      <PageIntro eyebrow="Wenige Angaben. Direkter Kontakt." title="Wohin dürfen wir Sie bringen?">
-        <p>
-          Tragen Sie Ihre Fahrt ein. Wir bereiten eine übersichtliche Nachricht für WhatsApp oder
-          E-Mail vor, die Sie selbst absenden. Anschließend bestätigen wir persönlich die
-          Verfügbarkeit.
-        </p>
-      </PageIntro>
-      <section className="page-content">
-        <div className="container content-grid">
-          <div className="form-panel">
-            <h2>Ihre Fahrtanfrage</h2>
-            <p className="form-description">Felder mit * benötigen wir für Ihre Anfrage.</p>
-            <RideForm />
-          </div>
-          <aside>
-            <div className="aside-card">
-              <h2>Einfach anfragen.</h2>
-              <CheckList
-                items={[
-                  'Kein Benutzerkonto erforderlich',
-                  'Keine Onlinezahlung',
-                  'Keine Speicherung Ihrer Formulareingaben auf dieser Website',
-                  'Persönliche Bestätigung durch Insel Taxi',
-                ]}
-              />
-              <p>
-                Das Öffnen oder Absenden einer WhatsApp-Nachricht oder E-Mail ist noch keine
-                verbindliche Buchung.
-              </p>
-              <Link href="/datenschutz" className="text-link">
-                So gehen wir mit Ihren Daten um
-              </Link>
-            </div>
-            <div className="help-panel">
-              <h3>Sie möchten jetzt los?</h3>
-              <p>Für kurzfristige Fahrten und Rückfragen rufen Sie uns direkt an.</p>
-              <a href={`tel:${company.phone}`}>
-                <Phone size={20} />
-                {company.phoneDisplay}
-              </a>
-            </div>
-          </aside>
-        </div>
-      </section>
-    </>
-  );
+
+export default function RidePage() {
+  return <>
+    <PageIntro eyebrow="Ihre Fahrtanfrage" title="Wohin geht’s für Sie?" description="Ein paar Angaben genügen. Wir bereiten Ihre Nachricht vor – Sie senden sie per WhatsApp und wir stimmen die Fahrt mit Ihnen ab." />
+    <section className="section">
+      <div className="container split form-layout">
+        <aside className="prose">
+          <p className="eyebrow">Einfach persönlich</p><h2>Ihr direkter Draht zu uns.</h2>
+          <ul className="check-list"><li><Check size={18} aria-hidden="true" /> Keine Registrierung</li><li><Check size={18} aria-hidden="true" /> Keine Onlinezahlung</li><li><Check size={18} aria-hidden="true" /> Persönliche Bestätigung Ihrer Fahrt</li></ul>
+          <p>Wenn es schnell gehen muss oder Sie etwas besprechen möchten, rufen Sie uns einfach an.</p>
+          <a className="button button-secondary" href={`tel:${company.phone}`}><Phone size={19} aria-hidden="true" />{company.phoneDisplay}</a>
+          <p className="form-note">Täglich rund um die Uhr erreichbar. Eine WhatsApp-Anfrage ist noch keine bestätigte Buchung.</p>
+          <p>Für eine <a className="text-link" href="/krankenfahrten/#krankenfahrt-anfragen">Krankenfahrt</a> oder einen <a className="text-link" href="/flughafentransfer/#transfer-anfragen">Flughafentransfer</a> gibt es passende Anfrageformulare.</p>
+        </aside>
+        <Suspense fallback={<p>Die Fahrtanfrage wird geladen. Sie erreichen uns auch telefonisch unter {company.phoneDisplay}.</p>}><RideForm mode="taxi" /></Suspense>
+      </div>
+    </section>
+  </>;
 }
