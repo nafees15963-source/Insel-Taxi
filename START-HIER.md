@@ -1,6 +1,12 @@
 # Willkommen – hier beginnen
 
-Ihre neue Website ist im Projektordner umgesetzt.
+Stand: **Redesign vom 24. Oktober 2026** mit goldenen Wellen, „Ihr Ziel. Unser Weg.“, SUV bis 6 und Großraumtaxi bis 8 Fahrgästen sowie vereinfachten Formularen.
+
+- Website: https://insel-taxi.vercel.app/
+- Aktueller Quellcode: https://github.com/nafees15963-source/Insel-Taxi/tree/main2
+- ZIP-Datei: `Insel-Taxi-Quellcode.zip` enthält diesen aktuellen Projektstand.
+
+GitHub zeigt neben jeder Datei die letzte Änderung dieser einzelnen Datei. Ältere Datumsangaben bei unveränderten Konfigurationsdateien bedeuten nicht, dass die Website insgesamt alt ist.
 
 **Die vollständige Anleitung ohne vorausgesetzte Programmierkenntnisse finden Sie in `docs/EINRICHTUNG.md`.**
 
@@ -34,6 +40,6 @@ Weitere Dateien:
 - `docs/Vorschau-Desktop.png`: Desktopvorschau
 - `docs/Vorschau-Mobil.png`: Smartphonevorschau
 
-Die bisherige Website wurde nicht verändert. Eine öffentliche Veröffentlichung wurde nicht vorgenommen.
+Der Redesign-Code ist im Branch `main2` veröffentlicht. Das vorhandene Vercel-Projekt ist mit diesem Repository verbunden. Die eigene Hauptdomain und deren DNS-Einträge wurden nicht geändert.
 
 Original-Logo ist inzwischen unter `public/logo-original.png` vorhanden und ohne Aktivierungsschalter in Header, Footer und Favicon eingebunden.
