@@ -1,296 +1,552 @@
 'use client';
-
-import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
-import { ArrowLeft, ArrowRight, Check, MessageCircle, Phone } from 'lucide-react';
-import { airports, company } from '@/config/company';
-import { whatsappUrl } from '@/lib/contact';
-import { berlinClock, buildRideMessage, emptyRide, rideSummary, validateRide, type RideData, type RideErrors, type RideMode } from '@/lib/booking';
-import { AddressInput } from './address-input';
-
-type Props = { mode?: RideMode; compact?: boolean };
-
-function FieldError({ id, error }: { id: string; error?: string }) {
-  return error ? <p id={`${id}-error`} className="form-error">{error}</p> : null;
-}
-
-function CompactRideForm() {
-  const router = useRouter();
-  const [pickup, setPickup] = useState('');
-  const [destination, setDestination] = useState('');
-  function continueRide(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    // A URL fragment is not transmitted to the web server.
-    const fragment = new URLSearchParams({ pickup: pickup.trim(), destination: destination.trim() });
-    router.push(`/fahrt-anfragen/#${fragment.toString()}`);
-  }
-  return <form className="ride-form ride-form-compact" action="/fahrt-anfragen/" onSubmit={continueRide}>
-    <div className="field">
-      <label htmlFor="quick-pickup">Wo dürfen wir Sie abholen?</label>
-      <input id="quick-pickup" value={pickup} onChange={event => setPickup(event.target.value)}
-        placeholder="Straße, Hausnummer und Ort" autoComplete="off" maxLength={180} required />
-    </div>
-    <div className="field">
-      <label htmlFor="quick-destination">Wohin möchten Sie?</label>
-      <input id="quick-destination" value={destination} onChange={event => setDestination(event.target.value)}
-        placeholder="Zieladresse oder Wunschziel" autoComplete="off" maxLength={180} required />
-    </div>
-    <button type="submit" className="button button-primary">Fahrt vorbereiten <ArrowRight size={19} aria-hidden="true" /></button>
-    <p className="form-note">Ohne Registrierung. Bestätigung persönlich durch uns.</p>
-  </form>;
-}
-
-function FullRideForm({ mode }: { mode: RideMode }) {
-  const prefix = useId().replaceAll(':', '');
-  const [data, setData] = useState<RideData>({ ...emptyRide });
-  const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [errors, setErrors] = useState<RideErrors>({});
-  const [today, setToday] = useState('');
-  const [googleEnabled, setGoogleEnabled] = useState(false);
-  const [opened, setOpened] = useState(false);
-  const [staleError, setStaleError] = useState('');
-  const heading = useRef<HTMLHeadingElement>(null);
+import { useId, useRef, useState } from 'react';
+import {
+  MessageCircle,
+  Mail,
+  ArrowRight,
+  ArrowLeft,
+  Check,
+  Phone,
+  Users,
+  CalendarDays,
+  Clock3,
+  ShieldCheck,
+  ChevronDown,
+} from 'lucide-react';
+import { company, airports } from '@/config/company';
+import {
+  Booking,
+  bookingMessage,
+  emptyBooking,
+  Errors,
+  formatDate,
+  localDate,
+  RideMode,
+  validateBooking,
+  whatsappLink,
+  emailLink,
+} from '@/lib/booking';
+import { AddressField, MapsOption } from './maps';
+import Link from 'next/link';
+const medicalSteps = [
+  'Art der Fahrt',
+  'Ihre Strecke',
+  'Datum & Uhrzeit',
+  'Rückfahrt',
+  'Zusammenfassung',
+  'Anfrage senden',
+];
+export function RideForm({
+  mode = 'ride',
+  compact = false,
+}: {
+  mode?: RideMode;
+  compact?: boolean;
+}) {
+  const prefix = useId();
+  const [b, setB] = useState<Booking>({
+    ...emptyBooking,
+    destination: mode === 'airport' ? 'Flughafen Hamburg (HAM)' : '',
+  });
+  const [errors, setErrors] = useState<Errors>({}),
+    [step, setStep] = useState(0),
+    [extra, setExtra] = useState(false),
+    [ready, setReady] = useState(false),
+    [channel, setChannel] = useState<'whatsapp' | 'email'>('whatsapp');
   const form = useRef<HTMLFormElement>(null);
-  const mapsConfigured = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY);
-  const fieldId = (field: keyof RideData) => `${prefix}-${field}`;
-  const currentTitle = step === 1 ? 'Wohin geht Ihre Fahrt?' : step === 2 ? 'Wann dürfen wir Sie abholen?' : 'Ist alles richtig?';
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-    const pickup = (params.get('pickup') || '').slice(0, 180);
-    const destination = (params.get('destination') || '').slice(0, 180);
-    queueMicrotask(() => {
-      setToday(berlinClock().date);
-      if (mode === 'taxi' && (pickup || destination)) setData(previous => ({ ...previous, pickup, destination }));
-    });
-    if (params.has('pickup') || params.has('destination')) {
-      window.history.replaceState(window.history.state, '', `${window.location.pathname}${window.location.search}#anfrage`);
-    }
-  }, [mode]);
-
-  function change<K extends keyof RideData>(field: K, value: RideData[K]) {
-    setData(previous => ({ ...previous, [field]: value }));
-    setErrors(previous => ({ ...previous, [field]: undefined }));
-    setStaleError('');
-    setOpened(false);
+  const stepHeading = useRef<HTMLHeadingElement>(null);
+  function update<K extends keyof Booking>(k: K, v: Booking[K]) {
+    setB((old) => ({ ...old, [k]: v }));
+    setErrors((old) => ({ ...old, [k]: undefined }));
+    setReady(false);
   }
-
-  function changeAirport(value: string) {
-    setData(previous => {
-      const airportAddress = value.startsWith('Anderer') ? '' : value.replace(' – auf Anfrage', '');
-      return { ...previous, airport: value, [previous.direction === 'to' ? 'destination' : 'pickup']: airportAddress };
-    });
-    setErrors(previous => ({ ...previous, airport: undefined, pickup: undefined, destination: undefined }));
+  const id = (key: string) => `${prefix}-${key}`;
+  function focusFirst(e: Errors) {
+    setTimeout(() => form.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus(), 0);
+    setErrors(e);
   }
-
-  function changeDirection(value: 'to' | 'from') {
-    if (value === data.direction) return;
-    setData(previous => ({ ...previous, direction: value, pickup: previous.destination, destination: previous.pickup }));
-    setErrors({});
-  }
-
-  function focusErrors(nextErrors: RideErrors) {
-    const first = Object.keys(nextErrors)[0] as keyof RideData | undefined;
-    window.requestAnimationFrame(() => { if (first) document.getElementById(fieldId(first))?.focus(); });
-  }
-
-  function goToStep(next: 1 | 2 | 3) {
+  function changeStep(next: number) {
     setStep(next);
     setErrors({});
-    window.requestAnimationFrame(() => heading.current?.focus({ preventScroll: false }));
+    setTimeout(() => stepHeading.current?.focus(), 0);
   }
-
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (step === 3) return;
-    const nextErrors = validateRide(data, mode, step);
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length) { focusErrors(nextErrors); return; }
-    goToStep(step === 1 ? 2 : 3);
-  }
-
-  function verifyBeforeWhatsApp(event: React.MouseEvent<HTMLAnchorElement>) {
-    const nextErrors = validateRide(data, mode);
-    if (Object.keys(nextErrors).length) {
-      event.preventDefault();
-      const firstStep = nextErrors.pickup || nextErrors.destination || nextErrors.airport || nextErrors.medicalType;
-      setStep(firstStep ? 1 : 2);
-      setErrors(nextErrors);
-      setStaleError('Bitte prüfen Sie die markierten Angaben, bevor Sie WhatsApp öffnen.');
-      focusErrors(nextErrors);
+  function next() {
+    const all = validateBooking(b, mode);
+    const keys: (keyof Booking)[] =
+      step === 1
+        ? ['pickup', 'destination']
+        : step === 2
+          ? ['date', 'time', 'passengers']
+          : step === 3
+            ? ['returnDate', 'returnTime']
+            : [];
+    const local: Errors = {};
+    keys.forEach((k) => {
+      if (all[k]) local[k] = all[k];
+    });
+    if (Object.keys(local).length) {
+      focusFirst(local);
       return;
     }
-    setOpened(true);
+    changeStep(step + 1);
   }
-
-  function errorProps(field: keyof RideData) {
-    return { 'aria-invalid': Boolean(errors[field]), 'aria-describedby': errors[field] ? `${fieldId(field)}-error` : undefined };
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const all = validateBooking(b, mode);
+    if (Object.keys(all).length) {
+      if (mode === 'medical') {
+        changeStep(all.pickup || all.destination ? 1 : all.date || all.time ? 2 : 3);
+      }
+      focusFirst(all);
+      return;
+    }
+    const selected =
+      ((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null)?.value === 'email'
+        ? 'email'
+        : 'whatsapp';
+    setChannel(selected);
+    setReady(true);
+    const message = bookingMessage(b, mode);
+    window.open(
+      selected === 'email' ? emailLink(message) : whatsappLink(message),
+      selected === 'email' ? '_self' : '_blank',
+      'noopener,noreferrer',
+    );
   }
-
-  return <form ref={form} id="anfrage" className="ride-form ride-form-full" noValidate onSubmit={submit}>
-    <ol className="form-progress" aria-label="Schritte der Fahrtanfrage">
-      {['Fahrt', 'Details', 'Prüfen'].map((label, index) => <li key={label} className={step === index + 1 ? 'is-current' : step > index + 1 ? 'is-complete' : ''}
-        aria-current={step === index + 1 ? 'step' : undefined}>
-        <span className="step-number" aria-hidden="true">{step > index + 1 ? <Check size={15} /> : index + 1}</span>{label}
-      </li>)}
-    </ol>
-    <div className="form-step">
-      <p className="eyebrow">Schritt {step} von 3</p>
-      <h2 ref={heading} tabIndex={-1} className="form-title">{currentTitle}</h2>
-      {step < 3 && <p className="form-note">Felder mit * sind erforderlich.</p>}
-      {staleError && <p className="form-error" role="alert">{staleError}</p>}
-      {Object.keys(errors).some(key => Boolean(errors[key as keyof RideData])) && <p className="form-error" role="alert">Bitte prüfen Sie die markierten Felder.</p>}
-
-      {step === 1 && <>
-        {mode === 'medical' && <div className="field">
-          <label htmlFor={fieldId('medicalType')}>Art der Fahrt *</label>
-          <select id={fieldId('medicalType')} value={data.medicalType} onChange={event => change('medicalType', event.target.value)} required {...errorProps('medicalType')}>
-            <option value="">Bitte auswählen</option>
-            <option>Arzt- oder Behandlungstermin</option>
-            <option>Klinik – Aufnahme oder Entlassung</option>
-            <option>Regelmäßige Fahrten</option>
-            <option>Andere Fahrt – bitte persönlich abstimmen</option>
-          </select>
-          <FieldError id={fieldId('medicalType')} error={errors.medicalType} />
-          <p className="form-note">Bitte nennen Sie keine Diagnose und senden Sie keine medizinischen Unterlagen über dieses Formular.</p>
-        </div>}
-
-        {mode === 'airport' && <div className="field-grid">
-          <div className="field">
-            <label htmlFor={fieldId('airport')}>Flughafen *</label>
-            <select id={fieldId('airport')} value={data.airport} onChange={event => changeAirport(event.target.value)} required {...errorProps('airport')}>
-              <option value="">Bitte auswählen</option>
-              {airports.map(airport => <option key={airport}>{airport}</option>)}
-            </select>
-            <FieldError id={fieldId('airport')} error={errors.airport} />
-          </div>
-          <div className="field">
-            <label htmlFor={fieldId('direction')}>Richtung *</label>
-            <select id={fieldId('direction')} value={data.direction} onChange={event => changeDirection(event.target.value as 'to' | 'from')}>
-              <option value="to">Zum Flughafen</option><option value="from">Vom Flughafen</option>
-            </select>
-          </div>
-        </div>}
-
-        {mapsConfigured && <div className="maps-consent">
-          <label className="checkbox-label">
-            <input type="checkbox" checked={googleEnabled} onChange={event => setGoogleEnabled(event.target.checked)} />
-            <span>Google-Adressvorschläge für diese Anfrage einschalten</span>
-          </label>
-          <p className="form-note">Optional: Mit dem Einschalten stimmen Sie zu, dass Ihre eingegebenen Adressen und Ihre IP-Adresse an Google übermittelt werden. Die Eingabe von Hand funktioniert immer. Das Ausschalten beendet weitere Vorschläge; bereits übermittelte Daten bleiben bei Google. <a href="/datenschutz/#google">Datenschutzhinweise</a></p>
-        </div>}
-
-        <AddressInput id={fieldId('pickup')} label="Abholort" value={data.pickup} onChange={value => change('pickup', value)}
-          error={errors.pickup} placeholder="Straße, Hausnummer und Ort" suggestionsEnabled={googleEnabled} />
-        <AddressInput id={fieldId('destination')} label="Zielort" value={data.destination} onChange={value => change('destination', value)}
-          error={errors.destination} placeholder="Adresse, Bahnhof, Praxis oder Flughafen" suggestionsEnabled={googleEnabled} />
-        <p className="form-note">Bitte geben Sie auch den Ort an, damit wir die richtige Adresse finden.</p>
-      </>}
-
-      {step === 2 && <>
-        <div className="field-grid">
-          <div className="field">
-            <label htmlFor={fieldId('date')}>Datum *</label>
-            <input id={fieldId('date')} type="date" value={data.date} min={today || undefined} onChange={event => change('date', event.target.value)} required {...errorProps('date')} />
-            <FieldError id={fieldId('date')} error={errors.date} />
-          </div>
-          <div className="field">
-            <label htmlFor={fieldId('time')}>Abholzeit *</label>
-            <input id={fieldId('time')} type="time" value={data.time} onChange={event => change('time', event.target.value)} required {...errorProps('time')} />
-            <FieldError id={fieldId('time')} error={errors.time} />
-          </div>
+  function field(
+    key: keyof Booking,
+    label: string,
+    type = 'text',
+    optional = false,
+    icon?: React.ReactNode,
+  ) {
+    return (
+      <div className="field">
+        <label htmlFor={id(key)}>
+          {label}
+          {optional ? (
+            <span className="optional"> optional</span>
+          ) : (
+            <span aria-hidden="true"> *</span>
+          )}
+        </label>
+        <div className={icon ? 'input-with-icon' : ''}>
+          {icon}
+          <input
+            id={id(key)}
+            name={key}
+            type={type}
+            value={b[key]}
+            onChange={(e) => update(key, e.target.value)}
+            min={type === 'date' ? localDate() : type === 'number' ? 0 : undefined}
+            max={type === 'number' ? 20 : undefined}
+            maxLength={type === 'text' ? 100 : undefined}
+            required={!optional}
+            aria-invalid={!!errors[key]}
+            aria-describedby={errors[key] ? id(`${key}-error`) : undefined}
+          />
         </div>
-        <p className="form-note">Alle Zeiten sind Ortszeit in Ratzeburg. Sie brauchen sofort ein Taxi? <a href={`tel:${company.phone}`}>Bitte rufen Sie an.</a></p>
-        <div className="field-grid">
-          <div className="field">
-            <label htmlFor={fieldId('passengers')}>Fahrgäste *</label>
-            <select id={fieldId('passengers')} value={data.passengers} onChange={event => change('passengers', event.target.value)} required {...errorProps('passengers')}>
-              {Array.from({ length: 9 }, (_, i) => i + 1).map(count => <option key={count} value={count}>{count === 1 ? '1 Person' : count === 9 ? '9 Personen – Gruppenanfrage' : `${count} Personen`}</option>)}
-            </select>
-            <FieldError id={fieldId('passengers')} error={errors.passengers} />
+        {errors[key] && (
+          <p id={id(`${key}-error`)} className="field-error">
+            {errors[key]}
+          </p>
+        )}
+      </div>
+    );
+  }
+  const addresses = (
+    <>
+      <AddressField
+        id={id('pickup')}
+        label="Wo dürfen wir Sie abholen?"
+        value={b.pickup}
+        onChange={(v) => update('pickup', v)}
+        error={errors.pickup}
+        placeholder="Abholadresse eingeben"
+      />
+      <AddressField
+        id={id('destination')}
+        label="Wohin möchten Sie fahren?"
+        value={b.destination}
+        onChange={(v) => update('destination', v)}
+        error={errors.destination}
+        placeholder="Zieladresse eingeben"
+      />
+    </>
+  );
+  const schedule = (
+    <div className="form-grid">
+      {field('date', 'Datum', 'date', false, <CalendarDays size={17} aria-hidden="true" />)}
+      {field('time', 'Uhrzeit', 'time', false, <Clock3 size={17} aria-hidden="true" />)}
+    </div>
+  );
+  const passengers = (
+    <div className="field">
+      <label htmlFor={id('passengers')}>
+        Fahrgäste <span aria-hidden="true">*</span>
+      </label>
+      <div className="input-with-icon">
+        <Users size={17} aria-hidden="true" />
+        <select
+          id={id('passengers')}
+          value={b.passengers}
+          onChange={(e) => update('passengers', e.target.value)}
+          aria-invalid={!!errors.passengers}
+        >
+          {[1, 2, 3, 4].map((n) => (
+            <option key={n} value={n}>
+              {n} {n === 1 ? 'Person' : 'Personen'}
+            </option>
+          ))}
+        </select>
+      </div>
+      {errors.passengers && <p className="field-error">{errors.passengers}</p>}
+    </div>
+  );
+  const returns = (
+    <>
+      <div className="field">
+        <label htmlFor={id('returnTrip')}>Möchten Sie auch eine Rückfahrt anfragen?</label>
+        <select
+          id={id('returnTrip')}
+          value={b.returnTrip}
+          onChange={(e) => update('returnTrip', e.target.value)}
+        >
+          <option>Nein</option>
+          <option>Ja</option>
+        </select>
+      </div>
+      {b.returnTrip === 'Ja' && (
+        <>
+          <div className="form-grid">
+            {field('returnDate', 'Datum der Rückfahrt', 'date')}
+            {field('returnTime', 'Uhrzeit der Rückfahrt', 'time', true)}
           </div>
-          <div className="field">
-            <label htmlFor={fieldId('luggage')}>Gepäckstücke <span>(optional)</span></label>
-            <input id={fieldId('luggage')} type="number" min="0" max="20" inputMode="numeric" value={data.luggage} placeholder="z. B. 2" onChange={event => change('luggage', event.target.value)} {...errorProps('luggage')} />
-            <FieldError id={fieldId('luggage')} error={errors.luggage} />
+          <p className="field-note">
+            Ist die Uhrzeit noch offen? Wir stimmen sie persönlich mit Ihnen ab.
+          </p>
+        </>
+      )}
+    </>
+  );
+  const extras = (
+    <>
+      <div className="form-grid">
+        {field('luggage', 'Gepäckstücke', 'number', true)}
+        {field('name', 'Ihr Name', 'text', true)}
+      </div>
+      <div className="field">
+        <label htmlFor={id('wishes')}>
+          Besondere Wünsche <span className="optional">optional</span>
+        </label>
+        <textarea
+          id={id('wishes')}
+          value={b.wishes}
+          onChange={(e) => update('wishes', e.target.value)}
+          maxLength={800}
+          rows={3}
+          placeholder={
+            mode === 'medical'
+              ? 'Zum Beispiel: Rollator oder Hilfe beim Einsteigen. Bitte keine Diagnosen angeben.'
+              : 'Zum Beispiel: Kindersitz oder Rollator'
+          }
+        />
+      </div>
+    </>
+  );
+  const summary = (
+    <div className="booking-summary">
+      <h3>Ihre Fahrt auf einen Blick</h3>
+      <dl>
+        {Object.entries({
+          Abholort: b.pickup,
+          Zielort: b.destination,
+          Datum: formatDate(b.date),
+          Uhrzeit: b.time,
+          Fahrgäste: b.passengers,
+          ...(mode === 'medical' ? { 'Art der Fahrt': b.rideType } : {}),
+          ...(b.returnTrip === 'Ja'
+            ? {
+                Rückfahrt: `${formatDate(b.returnDate)} ${b.returnTime || 'Uhrzeit nach Absprache'}`,
+              }
+            : {}),
+        }).map(([label, value]) => (
+          <div key={label}>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
           </div>
-        </div>
-        {Number(data.passengers) > 4 && <p className="form-info">{data.passengers === '9' ? '9 Fahrgäste: Wir stimmen die Aufteilung auf passende Fahrzeuge mit Ihnen ab.' : 'Für Ihre Gruppe fragen wir ein passendes Großraumtaxi an.'} Unsere 9-Sitzer bieten bis zu 8 Fahrgastplätze plus Fahrer. Verfügbarkeit und Gepäck stimmen wir persönlich ab.</p>}
-
-        {mode === 'airport' && <div className="field">
-          <label htmlFor={fieldId('flightNumber')}>Flugnummer <span>(optional)</span></label>
-          <input id={fieldId('flightNumber')} value={data.flightNumber} maxLength={20} placeholder="z. B. LH 123" onChange={event => change('flightNumber', event.target.value)} {...errorProps('flightNumber')} />
-          <FieldError id={fieldId('flightNumber')} error={errors.flightNumber} />
-          <p className="form-note">Die Flugnummer hilft bei der Abstimmung. Bitte melden Sie Änderungen Ihrer Abholzeit direkt bei uns.</p>
-        </div>}
-
-        <div className="return-option">
-          <label className="checkbox-label" htmlFor={fieldId('returnRequested')}>
-            <input id={fieldId('returnRequested')} type="checkbox" checked={data.returnRequested} onChange={event => change('returnRequested', event.target.checked)} />
-            <span>Ich möchte auch eine Rückfahrt anfragen.</span>
-          </label>
-          {data.returnRequested && <div className="return-details">
-            <p className="form-note">Rückfahrtzeit noch unklar? Lassen Sie Datum und Uhrzeit frei. Wir stimmen sie persönlich mit Ihnen ab.</p>
-            <div className="field-grid">
-              <div className="field">
-                <label htmlFor={fieldId('returnDate')}>Rückfahrtdatum <span>(optional)</span></label>
-                <input id={fieldId('returnDate')} type="date" min={data.date || today || undefined} value={data.returnDate} onChange={event => change('returnDate', event.target.value)} {...errorProps('returnDate')} />
-                <FieldError id={fieldId('returnDate')} error={errors.returnDate} />
-              </div>
-              <div className="field">
-                <label htmlFor={fieldId('returnTime')}>Rückfahrtzeit <span>(optional)</span></label>
-                <input id={fieldId('returnTime')} type="time" value={data.returnTime} onChange={event => change('returnTime', event.target.value)} {...errorProps('returnTime')} />
-                <FieldError id={fieldId('returnTime')} error={errors.returnTime} />
-              </div>
+        ))}
+      </dl>
+    </div>
+  );
+  return (
+    <form
+      ref={form}
+      className={`ride-form ${compact ? 'compact-form' : ''}`}
+      onSubmit={submit}
+      noValidate
+    >
+      {mode === 'medical' && (
+        <>
+          <ol className="step-indicator" aria-label="Fortschritt">
+            {medicalSteps.map((s, i) => (
+              <li
+                key={s}
+                aria-current={step === i ? 'step' : undefined}
+                className={step >= i ? 'reached' : ''}
+              >
+                <span>{step > i ? <Check size={14} /> : i + 1}</span>
+                <small>{s}</small>
+              </li>
+            ))}
+          </ol>
+          <p className="step-count">Schritt {step + 1} von 6</p>
+          <h3 className="step-title" tabIndex={-1} ref={stepHeading}>
+            {medicalSteps[step]}
+          </h3>
+        </>
+      )}
+      {mode === 'medical' && step === 0 && (
+        <>
+          <p>
+            Wählen Sie, was am besten zu Ihrer Fahrt passt. Medizinische Angaben benötigen wir
+            nicht.
+          </p>
+          <div className="radio-cards">
+            {[
+              'Arzt- oder Kliniktermin',
+              'Regelmäßige Behandlungsfahrt',
+              'Reha oder Entlassung',
+              'Andere Fahrt / Rückfrage',
+            ].map((v) => (
+              <label key={v}>
+                <input
+                  type="radio"
+                  name={id('rideType')}
+                  value={v}
+                  checked={b.rideType === v}
+                  onChange={() => update('rideType', v)}
+                />
+                <span>{v}</span>
+              </label>
+            ))}
+          </div>
+        </>
+      )}
+      {mode === 'airport' && (
+        <>
+          <div className="form-grid">
+            <div className="field">
+              <label htmlFor={id('airport')}>Flughafen *</label>
+              <select
+                id={id('airport')}
+                value={b.airport}
+                onChange={(e) => {
+                  update('airport', e.target.value);
+                  update(
+                    b.direction === 'Zum Flughafen' ? 'destination' : 'pickup',
+                    e.target.value,
+                  );
+                }}
+              >
+                {airports.map((a) => (
+                  <option key={a}>{a}</option>
+                ))}
+              </select>
             </div>
             <div className="field">
-              <label htmlFor={fieldId('returnDetails')}>Hinweise zur Rückfahrt <span>(optional)</span></label>
-              <input id={fieldId('returnDetails')} value={data.returnDetails} maxLength={300} placeholder="z. B. anderer Abholort" onChange={event => change('returnDetails', event.target.value)} {...errorProps('returnDetails')} />
-              <FieldError id={fieldId('returnDetails')} error={errors.returnDetails} />
+              <label htmlFor={id('direction')}>Richtung *</label>
+              <select
+                id={id('direction')}
+                value={b.direction}
+                onChange={(e) => {
+                  const direction = e.target.value;
+                  setB((old) => ({
+                    ...old,
+                    direction,
+                    pickup: direction === 'Vom Flughafen' ? old.airport : '',
+                    destination: direction === 'Zum Flughafen' ? old.airport : '',
+                  }));
+                  setReady(false);
+                }}
+              >
+                <option>Zum Flughafen</option>
+                <option>Vom Flughafen</option>
+              </select>
             </div>
-          </div>}
+          </div>
+        </>
+      )}
+      {(mode !== 'medical' || step === 1) && (
+        <>
+          <MapsOption />
+          {addresses}
+        </>
+      )}
+      {(mode !== 'medical' || step === 2) && (
+        <>
+          {schedule}
+          {compact ? (
+            <button
+              type="button"
+              className="form-expand"
+              aria-expanded={extra}
+              onClick={() => setExtra(!extra)}
+            >
+              <Users size={15} /> {b.passengers} {b.passengers === '1' ? 'Person' : 'Personen'} ·
+              Gepäck & weitere Angaben
+              <ChevronDown size={15} />
+            </button>
+          ) : (
+            passengers
+          )}
+        </>
+      )}
+      {mode === 'medical' && step === 3 && returns}
+      {mode === 'medical' && step === 4 && (
+        <>
+          {summary}
+          {extras}
+        </>
+      )}
+      {mode === 'medical' && step === 5 && (
+        <>
+          {summary}
+          <p className="notice">
+            Wir prüfen Ihre Anfrage persönlich. Eine Kostenübernahme muss mit Ihrer Krankenkasse
+            geklärt sein.
+          </p>
+        </>
+      )}
+      {mode === 'ride' && (!compact || extra) && (
+        <>
+          {compact && passengers}
+          {extras}
+        </>
+      )}
+      {mode === 'airport' && (
+        <>
+          <div className="form-grid">
+            {field('luggage', 'Gepäckstücke', 'number', true)}
+            {field('flight', 'Flugnummer', 'text', true)}
+          </div>
+          {returns}
+          {field('name', 'Ihr Name', 'text', true)}
+          <div className="field">
+            <label htmlFor={id('wishes')}>
+              Besondere Wünsche <span className="optional">optional</span>
+            </label>
+            <textarea
+              id={id('wishes')}
+              value={b.wishes}
+              onChange={(e) => update('wishes', e.target.value)}
+              maxLength={800}
+              rows={3}
+            />
+          </div>
+        </>
+      )}
+      {Object.values(errors).filter(Boolean).length > 0 && (
+        <p role="alert" className="form-error">
+          Bitte prüfen Sie die markierten Angaben.
+        </p>
+      )}
+      {mode === 'medical' && step < 5 ? (
+        <div className="step-buttons">
+          {step > 0 && (
+            <button
+              type="button"
+              className="button button-outline"
+              onClick={() => changeStep(step - 1)}
+            >
+              <ArrowLeft size={17} />
+              Zurück
+            </button>
+          )}
+          <button type="button" className="button button-primary" onClick={next}>
+            Weiter
+            <ArrowRight size={17} />
+          </button>
         </div>
-
-        <div className="field">
-          <label htmlFor={fieldId('name')}>Ihr Name <span>(optional)</span></label>
-          <input id={fieldId('name')} autoComplete="name" value={data.name} maxLength={80} onChange={event => change('name', event.target.value)} {...errorProps('name')} />
-          <FieldError id={fieldId('name')} error={errors.name} />
-        </div>
-        <div className="field">
-          <label htmlFor={fieldId('wishes')}>Besondere Wünsche <span>(optional)</span></label>
-          <textarea id={fieldId('wishes')} rows={3} value={data.wishes} maxLength={500}
-            placeholder="Zum Beispiel Kindersitz oder Platz für einen Rollator. Bitte keine Diagnosen oder medizinischen Unterlagen."
-            onChange={event => change('wishes', event.target.value)} {...errorProps('wishes')} />
-          <FieldError id={fieldId('wishes')} error={errors.wishes} />
-        </div>
-      </>}
-
-      {step === 3 && <>
-        <p>Bitte prüfen Sie Ihre Angaben. Danach können Sie die vorbereitete Nachricht in WhatsApp öffnen und dort absenden.</p>
-        <dl className="ride-summary">
-          {rideSummary(data, mode).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
-        </dl>
-        {mode === 'medical' && <p className="form-info">Eine Kostenübernahme durch die Krankenkasse ist damit nicht bestätigt. Verordnung und gegebenenfalls Genehmigung klären Sie bitte vor der Fahrt.</p>}
-        <p className="form-note">Mit „In WhatsApp öffnen“ werden diese Angaben an WhatsApp übergeben. Alternativ können Sie uns anrufen. <a href="/datenschutz/#whatsapp">Mehr zum Datenschutz</a>.</p>
-        <a className="button button-whatsapp" href={whatsappUrl(buildRideMessage(data, mode))} target="_blank" rel="noopener noreferrer" onClick={verifyBeforeWhatsApp}>
-          <MessageCircle size={20} aria-hidden="true" /> In WhatsApp öffnen
-        </a>
-        <p className="form-note"><strong>Dies ist eine Anfrage.</strong> Ihre Fahrt ist erst nach unserer persönlichen Bestätigung vereinbart.</p>
-        {opened && <p className="form-info" role="status">Der WhatsApp-Link wurde geöffnet. Bitte senden Sie die Nachricht dort ab und warten Sie auf unsere Bestätigung. Falls WhatsApp nicht startet, rufen Sie uns bitte an.</p>}
-      </>}
-
-      <div className="form-actions">
-        {step > 1 && <button type="button" className="button button-secondary" onClick={() => goToStep(step === 3 ? 2 : 1)}><ArrowLeft size={18} aria-hidden="true" /> Zurück</button>}
-        {step < 3 && <button type="submit" className="button button-primary">{step === 1 ? 'Weiter zu den Details' : 'Anfrage prüfen'} <ArrowRight size={18} aria-hidden="true" /></button>}
-      </div>
-      <div className="form-phone">
-        <span>Lieber persönlich?</span>
-        <a className="button button-secondary" href={`tel:${company.phone}`}><Phone size={18} aria-hidden="true" /> {company.phoneDisplay}</a>
-      </div>
-    </div>
-  </form>;
-}
-
-export function RideForm({ mode = 'taxi', compact = false }: Props) {
-  return compact ? <CompactRideForm /> : <FullRideForm mode={mode} />;
+      ) : (
+        <>
+          <button
+            className="button button-primary submit-button"
+            type="submit"
+            name="channel"
+            value="whatsapp"
+          >
+            <MessageCircle size={20} />
+            Per WhatsApp anfragen
+            <ArrowRight size={18} className="button-end" />
+          </button>
+          <button
+            className="button button-outline submit-button"
+            type="submit"
+            name="channel"
+            value="email"
+          >
+            <Mail size={19} />
+            Per E-Mail anfragen
+          </button>
+          {ready && (
+            <div className="notice" role="status">
+              {channel === 'email'
+                ? 'Ihr E-Mail-Entwurf wurde vorbereitet. Bitte senden Sie ihn in Ihrem E-Mail-Programm selbst ab. Falls sich kein Programm öffnet, können Sie die Nachricht unten kopieren.'
+                : 'Ihre Nachricht wurde vorbereitet. Bitte senden Sie sie in WhatsApp selbst ab.'}{' '}
+              Ihre Fahrt ist noch nicht bestätigt.{' '}
+              <a
+                href={
+                  channel === 'email'
+                    ? emailLink(bookingMessage(b, mode))
+                    : whatsappLink(bookingMessage(b, mode))
+                }
+                target={channel === 'email' ? undefined : '_blank'}
+                rel="noopener noreferrer"
+              >
+                {channel === 'email' ? 'E-Mail-Entwurf erneut öffnen' : 'WhatsApp erneut öffnen'}
+              </a>
+              {channel === 'email' && (
+                <div className="email-draft">
+                  <p>Empfänger: {company.email}</p>
+                  <label htmlFor={id('email-draft')}>Ihre Nachricht zum Kopieren</label>
+                  <textarea
+                    id={id('email-draft')}
+                    readOnly
+                    rows={9}
+                    value={bookingMessage(b, mode)}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+          <p className="form-disclaimer">
+            <ShieldCheck size={14} aria-hidden="true" />
+            <span>
+              Unverbindliche Anfrage. Buchung erst nach Bestätigung.
+              <br />
+              {!compact && (
+                <>
+                  Ihre Daten bleiben bis zum Öffnen von WhatsApp oder Ihres E-Mail-Programms im
+                  Browser.{' '}
+                </>
+              )}
+              <Link href="/datenschutz">Datenschutzhinweise</Link>
+            </span>
+          </p>
+          {!compact && (
+            <a className="button button-outline submit-button" href={`tel:${company.phone}`}>
+              <Phone size={18} />
+              Lieber telefonisch: {company.phoneDisplay}
+            </a>
+          )}
+          {mode === 'medical' && (
+            <button type="button" className="text-button" onClick={() => changeStep(4)}>
+              Angaben bearbeiten
+            </button>
+          )}
+        </>
+      )}
+    </form>
+  );
 }

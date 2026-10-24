@@ -1,53 +1,76 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import { FileDown, ArrowUpRight } from 'lucide-react';
-import { ContactBand, PageIntro, SectionHeading } from '@/components/ui';
-import { euros, tariff } from '@/config/tariff';
-
-export const metadata: Metadata = {
-  title: 'Taxitarife ab 1. Oktober 2026',
-  description: 'Die Taxitarife für Ratzeburg im Kreis Herzogtum Lauenburg: Grundpreis, Kilometerpreise, Wartezeit und Großraumzuschlag. Mit Original-Verordnung als PDF.',
-  alternates: { canonical: '/fahrpreis/' },
+import { PageIntro, CallButton, WhatsAppButton, EmailButton } from '@/components/ui';
+import { FareCalculator } from '@/components/fare-calculator';
+import { tariff } from '@/config/tariff';
+export const metadata = {
+  title: 'Tarife & Fahrpreise',
+  description:
+    'Fahrpreise für regionale und bundesweite Fahrten persönlich abstimmen. Aktueller Kreistarif und optionale unverbindliche Streckenschätzung.',
+  alternates: { canonical: '/fahrpreis' },
 };
-
-export default function FarePage() {
-  return <>
-    <PageIntro eyebrow="Klar geregelt" title="Gute Fahrt. Klare Preise." description="Für Taxifahrten innerhalb des Kreises Herzogtum Lauenburg gilt der amtliche Taxitarif. Hier finden Sie die wichtigsten Beträge – transparent und ohne komplizierten Rechner.">
-      <a className="button button-secondary" href={tariff.source} target="_blank" rel="noopener noreferrer"><FileDown size={19} aria-hidden="true" /> Tarifverordnung öffnen <span className="sr-only">(PDF, neuer Tab)</span></a>
-    </PageIntro>
-    <section className="section">
-      <div className="container">
-        <SectionHeading eyebrow="Gültig seit 1. Oktober 2026" title="Der Tarif im Überblick.">Die Kilometerpreise beziehen sich auf die besetzte Fahrt. Für mehr als vier Fahrgäste im Großraumtaxi kommt unter den tariflichen Voraussetzungen ein Zuschlag hinzu.</SectionHeading>
-        <div className="table-scroll">
-          <table className="tariff-table">
-            <caption className="sr-only">Taxitarife im Kreis Herzogtum Lauenburg seit 1. Oktober 2026</caption>
-            <thead><tr><th scope="col">Tarifbestandteil</th><th scope="col">Tagtarif<span>Werktags 06–22 Uhr</span></th><th scope="col">Nachttarif<span>22–06 Uhr, sonn- und feiertags ganztägig</span></th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Grundpreis</th><td>{euros(tariff.base)}</td><td>{euros(tariff.base)}</td></tr>
-              <tr><th scope="row">Die ersten {tariff.boundaryKm} Kilometer<span>Je besetzt gefahrenem Kilometer</span></th><td>{euros(tariff.day.firstKm)}</td><td>{euros(tariff.night.firstKm)}</td></tr>
-              <tr><th scope="row">Über {tariff.boundaryKm} Kilometer<span>Je weiterem besetzt gefahrenem Kilometer</span></th><td>{euros(tariff.day.followingKm)}</td><td>{euros(tariff.night.followingKm)}</td></tr>
-              <tr><th scope="row">Wartezeit<span>Pro Stunde</span></th><td>{euros(tariff.waitingPerHour)}</td><td>{euros(tariff.waitingPerHour)}</td></tr>
-            </tbody>
-          </table>
+export default function Page() {
+  return (
+    <>
+      <PageIntro
+        eyebrow="Persönlich planen. Klar abstimmen."
+        title="Tarife & Fahrpreise"
+      >
+        <p>
+          Ob Geschäftsreise, Krankenfahrt, Flughafentransfer oder lange Strecke: Fragen Sie uns nach
+          dem voraussichtlichen Gesamtpreis. Wir berücksichtigen Ihre Strecke und die konkreten
+          Anforderungen. Fahrten ins Ausland sind auf Anfrage möglich.
+        </p>
+      </PageIntro>
+      <section className="page-content">
+        <div className="container prose-narrow">
+          <div className="fare-contact-options">
+            <WhatsAppButton>Fahrt & Preis anfragen</WhatsAppButton>
+            <EmailButton />
+            <CallButton />
+          </div>
+          <div className="prose">
+            <h2>Regionaler Taxitarif – verständlich erklärt</h2>
+            <p>
+              Für Fahrten im Geltungsbereich gilt die Kreisverordnung Herzogtum Lauenburg vom 25.
+              September 2026, gültig ab 1. Oktober 2026. Für Ziele außerhalb des Geltungsbereichs
+              wird das Entgelt für die gesamte Strecke vor Fahrtbeginn vereinbart. Kommt keine
+              Vereinbarung zustande, sieht § 1 Absatz 3 den Kreistarif als vereinbart vor.
+            </p>
+            <ul>
+              <li>Grundpreis: 5,50 €.</li>
+              <li>Werktags 06–22 Uhr: bis 3 km 2,90 €/km, danach 2,70 €/km.</li>
+              <li>22–06 Uhr sowie sonn- und feiertags: bis 3 km 3,20 €/km, danach 2,90 €/km.</li>
+              <li>Wartezeit: 50,00 €/Stunde; Taxameter-Fortschaltung: 0,10 €.</li>
+              <li>
+                Großraumzuschlag bei mehr als vier Fahrgästen im entsprechend zugelassenen Fahrzeug:
+                12,00 €. Verfügbarkeit bitte anfragen.
+              </li>
+              <li>
+                Eine Anfahrt kann unter den Voraussetzungen des § 2 Absatz 4 berechnet werden.
+                Besondere Ausstattung kann nach Aufwand hinzukommen. Übliches Gepäck wird nach
+                Maßgabe von § 5 unentgeltlich befördert.
+              </li>
+            </ul>
+            <a href={tariff.sourceUrl} target="_blank" rel="noopener noreferrer">
+              Vollständige Tarifverordnung als PDF ansehen
+            </a>
+            <h2>Für lange Strecken sprechen wir persönlich mit Ihnen.</h2>
+            <p>
+              Ein Kilometerwert allein sagt wenig über Ihren Gesamtpreis aus. Abholort, Anfahrt,
+              Wartezeiten, Strecke und besondere Wünsche können relevant sein. Eine
+              Krankenfahrt-Schätzung ist zudem keine Zusage zur Kostenübernahme durch eine
+              Krankenkasse.
+            </p>
+          </div>
+          <details className="optional-calculator">
+            <summary>Optional: unverbindliche Streckenschätzung öffnen</summary>
+            <p className="field-note">
+              Nur für die ausgewählte Tarifzeit und bis zu vier Fahrgäste innerhalb des Kreises.
+              Kein Angebot und kein Höchstpreis.
+            </p>
+            <FareCalculator />
+          </details>
         </div>
-        <p className="form-note">Werktage schließen Samstage ein. Abrechnung in Schritten von {euros(tariff.meterStep)}. Maßgeblich sind die vollständige Kreisverordnung und der Taxameter-Fahrpreis.</p>
-        <div className="split tariff-extras">
-          <article className="card"><p className="eyebrow">Großraumtaxi</p><h3>{euros(tariff.largeVehicleSurcharge)} Zuschlag</h3><p>Bei mehr als vier Fahrgästen in einem Großraumtaxi mit mehr als fünf eingetragenen Sitzplätzen. Unser 9-Sitzer hat Platz für bis zu acht Fahrgäste plus Fahrer.</p></article>
-          <article className="card"><p className="eyebrow">Ihr Gepäck</p><h3>Handgepäck, Koffer & Rollator</h3><p>Diese werden ohne gesondertes Gepäckentgelt befördert, soweit Ladekapazität, zulässiges Gewicht und Verkehrssicherheit es erlauben. Größere Gepäckmengen bitte vorab angeben.</p></article>
-        </div>
-      </div>
-    </section>
-    <section className="section section-muted">
-      <div className="container split">
-        <div className="prose"><p className="eyebrow">Gut zu wissen</p><h2>Was den Fahrpreis beeinflusst.</h2><p>Fahrtstrecke, Tarifzeit und Wartezeit bestimmen den tatsächlichen Preis. Auch eine kostenpflichtige Anfahrt kann unter den Voraussetzungen der Verordnung hinzukommen.</p><Link className="text-link" href="/fahrt-anfragen/">Ihre Fahrt mit uns abstimmen <ArrowUpRight size={18} aria-hidden="true" /></Link></div>
-        <div className="prose">
-          <details><summary>Wann wird die Anfahrt berechnet?</summary><p>Grundsätzlich ist die Anfahrt kostenlos. Führt die anschließende Fahrt nicht zur Betriebssitzgemeinde zurück, kann nach § 2 Absatz 4 der Anfahrtstarif gelten. Die dabei zurückgelegte Strecke wird beim Wechsel in den Besetzttarif berücksichtigt; Wartezeit während der Anfahrt wird nicht berechnet. Wir erläutern Ihnen das gern für Ihre konkrete Fahrt.</p></details>
-          <details><summary>Was gilt für Ziele außerhalb des Kreises?</summary><p>Für eine Fahrt mit Ziel außerhalb des Tarifgebiets wird der Preis für die gesamte Strecke vor Fahrtbeginn frei vereinbart. Kommt keine Vereinbarung zustande, gelten die Entgelte des Pflichtfahrgebiets als vereinbart (§ 1 Absatz 3).</p></details>
-          <details><summary>Gibt es weitere mögliche Kosten?</summary><p>Besondere, ausdrücklich gewünschte Ausstattung kann nach Aufwand berechnet werden, zum Beispiel bei einer Hochzeitsfahrt oder Fahrradbeförderung. Wird ein bestelltes Taxi aus einem von Ihnen zu vertretenden Grund nicht genutzt, sieht § 6 ebenfalls ein Entgelt vor. Die vollständige Regelung finden Sie in der verlinkten Verordnung.</p></details>
-          <details><summary>Warum gibt es keinen Online-Preisrechner?</summary><p>Ein Rechner kann Anfahrt, Wartezeit und individuelle Anforderungen oft nur unvollständig berücksichtigen. Teilen Sie uns deshalb die geplante Strecke mit. Wir besprechen den geltenden Tarif oder eine mögliche Preisvereinbarung mit Ihnen.</p></details>
-        </div>
-      </div>
-    </section>
-    <ContactBand />
-  </>;
+      </section>
+    </>
+  );
 }

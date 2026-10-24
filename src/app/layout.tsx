@@ -1,21 +1,97 @@
 import type { Metadata, Viewport } from 'next';
-import localFont from 'next/font/local';
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/latin-500.css';
+import '@fontsource/manrope/latin-600.css';
+import '@fontsource/manrope/latin-700.css';
+import '@fontsource/manrope/latin-800.css';
 import './globals.css';
-const manrope = localFont({ src: '../../node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2', display: 'swap', weight: '200 800', variable: '--font-manrope' });
-import { Header, Footer, ContactDock } from '@/components/shell';
-import { company, siteUrl, launchReady } from '@/config/company';
-
+import { Header, Footer } from '@/components/shell';
+import { MapsProvider } from '@/components/maps';
+import { company, launchReady, siteUrl } from '@/config/company';
+import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: 'Insel Taxi Ratzeburg – Ihr Taxi. Persönlich. Rund um die Uhr.', template: '%s | Insel Taxi Ratzeburg' },
-  description: 'Taxi in Ratzeburg einfach per WhatsApp oder Telefon anfragen. Krankenfahrten, Flughafentransfer und Großraumtaxi. Täglich rund um die Uhr: 04541 802080.',
-  robots: { index: launchReady, follow: launchReady },
-  openGraph: { locale: 'de_DE', type: 'website', siteName: company.name, images: [{ url: '/social-card.png', width: 1200, height: 630, alt: 'Insel Taxi Ratzeburg – Hier zu Hause. Für Sie unterwegs.' }] },
-  twitter: { card: 'summary_large_image' },
-  icons: { icon: [{ url: '/favicon.png', type: 'image/png', sizes: '64x64' }], apple: '/apple-touch-icon.png' },
+  title: {
+    default: 'Insel Taxi Ratzeburg | Regional & bundesweit unterwegs',
+    template: '%s | Insel Taxi Ratzeburg',
+  },
+  description:
+    'Regional und bundesweit unterwegs. Taxi per WhatsApp, E-Mail oder Telefon anfragen. Geschäftsreisen, Krankenfahrten, Fernfahrten und Flughafentransfers. Ausland auf Anfrage. Telefon 04541 802080.',
+  robots: launchReady ? { index: true, follow: true } : { index: false, follow: false },
+  openGraph: {
+    type: 'website',
+    locale: 'de_DE',
+    siteName: company.name,
+    title: company.name,
+    description:
+      'Ihre Fahrt – regional und bundesweit. Einfach per WhatsApp, E-Mail oder Telefon anfragen.',
+  },
+  icons: { icon: '/logo-original.png', apple: '/logo-original.png' },
 };
-export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#14263d' };
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const schema = { '@context': 'https://schema.org', '@type': 'TaxiService', name: company.name, url: siteUrl, logo: `${siteUrl}/logo-original.png`, telephone: company.phone, email: company.email, areaServed: { '@type': 'City', name: 'Ratzeburg' }, provider: { '@type': 'LocalBusiness', name: company.name, telephone: company.phone, address: { '@type': 'PostalAddress', streetAddress: company.street, postalCode: company.postalCode, addressLocality: company.city, addressCountry: 'DE' }, openingHours: 'Mo-Su 00:00-23:59' } };
-  return <html lang="de"><body className={manrope.variable}><a href="#main" className="skip-link">Zum Inhalt springen</a><Header/><main id="main" tabIndex={-1}><noscript><style>{'.ride-form,.menu-toggle{display:none!important}'}</style><div className="container notice">Ihre Fahrt können Sie direkt telefonisch anfragen: <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a>. Alle Seiten erreichen Sie auch über die Links unten auf der Website.</div></noscript>{children}</main><Footer/><ContactDock/><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}/></body></html>;
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#14263D' };
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'TaxiService',
+    name: company.name,
+    url: siteUrl,
+    telephone: company.phone,
+    email: company.email,
+    areaServed: [
+      { '@type': 'City', name: 'Ratzeburg' },
+      { '@type': 'Country', name: 'Deutschland' },
+      { '@type': 'AdministrativeArea', name: 'Kreis Herzogtum Lauenburg' },
+    ],
+    provider: {
+      '@type': 'LocalBusiness',
+      name: company.name,
+      telephone: company.phone,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: company.street,
+        postalCode: company.postalCode,
+        addressLocality: company.city,
+        addressCountry: 'DE',
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '00:00',
+          closes: '23:59',
+        },
+      ],
+    },
+  };
+  return (
+    <html lang="de">
+      <body>
+        <MapsProvider>
+          <a href="#main" className="skip-link">
+            Zum Inhalt springen
+          </a>
+          <Header />
+          <noscript>
+            <style>{'.ride-form,.fare-calculator,.menu-toggle{display:none!important}'}</style>
+            <div className="container">
+              <p className="notice">
+                Ihre Fahrt können Sie direkt telefonisch unter{' '}
+                <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a> oder{' '}
+                <a href={whatsappLink(defaultMessage)}>per WhatsApp</a> oder{' '}
+                <a href={emailLink(defaultMessage)}>per E-Mail anfragen</a>.
+              </p>
+            </div>
+          </noscript>
+          <main id="main" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}
+          />
+        </MapsProvider>
+      </body>
+    </html>
+  );
 }

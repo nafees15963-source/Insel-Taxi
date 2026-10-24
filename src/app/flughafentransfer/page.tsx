@@ -1,41 +1,87 @@
-import type { Metadata } from 'next';
-import { ArrowDown, Plane, Luggage, UsersRound } from 'lucide-react';
-import { ContactActions, IconCard, PageIntro, SectionHeading } from '@/components/ui';
+import { PageIntro, CheckList, CallButton } from '@/components/ui';
 import { RideForm } from '@/components/ride-form';
-
-export const metadata: Metadata = {
-  title: 'Flughafentransfer ab Ratzeburg',
-  description: 'Flughafentransfer von Ratzeburg nach Hamburg oder Lübeck anfragen. Für Einzelreisende und Gruppen mit Großraumtaxi, Gepäck und Rückfahrt nach Absprache.',
-  alternates: { canonical: '/flughafentransfer/' },
+export const metadata = {
+  title: 'Flughafentransfer – regional & bundesweit',
+  description:
+    'Flughafentransfers für Reisende und Geschäftsreisende regional und bundesweit anfragen. Hin- und Rückfahrt, Gepäck und Flugnummer per WhatsApp oder E-Mail übermitteln.',
+  alternates: { canonical: '/flughafentransfer' },
 };
-
-export default function AirportPage() {
-  return <>
-    <PageIntro eyebrow="Flughafentransfer" title="Die Reise beginnt an Ihrer Haustür." description="Von Ratzeburg zum Flughafen und wieder nach Hause. Stimmen Sie Ihren Transfer frühzeitig mit uns ab – von der Abholzeit bis zum Platz für den letzten Koffer.">
-      <a className="button button-primary" href="#transfer-anfragen">Transfer vorbereiten <ArrowDown size={18} aria-hidden="true" /></a>
-    </PageIntro>
-    <section className="section">
-      <div className="container">
-        <SectionHeading eyebrow="Ihre Verbindung" title="Vom Inselalltag in die weite Welt." />
-        <div className="split airport-destinations">
-          <article className="card destination-card"><p className="eyebrow">Hamburg Airport</p><div className="airport-code" aria-hidden="true">HAM</div><h2>Hamburg</h2><p>Für Ihren Abflug oder die Abholung nach der Landung. Treffpunkt und Uhrzeit vereinbaren wir persönlich.</p></article>
-          <article className="card destination-card"><p className="eyebrow">Flughafen Lübeck</p><div className="airport-code" aria-hidden="true">LBC</div><h2>Lübeck</h2><p>Ein Transfer passend zu Ihrer Reise. Geben Sie uns Reisedatum, Personenanzahl und Gepäck mit auf den Weg.</p></article>
+export default function Page() {
+  return (
+    <>
+      <PageIntro eyebrow="Von Ihrer Haustür in die Welt" title="Entspannt zum Flughafen.">
+        <p>
+          Für private Reisen und Geschäftsreisen – regional und bundesweit. Starten Sie mit einer
+          persönlich abgestimmten Fahrt. Fragen Sie einen Transfer nach Hamburg oder Lübeck an.
+          Weitere Flughäfen sind nach Absprache möglich.
+        </p>
+      </PageIntro>
+      <section className="page-content">
+        <div className="container content-grid reverse">
+          <div>
+            <div className="prose">
+              <h2>Ihre Reise. Gut vorbereitet.</h2>
+              <p>
+                Teilen Sie uns Ihre Abholadresse, den Flughafen und die gewünschte Abholzeit mit.
+                Wir besprechen die Fahrt und die Verfügbarkeit mit Ihnen.
+              </p>
+              <CheckList
+                items={[
+                  'Fahrten zum und vom Flughafen',
+                  'Hin- und Rückfahrt gemeinsam anfragen',
+                  'Personen und Gepäck vorab abstimmen',
+                  'Flugnummer freiwillig angeben',
+                ]}
+              />
+              <h2>Diese Flughäfen können Sie anfragen</h2>
+              <div className="airport-list">
+                <span>
+                  <strong>HAM</strong>Hamburg
+                </span>
+                <span>
+                  <strong>LBC</strong>Lübeck
+                </span>
+                <span>
+                  <strong>HAJ</strong>Hannover
+                  <br />
+                  <small>Auf Anfrage</small>
+                </span>
+                <span>
+                  <strong>BER</strong>Berlin Brandenburg
+                  <br />
+                  <small>Auf Anfrage</small>
+                </span>
+              </div>
+              <h2>Welche Uhrzeit soll ich angeben?</h2>
+              <p>
+                Tragen Sie die gewünschte Abholzeit ein. Berücksichtigen Sie die empfohlenen
+                Ankunftszeiten Ihrer Fluggesellschaft. Wenn Sie unsicher sind, rufen Sie uns bitte
+                an.
+              </p>
+              <p>
+                Bei einer Abholung am Flughafen können Sie Ihre Flugnummer ergänzen. Eine
+                automatische Flugüberwachung findet über diese Website nicht statt. Änderungen
+                teilen Sie uns bitte direkt mit.
+              </p>
+            </div>
+            <div className="help-panel">
+              <h3>Eine Frage zu Ihrer Reise?</h3>
+              <p>
+                Besonderes Gepäck, Kindersitze oder individuelle Ziele stimmen wir persönlich ab.
+              </p>
+              <CallButton />
+            </div>
+          </div>
+          <div className="form-panel">
+            <h2>Transfer anfragen</h2>
+            <p className="form-description">
+              Felder mit * benötigen wir. Die Fahrt wird erst nach persönlicher Bestätigung
+              verbindlich.
+            </p>
+            <RideForm mode="airport" />
+          </div>
         </div>
-        <p className="form-note">Hannover (HAJ), Berlin Brandenburg (BER) und weitere Flughäfen auf Anfrage. Preise für Ziele außerhalb des Tarifgebiets vereinbaren wir vor Fahrtbeginn.</p>
-      </div>
-    </section>
-    <section className="section section-muted">
-      <div className="container card-grid">
-        <IconCard icon={Plane} title="Hin. Zurück. Oder beides." description="Planen Sie Ihre Rückfahrt gleich mit. Eine Flugnummer hilft bei der Abstimmung; eine automatische Flugüberwachung findet nicht statt." />
-        <IconCard icon={Luggage} title="Für alles, was mitreist." description="Bitte geben Sie Anzahl und Größe der Koffer sowie Kinderwagen oder Sondergepäck an. So können wir das passende Fahrzeug abstimmen." />
-        <IconCard icon={UsersRound} title="Auch gemeinsam unterwegs." description="Unser 9-Sitzer bietet Platz für bis zu 8 Fahrgäste plus Fahrer. Für 9 Reisende besprechen wir die Aufteilung auf mehrere Fahrzeuge." />
-      </div>
-    </section>
-    <section className="section" id="transfer-anfragen">
-      <div className="container split form-layout">
-        <div><SectionHeading eyebrow="Transfer anfragen" title="Ihr Flug. Unser Treffpunkt.">Tragen Sie Ihre gewünschte Abholzeit ein. Berücksichtigen Sie die Hinweise Ihrer Fluggesellschaft und ausreichend Zeit am Flughafen. Wir stimmen die Fahrt anschließend mit Ihnen ab.</SectionHeading><ContactActions message={'Hallo Insel Taxi, ich möchte einen Flughafentransfer anfragen.\n\nFlughafen:\nAbholort:\nDatum und Uhrzeit:\nPersonen und Gepäck:'} /></div>
-        <RideForm mode="airport" />
-      </div>
-    </section>
-  </>;
+      </section>
+    </>
+  );
 }

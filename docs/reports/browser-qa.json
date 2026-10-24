@@ -1,472 +1,76 @@
 {
-  "date": "2026-10-24T00:43:08.036Z",
-  "base": "http://localhost:3000",
-  "routes": [
-    {
-      "width": 1440,
-      "path": "/",
-      "title": "Insel Taxi Ratzeburg – Ihr Taxi. Persönlich. Rund um die Uhr.",
-      "h1Count": 1,
-      "layout": {
-        "width": 1440,
-        "scrollWidth": 1440,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 1440,
-      "path": "/leistungen/",
-      "title": "Unsere Leistungen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 1440,
-        "scrollWidth": 1440,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 1440,
-      "path": "/fahrt-anfragen/",
-      "title": "Taxi einfach anfragen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 1440,
-        "scrollWidth": 1440,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 1440,
-      "path": "/krankenfahrten/",
-      "title": "Krankenfahrten in Ratzeburg | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 1440,
-        "scrollWidth": 1440,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 1440,
-      "path": "/flughafentransfer/",
-      "title": "Flughafentransfer ab Ratzeburg | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 1440,
-        "scrollWidth": 1440,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 1440,
-      "path": "/fahrpreis/",
-      "title": "Taxitarife ab 1. Oktober 2026 | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 1440,
-        "scrollWidth": 1440,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 1440,
-      "path": "/kontakt/",
-      "title": "Kontakt – Taxi anrufen oder per WhatsApp anfragen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 1440,
-        "scrollWidth": 1440,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 1440,
-      "path": "/impressum/",
-      "title": "Impressum | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 1440,
-        "scrollWidth": 1440,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 1440,
-      "path": "/datenschutz/",
-      "title": "Datenschutz | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 1440,
-        "scrollWidth": 1440,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 768,
-      "path": "/",
-      "title": "Insel Taxi Ratzeburg – Ihr Taxi. Persönlich. Rund um die Uhr.",
-      "h1Count": 1,
-      "layout": {
-        "width": 768,
-        "scrollWidth": 768,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 768,
-      "path": "/leistungen/",
-      "title": "Unsere Leistungen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 768,
-        "scrollWidth": 768,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 768,
-      "path": "/fahrt-anfragen/",
-      "title": "Taxi einfach anfragen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 768,
-        "scrollWidth": 768,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 768,
-      "path": "/krankenfahrten/",
-      "title": "Krankenfahrten in Ratzeburg | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 768,
-        "scrollWidth": 768,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 768,
-      "path": "/flughafentransfer/",
-      "title": "Flughafentransfer ab Ratzeburg | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 768,
-        "scrollWidth": 768,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 768,
-      "path": "/fahrpreis/",
-      "title": "Taxitarife ab 1. Oktober 2026 | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 768,
-        "scrollWidth": 768,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 768,
-      "path": "/kontakt/",
-      "title": "Kontakt – Taxi anrufen oder per WhatsApp anfragen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 768,
-        "scrollWidth": 768,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 768,
-      "path": "/impressum/",
-      "title": "Impressum | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 768,
-        "scrollWidth": 768,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 768,
-      "path": "/datenschutz/",
-      "title": "Datenschutz | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 768,
-        "scrollWidth": 768,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 390,
-      "path": "/",
-      "title": "Insel Taxi Ratzeburg – Ihr Taxi. Persönlich. Rund um die Uhr.",
-      "h1Count": 1,
-      "layout": {
-        "width": 390,
-        "scrollWidth": 390,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 390,
-      "path": "/leistungen/",
-      "title": "Unsere Leistungen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 390,
-        "scrollWidth": 390,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 390,
-      "path": "/fahrt-anfragen/",
-      "title": "Taxi einfach anfragen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 390,
-        "scrollWidth": 390,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 390,
-      "path": "/krankenfahrten/",
-      "title": "Krankenfahrten in Ratzeburg | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 390,
-        "scrollWidth": 390,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 390,
-      "path": "/flughafentransfer/",
-      "title": "Flughafentransfer ab Ratzeburg | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 390,
-        "scrollWidth": 390,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 390,
-      "path": "/fahrpreis/",
-      "title": "Taxitarife ab 1. Oktober 2026 | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 390,
-        "scrollWidth": 390,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 390,
-      "path": "/kontakt/",
-      "title": "Kontakt – Taxi anrufen oder per WhatsApp anfragen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 390,
-        "scrollWidth": 390,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 390,
-      "path": "/impressum/",
-      "title": "Impressum | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 390,
-        "scrollWidth": 390,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 390,
-      "path": "/datenschutz/",
-      "title": "Datenschutz | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 390,
-        "scrollWidth": 390,
-        "elements": []
-      },
-      "violations": []
-    },
+  "viewports": [
     {
       "width": 320,
-      "path": "/",
-      "title": "Insel Taxi Ratzeburg – Ihr Taxi. Persönlich. Rund um die Uhr.",
-      "h1Count": 1,
-      "layout": {
-        "width": 320,
-        "scrollWidth": 320,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 320,
-      "path": "/leistungen/",
-      "title": "Unsere Leistungen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 320,
-        "scrollWidth": 320,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 320,
-      "path": "/fahrt-anfragen/",
-      "title": "Taxi einfach anfragen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 320,
-        "scrollWidth": 320,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 320,
-      "path": "/krankenfahrten/",
-      "title": "Krankenfahrten in Ratzeburg | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 320,
-        "scrollWidth": 320,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 320,
-      "path": "/flughafentransfer/",
-      "title": "Flughafentransfer ab Ratzeburg | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 320,
-        "scrollWidth": 320,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 320,
-      "path": "/fahrpreis/",
-      "title": "Taxitarife ab 1. Oktober 2026 | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 320,
-        "scrollWidth": 320,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 320,
-      "path": "/kontakt/",
-      "title": "Kontakt – Taxi anrufen oder per WhatsApp anfragen | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 320,
-        "scrollWidth": 320,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 320,
-      "path": "/impressum/",
-      "title": "Impressum | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 320,
-        "scrollWidth": 320,
-        "elements": []
-      },
-      "violations": []
-    },
-    {
-      "width": 320,
-      "path": "/datenschutz/",
-      "title": "Datenschutz | Insel Taxi Ratzeburg",
-      "h1Count": 1,
-      "layout": {
-        "width": 320,
-        "scrollWidth": 320,
-        "elements": []
-      },
-      "violations": []
-    }
-  ],
-  "interactions": [
-    {
-      "name": "Mobile menu keyboard loop, Escape, link close and desktop resize",
+      "routes": 9,
       "passed": true
     },
     {
-      "name": "Quick request keeps addresses out of query strings and removes private hash",
+      "width": 390,
+      "routes": 9,
       "passed": true
     },
     {
-      "name": "taxi: required errors, 9 passengers, return, summary and exact WhatsApp message",
+      "width": 768,
+      "routes": 9,
       "passed": true
     },
     {
-      "name": "medical: required errors, 9 passengers, return, summary and exact WhatsApp message",
-      "passed": true
-    },
-    {
-      "name": "airport: required errors, 9 passengers, return, summary and exact WhatsApp message",
-      "passed": true
-    },
-    {
-      "name": "Legal anchor targets, tariff PDF, original logo and missing-page response",
-      "passed": true
-    },
-    {
-      "name": "No own form submission without JavaScript; phone remains available",
+      "width": 1440,
+      "routes": 9,
       "passed": true
     }
   ],
-  "pageErrors": [],
-  "externalRequests": [],
-  "failedRequests": [],
-  "passed": true
+  "accessibility": [
+    {
+      "route": "/",
+      "violations": []
+    },
+    {
+      "route": "/leistungen",
+      "violations": []
+    },
+    {
+      "route": "/fahrt-anfragen",
+      "violations": []
+    },
+    {
+      "route": "/fahrpreis",
+      "violations": []
+    },
+    {
+      "route": "/krankenfahrten",
+      "violations": []
+    },
+    {
+      "route": "/flughafentransfer",
+      "violations": []
+    },
+    {
+      "route": "/kontakt",
+      "violations": []
+    },
+    {
+      "route": "/impressum",
+      "violations": []
+    },
+    {
+      "route": "/datenschutz",
+      "violations": []
+    }
+  ],
+  "flows": [
+    "Ride: invalid fields, focus and encoded WhatsApp data passed",
+    "Medical: all 6 steps, return validation and message passed",
+    "Airport: direction, airport and flight data passed",
+    "Fare: manual decimal distance and unverified tariff blocked passed",
+    "Privacy dialog: opens and closes without Google passed",
+    "No external resources before consent passed",
+    "Mobile navigation: keyboard focus trap and Escape passed",
+    "Keyboard: skip link and FAQ passed",
+    "Routes API: missing server key returns controlled 503 passed",
+    "Without JavaScript: forms hidden, direct contact remains available"
+  ],
+  "failures": [],
+  "runtimeErrors": []
 }

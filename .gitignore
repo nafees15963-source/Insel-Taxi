@@ -1,8 +1,8 @@
 node_modules/
 .next/
-out/
 .env*
 !.env.example
-*.tsbuildinfo
 work/
-.DS_Store
+test-results/
+playwright-report/
+*.tsbuildinfo

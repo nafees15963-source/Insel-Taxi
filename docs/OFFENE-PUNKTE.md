@@ -1,32 +1,32 @@
-# Noch zu ergänzen und zu bestätigen
+# Vor öffentlichem Start zu klären
 
-## Vor dem öffentlichen Start
+## Erforderlich
 
-1. **Betreiberangaben:** Name, Anschrift, Rechtsform, USt-ID, IK, zuständige Behörde und Erklärung zur Verbraucherschlichtung bestätigen. Etwaige Registereintragung, Registernummer und Wirtschafts-Identifikationsnummer ergänzen, soweit vorhanden beziehungsweise rechtlich erforderlich. Alt-Datenschutz und Impressum verwenden teils abweichende Schreibweisen.
-2. **Produktionshosting:** Anbieter mit Anschrift, Verarbeitungsort, tatsächlich erhobene Serverlogs und deren Löschfrist in der Datenschutzerklärung eintragen. Auftragsverarbeitungsvereinbarung und gegebenenfalls internationale Übermittlungsgrundlagen prüfen. Eine private Entwicklungsvorschau ersetzt diese Festlegung nicht.
-3. **Betrieblicher Datenschutz:** E-Mail-Anbieter, WhatsApp-Variante und Einstellungen zu Adressbuch/Backups sowie Löschfristen der Anfragen dokumentieren. Keine Diagnosen oder Versicherungsunterlagen über die Website anfordern. Umgang mit erforderlichen Krankenfahrtdaten gesondert festlegen.
-4. **Rechtliche Prüfung:** Impressum und Datenschutzerklärung fachkundig anhand des tatsächlichen Betriebs prüfen. Die Arbeitsfassung enthält sichtbare Hinweise auf fehlende Angaben. Diese erst nach Vervollständigung entfernen.
-5. **Domain:** Produktionsdomain/HTTPS und Hosting konfigurieren. `NEXT_PUBLIC_SITE_URL` abgleichen. `NEXT_PUBLIC_LAUNCH_READY=true` erst nach inhaltlicher und rechtlicher Freigabe setzen und neu bauen.
+- **Inhaber und Adresse**: bisheriges Impressum nennt Naeem Ahmed / Zittschower Weg 11a. Der bisherige Datenschutztext weist abweichende Schreibweisen auf. Betreiberbestätigung erforderlich.
+- **Vollständiges Impressum**: Rechtsform, Registerpflicht, Aufsicht und Streitbeilegungsangaben durch Betreiber prüfen; vorhandene USt-ID bestätigen.
+- **Datenschutzerklärung**: auf den realen Hosting-Anbieter, Logs, Dienstleister, WhatsApp-Nutzung und optionale Google-Dienste abstimmen und rechtlich prüfen lassen. Markierte Stellen in den Seiten vervollständigen.
+- **Domain und Hosting**: noch keine Konten oder DNS-Einträge geändert; Hosting mit Next.js/Node-Unterstützung wählen. Hauptdomain und HTTPS einrichten.
 
-## Optionale Google-Adressvorschläge
+## Für die optionalen Zusatzfunktionen
 
-- Ohne API-Key funktionieren alle Formulare mit manuellen Adressen.
-- Für Adressvorschläge einen Browser-Key für Google Maps JavaScript/Places eintragen, auf Produktionsdomains und erforderliche APIs beschränken, Kostenlimit/Quoten setzen und die tatsächlichen Google-Verträge prüfen.
-- Nach der Einrichtung das aktive Einwilligungsverhalten und die Rückkehr zur manuellen Eingabe prüfen.
-- Keine Google Routes API oder serverseitige Schlüssel erforderlich, da der Preisrechner bewusst entfällt.
-- Google-Unternehmenslink ist anhand der bisherigen Kontaktseite verifiziert; keine Bewertungssumme veröffentlicht.
+- **Google Maps/Places Browser-Key** und **Google Routes Server-Key**: getrennt erstellen und einschränken. Ohne Keys bleibt die Website nutzbar.
+- **Google-Unternehmensprofil**: echten Profil-/Bewertungslink bestätigen. Kein beliebiger Suchlink und kein erfundener Place-ID-Wert verwendet.
 
-## Betrieblich sinnvoll zu bestätigen
+## Sinnvoll zu bestätigen
 
-- Aktuelle Erreichbarkeit und Kontaktwege sowie Flottenverfügbarkeit.
-- Kapazität des 9-Sitzers einschließlich Fahrer und Organisation von Anfragen für neun Reisende.
-- Verfügbarkeit von Kindersitzen, Platz für Gepäck und Hilfsmittel sowie konkrete Abholunterstützung.
-- Bedingungen einer Direktabrechnung mit Krankenkassen; keine pauschale Übernahme zusagen.
-- Aktuelle Zahlungsmöglichkeiten; Altseiten widersprechen sich bei Kartenzahlung.
+- Aktualität der 24-Stunden-Erreichbarkeit und beider Kontaktwege
+- Aktuelle Fahrgastkapazität; bisherige Website nennt maximal vier Personen
+- Verfügbare Kindersitze und Transport von Hilfsmitteln
+- Konkrete Bedingungen für Direktabrechnung mit Krankenkassen
+- Aktuell angebotene Zahlungsmethoden (Altseiten widersprechen sich zur Kartenzahlung)
+- Flughafenziele und Bedingungen für Hin-/Rückfahrten
 
-## Bereits erledigt
+## Bewusst ohne Zusatzaufwand
 
-- Original-Logo aus dem vorhandenen Repository mit Anhang abgeglichen und erhalten.
-- Nutzer-PDF der Tarifverordnung ausgewertet und eingebunden; Tarifwerte zentral dokumentiert.
-- Kontaktdaten, Leistungen, Flughafenangaben und echter Google-Bewertungslink recherchiert.
-- Keine Datenbank, Registrierung, Onlinezahlung, Analyse-Tracker oder WhatsApp Business API für die Website erforderlich.
+Keine MySQL-Datenbank, Registrierung, Onlinezahlung, WhatsApp Business API oder Kundenverwaltung erforderlich. Keine externen Inhalte ohne aktive Freigabe; Schriftdateien werden lokal bereitgestellt.
+
+## Erledigte Aktualisierung
+
+Tarifverordnung vom 25.09.2026 als Betreiber-PDF erhalten und ausgewertet. Tag-/Nachttarife ab 01.10.2026 sind konfiguriert; Geltungsbereich, Anfahrt und mögliche Zusatzkosten sind ausdrücklich erklärt. Der Betreiber bestätigt regionale und bundesweite Fahrten einschließlich Krankenfahrten; Auslandsfahrten auf Anfrage. E-Mail ist in allen Fahrtformularen als gleichwertiger Anfrageweg ergänzt.
+
+Original-Logo ist inzwischen unter `public/logo-original.png` vorhanden und ohne Aktivierungsschalter in Header, Footer und Favicon eingebunden.

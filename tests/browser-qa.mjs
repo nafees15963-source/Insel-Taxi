@@ -1,167 +1,254 @@
 import { chromium } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-
-const base = process.env.QA_BASE_URL || 'http://localhost:3000';
-const reportDir = process.env.QA_REPORT_DIR || '/workspace/work/qa';
-await fs.mkdir(reportDir, { recursive: true });
-const report = { date: new Date().toISOString(), base, routes: [], interactions: [], pageErrors: [], externalRequests: [], failedRequests: [] };
-const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
-const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: 'de-DE', timezoneId: 'Europe/Berlin', reducedMotion: 'reduce' });
+import { existsSync } from 'node:fs';
+await fs.mkdir('work', { recursive: true });
+const browser = await chromium.launch({
+  executablePath:
+    process.env.CHROMIUM_PATH ||
+    (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined),
+  headless: true,
+  args: ['--no-sandbox', '--disable-dev-shm-usage'],
+});
+const context = await browser.newContext({ locale: 'de-DE', timezoneId: 'Europe/Berlin' });
 const page = await context.newPage();
-page.on('pageerror', error => report.pageErrors.push(error.message));
-page.on('request', request => { if (!request.url().startsWith(base) && /^https?:/.test(request.url())) report.externalRequests.push(request.url()); });
-page.on('response', response => { if (response.status() >= 400) report.failedRequests.push({ url: response.url(), status: response.status() }); });
-const routes = ['/', '/leistungen/', '/fahrt-anfragen/', '/krankenfahrten/', '/flughafentransfer/', '/fahrpreis/', '/kontakt/', '/impressum/', '/datenschutz/'];
-
-async function run(name, work) {
-  try { await work(); report.interactions.push({ name, passed: true }); console.log(`PASS ${name}`); }
-  catch (error) { report.interactions.push({ name, passed: false, message: error.message }); console.log(`FAIL ${name}: ${error.message}`); }
-}
-async function visit(path) { await page.goto(`${base}${path}`, { waitUntil: 'networkidle' }); await page.evaluate(() => document.fonts.ready); }
-async function overflow() {
-  return page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth,
-    elements: [...document.querySelectorAll('body *')].filter(e => e.getBoundingClientRect().right > innerWidth + 1 && getComputedStyle(e).position !== 'absolute').slice(0, 8).map(e => `${e.tagName}.${e.className}`) }));
-}
-
-try {
-  for (const width of [1440, 768, 390, 320]) {
-    await page.setViewportSize({ width, height: width > 760 ? 1000 : 844 });
-    for (const path of routes) {
-      await visit(path);
-      const layout = await overflow();
-      const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
-      report.routes.push({ width, path, title: await page.title(), h1Count: await page.locator('h1').count(), layout,
-        violations: axe.violations.map(v => ({ id: v.id, impact: v.impact, description: v.description, nodes: v.nodes.map(n => ({ target: n.target, summary: n.failureSummary })) })) });
-      console.log(`${width} ${path} overflow=${layout.scrollWidth > width} axe=${axe.violations.length}`);
-      if (path === '/' && (width === 1440 || width === 390)) await page.screenshot({ path: `${reportDir}/home-${width}.png`, fullPage: true });
-      if (path === '/fahrt-anfragen/' && width === 390) await page.screenshot({ path: `${reportDir}/form-mobile.png`, fullPage: true });
-    }
+const failures = [],
+  errors = [],
+  report = { viewports: [], accessibility: [], flows: [] };
+page.on('pageerror', (e) => errors.push(e.message));
+const routes = [
+  '/',
+  '/leistungen',
+  '/fahrt-anfragen',
+  '/fahrpreis',
+  '/krankenfahrten',
+  '/flughafentransfer',
+  '/kontakt',
+  '/impressum',
+  '/datenschutz',
+];
+for (const width of [320, 390, 768, 1440]) {
+  await page.setViewportSize({ width, height: width < 700 ? 844 : 1000 });
+  for (const route of routes) {
+    const r = await page.goto('http://localhost:3000' + route);
+    await page.waitForLoadState('networkidle');
+    const dimensions = await page.evaluate(() => ({
+      scroll: document.documentElement.scrollWidth,
+      client: document.documentElement.clientWidth,
+    }));
+    if (r.status() !== 200 || dimensions.scroll > width)
+      failures.push({ width, route, status: r.status(), ...dimensions });
   }
-
-  await run('Mobile menu keyboard loop, Escape, link close and desktop resize', async () => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await visit('/');
-    const toggle = page.getByRole('button', { name: 'Menü öffnen' });
-    await toggle.click();
-    const openToggle = page.getByRole('button', { name: 'Menü schließen' });
-    const last = page.locator('#mobile-menu > a');
-    await last.focus(); await page.keyboard.press('Tab');
-    assert.equal(await openToggle.evaluate(e => e === document.activeElement), true);
-    await page.keyboard.press('Shift+Tab');
-    assert.equal(await last.evaluate(e => e === document.activeElement), true);
-    await page.keyboard.press('Escape');
-    assert.equal(await page.locator('#mobile-menu').count(), 0);
-    assert.equal(await toggle.evaluate(e => e === document.activeElement), true);
-    await toggle.click(); await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.waitForFunction(() => !document.querySelector('#mobile-menu'));
-    await page.setViewportSize({ width: 390, height: 844 });
-    await toggle.click();
-    await page.locator('#mobile-menu').getByRole('link', { name: 'Kontakt', exact: true }).click();
-    await page.waitForURL('**/kontakt/');
-    assert.equal(await page.locator('#mobile-menu').count(), 0);
+  report.viewports.push({
+    width,
+    routes: routes.length,
+    passed: !failures.some((x) => x.width === width),
   });
-
-  await run('Quick request keeps addresses out of query strings and removes private hash', async () => {
-    await visit('/');
-    await page.getByLabel('Wo dürfen wir Sie abholen?').fill('Möllner Straße 1 & Eingang B, Ratzeburg');
-    await page.getByLabel('Wohin möchten Sie?').fill('Bahnhof Ratzeburg');
-    await page.getByRole('button', { name: 'Fahrt vorbereiten' }).click();
-    await page.waitForURL('**/fahrt-anfragen/**');
-    await page.waitForFunction(() => location.hash === '#anfrage');
-    assert.equal(new URL(page.url()).search, '');
-    assert.equal(await page.getByLabel(/^Abholort/).inputValue(), 'Möllner Straße 1 & Eingang B, Ratzeburg');
-    assert.equal(await page.getByLabel(/^Zielort/).inputValue(), 'Bahnhof Ratzeburg');
-  });
-
-  const future = new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10);
-  const returning = new Date(Date.now() + 4 * 86400000).toISOString().slice(0, 10);
-  const display = value => value.split('-').reverse().join('.');
-  for (const mode of ['taxi', 'medical', 'airport']) {
-    await run(`${mode}: required errors, 9 passengers, return, summary and exact WhatsApp message`, async () => {
-      await page.setViewportSize({ width: 390, height: 844 });
-      await visit(mode === 'taxi' ? '/fahrt-anfragen/' : mode === 'medical' ? '/krankenfahrten/' : '/flughafentransfer/');
-      const form = page.locator('.ride-form-full');
-      await form.getByRole('button', { name: 'Weiter zu den Details' }).click();
-      assert.ok(await form.locator('[aria-invalid=true]').count() >= 2);
-      if (mode === 'medical') await form.getByLabel('Art der Fahrt').selectOption({ label: 'Arzt- oder Behandlungstermin' });
-      if (mode === 'airport') {
-        await form.getByLabel('Flughafen', { exact: false }).selectOption({ label: 'Hamburg (HAM)' });
-        await form.getByLabel('Richtung').selectOption('from');
-      }
-      const pickup = mode === 'airport' ? 'Hamburg (HAM)' : 'Möllner Straße 1, Ratzeburg';
-      const destination = 'Bäckerstraße 2 & Hintereingang, Ratzeburg';
-      await form.getByLabel(/^Abholort/).fill(pickup);
-      await form.getByLabel(/^Zielort/).fill(destination);
-      await form.getByRole('button', { name: 'Weiter zu den Details' }).click();
-      await form.getByRole('button', { name: 'Anfrage prüfen' }).click();
-      assert.ok(await form.locator('[aria-invalid=true]').count() >= 2);
-      await form.getByLabel('Datum *', { exact: true }).fill('2020-01-01');
-      await form.getByLabel('Abholzeit').fill('14:30');
-      await form.getByRole('button', { name: 'Anfrage prüfen' }).click();
-      assert.equal(await form.getByLabel('Datum *', { exact: true }).getAttribute('aria-invalid'), 'true');
-      await form.getByLabel('Datum *', { exact: true }).fill(future);
-      await form.getByLabel('Fahrgäste').selectOption('9');
-      await form.getByLabel('Gepäckstücke').fill('3');
-      await form.getByLabel('Ich möchte auch eine Rückfahrt anfragen.').check();
-      await form.getByLabel('Rückfahrtdatum').fill(returning);
-      await form.getByLabel('Rückfahrtzeit').fill('08:00');
-      await form.getByLabel('Hinweise zur Rückfahrt').fill('Abholung am Bahnhof');
-      await form.getByLabel('Ihr Name').fill('Müller');
-      await form.getByLabel('Besondere Wünsche').fill('Kindersitz bitte\nEingang B + Rückruf');
-      if (mode === 'airport') await form.getByLabel('Flugnummer').fill('LH 123');
-      await form.getByRole('button', { name: 'Anfrage prüfen' }).click();
-      await form.getByRole('heading', { name: 'Ist alles richtig?' }).waitFor();
-      const expected = ['Hallo Insel Taxi, ich möchte folgende Fahrt unverbindlich anfragen:', '',
-        `Fahrt: ${mode === 'taxi' ? 'Taxifahrt' : mode === 'medical' ? 'Krankenfahrt' : 'Flughafentransfer'}`,
-        ...(mode === 'medical' ? ['Anlass: Arzt- oder Behandlungstermin'] : []),
-        ...(mode === 'airport' ? ['Flughafen: Hamburg (HAM)', 'Richtung: Vom Flughafen'] : []),
-        `Abholort: ${pickup}`, `Zielort: ${destination}`, `Datum: ${display(future)}`,
-        'Abholzeit: 14:30 Uhr (Ortszeit Ratzeburg)', 'Fahrgäste: 9',
-        'Gruppenanfrage: 9 Personen – bitte passende Fahrzeugaufteilung bestätigen.', 'Gepäckstücke: 3',
-        ...(mode === 'airport' ? ['Flugnummer: LH 123'] : []),
-        `Rückfahrt: ${display(returning)}, 08:00 Uhr (Ortszeit Ratzeburg)`, 'Hinweise zur Rückfahrt: Abholung am Bahnhof',
-        'Name: Müller', 'Besondere Wünsche: Kindersitz bitte\nEingang B + Rückruf', '',
-        'Bitte bestätigen Sie die Verfügbarkeit und die Fahrtdetails. Vielen Dank!'].join('\n');
-      const href = await form.getByRole('link', { name: 'In WhatsApp öffnen' }).getAttribute('href');
-      assert.equal(href, `https://wa.me/491739189239?text=${encodeURIComponent(expected)}`);
-      assert.equal(await form.getByRole('link', { name: '04541 802080' }).getAttribute('href'), 'tel:+494541802080');
-      assert.match(await form.innerText(), /erst nach unserer persönlichen Bestätigung/);
-      const layout = await overflow(); assert.ok(layout.scrollWidth <= 390, `Summary overflow ${layout.scrollWidth}`);
-      const axe = await new AxeBuilder({ page }).include('.ride-form-full').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
-      assert.deepEqual(axe.violations.map(v => v.id), []);
-      await page.screenshot({ path: `${reportDir}/${mode}-summary-mobile.png`, fullPage: true });
-      await form.getByRole('button', { name: 'Zurück', exact: true }).click();
-      assert.equal(await form.getByLabel('Fahrgäste').inputValue(), '9');
-      assert.equal(await form.getByLabel('Ihr Name').inputValue(), 'Müller');
-    });
-  }
-
-  await run('Legal anchor targets, tariff PDF, original logo and missing-page response', async () => {
-    await visit('/datenschutz/');
-    assert.equal(await page.locator('#google').count(), 1); assert.equal(await page.locator('#whatsapp').count(), 1);
-    const pdf = await context.request.get(`${base}/tarife/kreisverordnung-2026-10-01.pdf`); assert.equal(pdf.status(), 200);
-    assert.equal((await pdf.body()).subarray(0, 4).toString(), '%PDF');
-    const original = await context.request.get(`${base}/logo-original.png`); assert.equal(original.status(), 200);
-    const missing = await context.request.get(`${base}/does-not-exist-qa/`); assert.equal(missing.status(), 404);
-  });
-  await run('No own form submission without JavaScript; phone remains available', async () => {
-    const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
-    const noJsPage = await noJs.newPage();
-    await noJsPage.goto(`${base}/fahrt-anfragen/`);
-    assert.equal(await noJsPage.locator('.ride-form-full').isVisible(), false);
-    assert.ok(await noJsPage.locator('a[href="tel:+494541802080"]').count() > 0);
-    await noJs.close();
-  });
-} finally {
-  report.externalRequests = [...new Set(report.externalRequests)];
-  report.pageErrors = [...new Set(report.pageErrors)];
-  report.failedRequests = report.failedRequests.filter((r,i,a) => a.findIndex(x => x.url === r.url && x.status === r.status) === i);
-  report.passed = report.routes.every(r => r.layout.scrollWidth <= r.width && r.violations.length === 0 && r.h1Count === 1)
-    && report.interactions.every(r => r.passed) && report.pageErrors.length === 0 && report.externalRequests.length === 0 && report.failedRequests.length === 0;
-  await fs.writeFile(`${reportDir}/browser-qa.json`, JSON.stringify(report, null, 2));
-  console.log(JSON.stringify({ passed: report.passed, routes: report.routes.length, interactions: report.interactions, pageErrors: report.pageErrors, externalRequests: report.externalRequests, failedRequests: report.failedRequests }, null, 2));
-  await browser.close();
-  if (!report.passed) process.exitCode = 1;
 }
+await page.setViewportSize({ width: 1440, height: 1000 });
+for (const route of routes) {
+  await page.goto('http://localhost:3000' + route);
+  const axe = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+    .analyze();
+  report.accessibility.push({
+    route,
+    violations: axe.violations.map((x) => ({
+      id: x.id,
+      impact: x.impact,
+      nodes: x.nodes.map((n) => ({ html: n.html, summary: n.failureSummary })),
+    })),
+  });
+}
+await page.goto('http://localhost:3000/fahrt-anfragen');
+await page.getByRole('button', { name: 'Per WhatsApp anfragen', exact: true }).click();
+if (!(await page.locator('.form-error[role=alert]').isVisible()))
+  failures.push('missing error alert');
+if (
+  !(await page
+    .getByLabel('Wo dürfen wir Sie abholen?')
+    .evaluate((e) => e === document.activeElement))
+)
+  failures.push('invalid field not focused');
+await page.getByLabel('Wo dürfen wir Sie abholen?').fill('Am Markt 4, Ratzeburg');
+await page.getByLabel('Wohin möchten Sie fahren?').fill('Hamburg Airport & Terminal 1');
+await page.getByLabel('Datum', { exact: false }).first().fill('2099-06-20');
+await page.getByLabel('Uhrzeit', { exact: false }).first().fill('12:30');
+await page.getByLabel('Fahrgäste').selectOption('3');
+await page.getByLabel('Besondere Wünsche').fill('Rollator & Hilfe');
+await page.evaluate(() => {
+  window.__opened = [];
+  window.open = (url) => {
+    window.__opened.push(String(url));
+    return null;
+  };
+});
+await page.getByRole('button', { name: 'Per WhatsApp anfragen', exact: true }).click();
+const opened = await page.evaluate(() => window.__opened);
+const text = new URL(opened[0]).searchParams.get('text');
+if (!text.includes('Personen: 3') || !text.includes('Rollator & Hilfe'))
+  failures.push('WhatsApp data missing');
+report.flows.push('Ride: invalid fields, focus and encoded WhatsApp data passed');
+await page.getByRole('button', { name: 'Per E-Mail anfragen', exact: true }).click();
+const emailOpened = await page.evaluate(() => window.__opened);
+const mail = new URL(emailOpened.at(-1));
+if (mail.protocol !== 'mailto:' || !mail.searchParams.get('body').includes('Rollator & Hilfe'))
+  failures.push('Email booking data missing');
+if (!(await page.getByLabel('Ihre Nachricht zum Kopieren').isVisible()))
+  failures.push('Email copy fallback missing');
+report.flows.push('Email: complete draft and copy fallback passed');
+
+await page.goto('http://localhost:3000/krankenfahrten');
+await page.getByText('Regelmäßige Behandlungsfahrt', { exact: true }).click();
+await page.getByRole('button', { name: 'Weiter', exact: true }).click();
+await page.getByLabel('Wo dürfen wir Sie abholen?').fill('Ratzeburg Bahnhof');
+await page.getByLabel('Wohin möchten Sie fahren?').fill('Klinik Lübeck');
+await page.getByRole('button', { name: 'Weiter', exact: true }).click();
+await page.getByLabel('Datum', { exact: false }).first().fill('2099-06-20');
+await page.getByLabel('Uhrzeit', { exact: false }).first().fill('12:30');
+await page.getByRole('button', { name: 'Weiter', exact: true }).click();
+await page.getByLabel('Möchten Sie auch eine Rückfahrt anfragen?').selectOption('Ja');
+await page.getByRole('button', { name: 'Weiter', exact: true }).click();
+if (!(await page.locator('.form-error[role=alert]').isVisible()))
+  failures.push('medical return validation missing');
+await page.getByLabel('Datum der Rückfahrt').fill('2099-06-20');
+await page.getByLabel('Uhrzeit der Rückfahrt').fill('16:00');
+await page.getByRole('button', { name: 'Weiter', exact: true }).click();
+await page.getByRole('button', { name: 'Weiter', exact: true }).click();
+await page.evaluate(() => {
+  window.__opened = [];
+  window.open = (url) => {
+    window.__opened.push(String(url));
+    return null;
+  };
+});
+await page.getByRole('button', { name: 'Per WhatsApp anfragen', exact: true }).click();
+const med = await page.evaluate(() => window.__opened);
+if (!new URL(med[0]).searchParams.get('text').includes('Rückfahrt: 20.06.2099 um 16:00'))
+  failures.push('medical summary missing');
+report.flows.push('Medical: all 6 steps, return validation and message passed');
+await page.goto('http://localhost:3000/flughafentransfer');
+await page.getByLabel('Richtung').selectOption('Vom Flughafen');
+await page.getByLabel('Flughafen', { exact: false }).first().selectOption('Lübeck (LBC)');
+if ((await page.getByLabel('Wo dürfen wir Sie abholen?').inputValue()) !== 'Lübeck (LBC)')
+  failures.push('airport direction wrong');
+await page.getByLabel('Wohin möchten Sie fahren?').fill('Ratzeburg Bahnhof');
+await page.getByLabel('Datum', { exact: false }).first().fill('2099-06-20');
+await page.getByLabel('Uhrzeit', { exact: false }).first().fill('12:30');
+await page.getByLabel('Flugnummer').fill('LH123');
+await page.evaluate(() => {
+  window.__opened = [];
+  window.open = (url) => {
+    window.__opened.push(String(url));
+    return null;
+  };
+});
+await page.getByRole('button', { name: 'Per WhatsApp anfragen', exact: true }).click();
+const airport = await page.evaluate(() => window.__opened);
+if (!new URL(airport[0]).searchParams.get('text').includes('LH123'))
+  failures.push('flight number missing');
+report.flows.push('Airport: direction, airport and flight data passed');
+await page.goto('http://localhost:3000/fahrpreis');
+await page.getByText('Optional: unverbindliche Streckenschätzung öffnen').click();
+await page.getByLabel('Startadresse').fill('Ratzeburg Bahnhof');
+await page.getByLabel('Zieladresse').fill('Mölln Bahnhof');
+await page.getByLabel('Wo verläuft Ihre Fahrt?').selectOption('outside');
+await page.getByRole('button', { name: 'Unverbindliche Strecke einschätzen', exact: true }).click();
+if (await page.locator('.fare-value').count())
+  failures.push('Outside area must not show Kreis tariff price');
+await page.getByLabel('Wo verläuft Ihre Fahrt?').selectOption('inside');
+await page.getByLabel('Entfernung in km').fill('10');
+await page.getByRole('button', { name: 'Unverbindliche Strecke einschätzen', exact: true }).click();
+if (
+  !(await page
+    .locator('.fare-value')
+    .innerText()
+    .then((t) => t.includes('33,10')))
+)
+  failures.push('Provided day tariff wrong');
+await page.getByLabel('Tarifzeit für bis zu 4 Fahrgäste').selectOption('night');
+await page.getByRole('button', { name: 'Unverbindliche Strecke einschätzen', exact: true }).click();
+if (
+  !(await page
+    .locator('.fare-value')
+    .innerText()
+    .then((t) => t.includes('35,40')))
+)
+  failures.push('Provided night tariff wrong');
+report.flows.push('Fare: day/night rates and outside-area guard passed');
+await page.getByRole('button', { name: 'Datenschutzeinstellungen', exact: true }).click();
+if (!(await page.getByRole('dialog').isVisible())) failures.push('privacy settings missing');
+await page.getByRole('button', { name: 'Ohne Google fortfahren' }).click();
+report.flows.push('Privacy dialog: opens and closes without Google passed');
+const external = await page.evaluate(() =>
+  performance
+    .getEntriesByType('resource')
+    .filter((e) => !e.name.startsWith(location.origin))
+    .map((e) => e.name),
+);
+if (external.length) failures.push({ unexpectedExternal: external });
+report.flows.push('No external resources before consent passed');
+await page.setViewportSize({ width: 390, height: 844 });
+await page.goto('http://localhost:3000/');
+await page.getByRole('button', { name: 'Menü öffnen' }).click();
+await page.keyboard.press('Shift+Tab');
+if (
+  (await page.evaluate(() => document.activeElement?.getAttribute('href'))) !== 'tel:+494541802080'
+)
+  failures.push('mobile menu reverse focus trap failed');
+await page.keyboard.press('Tab');
+if (
+  !(await page
+    .getByRole('button', { name: 'Menü schließen' })
+    .evaluate((e) => e === document.activeElement))
+)
+  failures.push('mobile menu focus trap failed');
+await page.keyboard.press('Escape');
+if (
+  (await page.getByRole('button', { name: 'Menü öffnen' }).getAttribute('aria-expanded')) !==
+  'false'
+)
+  failures.push('escape did not close menu');
+report.flows.push('Mobile navigation: keyboard focus trap and Escape passed');
+await page.goto('http://localhost:3000/');
+await page.keyboard.press('Tab');
+if (!(await page.locator('.skip-link').evaluate((e) => e === document.activeElement)))
+  failures.push('skip link not first focus target');
+await page.keyboard.press('Enter');
+if (!(await page.locator('main').evaluate((e) => e === document.activeElement)))
+  failures.push('skip link target not focused');
+await page.locator('.faq-list summary').first().focus();
+await page.keyboard.press('Enter');
+if (
+  !(await page.locator('.faq-list details').first().getAttribute('open')) &&
+  (await page.locator('.faq-list details[open]').count()) === 0
+)
+  failures.push('keyboard FAQ failed');
+report.flows.push('Keyboard: skip link and FAQ passed');
+await page.goto('http://localhost:3000/');
+await page.screenshot({ path: 'work/mobile.png', fullPage: true });
+await page.setViewportSize({ width: 1440, height: 1000 });
+await page.goto('http://localhost:3000/');
+await page.screenshot({ path: 'work/desktop.png', fullPage: true });
+await page.screenshot({ path: 'work/desktop-hero.png', fullPage: false });
+const api = await page.request.post('http://localhost:3000/api/route', {
+  data: { pickup: 'a', destination: 'b', consent: false },
+});
+if (api.status() !== 503) failures.push('missing-key API fallback failed');
+report.flows.push('Routes API: missing server key returns controlled 503 passed');
+const noJsContext = await browser.newContext({ javaScriptEnabled: false, locale: 'de-DE' });
+const noJsPage = await noJsContext.newPage();
+await noJsPage.goto('http://localhost:3000/fahrt-anfragen');
+if (await noJsPage.locator('.ride-form').isVisible())
+  failures.push('No-JavaScript form must not submit personal data via GET');
+if ((await noJsPage.locator('a[href="tel:+494541802080"]').count()) === 0)
+  failures.push('No-JavaScript phone fallback missing');
+await noJsContext.close();
+report.flows.push('Without JavaScript: forms hidden, direct contact remains available');
+report.failures = failures;
+report.runtimeErrors = errors;
+await fs.writeFile('work/browser-qa.json', JSON.stringify(report, null, 2));
+console.log(JSON.stringify(report, null, 2));
+await browser.close();
+if (failures.length || errors.length || report.accessibility.some((a) => a.violations.length))
+  process.exitCode = 1;

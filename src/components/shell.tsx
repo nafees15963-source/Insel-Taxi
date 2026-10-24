@@ -1,44 +1,220 @@
 'use client';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Menu, X, Phone, MessageCircle, ArrowUpRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { company, navigation } from '@/config/company';
-import { whatsappUrl } from '@/lib/contact';
-
-export function Brand({ footer = false }: { footer?: boolean }) {
-  return <Link href="/" className={`brand${footer ? ' brand-footer' : ''}`}><Image src="/logo.webp" width={76} height={76} alt="" priority={!footer}/><span><strong>INSEL TAXI</strong><span>RATZEBURG</span></span><span className="sr-only"> – Startseite</span></Link>;
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { Menu, X, Phone, Mail, MessageCircle, ArrowUpRight, Clock3, MapPin } from 'lucide-react';
+import { company, nav } from '@/config/company';
+import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
+import { CallButton, WhatsAppButton, EmailButton } from './ui';
+function Brand({ footer = false }: { footer?: boolean }) {
+  return (
+    <Link href="/" className={`brand ${footer ? 'brand-footer' : ''}`}>
+      <Image
+        src="/logo-original.png"
+        alt=""
+        width={60}
+        height={60}
+        sizes="60px"
+        priority={!footer}
+        className="original-logo"
+      />
+      <span className="brand-type">
+        INSEL TAXI <small>RATZEBURG</small>
+      </span>
+    </Link>
+  );
 }
 export function Header() {
-  const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
-  const menu = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 1051px)');
-    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
-    desktop.addEventListener('change', closeOnDesktop);
-    return () => desktop.removeEventListener('change', closeOnDesktop);
-  }, []);
+  const menu = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!open) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setOpen(false); toggle.current?.focus(); }
-      if (event.key === 'Tab') {
-        const items = [toggle.current, ...Array.from(menu.current?.querySelectorAll<HTMLAnchorElement>('a') || [])].filter(Boolean) as HTMLElement[];
-        if (event.shiftKey && document.activeElement === items[0]) { event.preventDefault(); items.at(-1)?.focus(); }
-        else if (!event.shiftKey && document.activeElement === items.at(-1)) { event.preventDefault(); items[0]?.focus(); }
+    const close = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        toggle.current?.focus();
+      }
+      if (e.key === 'Tab' && menu.current) {
+        const links = Array.from(menu.current.querySelectorAll<HTMLElement>('a,button'));
+        const last = links.at(-1);
+        if (e.shiftKey && document.activeElement === toggle.current) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          toggle.current?.focus();
+        }
       }
     };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    document.addEventListener('keydown', close);
+    return () => document.removeEventListener('keydown', close);
   }, [open]);
-  return <header className="site-header"><div className="container header-inner"><Brand/><nav className="desktop-nav" aria-label="Hauptnavigation">{navigation.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href || `${pathname}/` === item.href ? 'page' : undefined}>{item.label}</Link>)}</nav><a href={`tel:${company.phone}`} className="header-call" aria-label={`${company.phoneDisplay} – Insel Taxi anrufen`}><Phone size={18} aria-hidden="true"/><span>{company.phoneDisplay}</span></a><button ref={toggle} className="menu-toggle" aria-label={open ? 'Menü schließen' : 'Menü öffnen'} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>{open ? <X/> : <Menu/>}</button></div>{open && <div id="mobile-menu" className="mobile-menu" ref={menu}><nav aria-label="Mobile Hauptnavigation"><Link href="/" onClick={() => setOpen(false)}>Startseite</Link>{navigation.map(item => <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>{item.label}<ArrowUpRight size={18} aria-hidden="true"/></Link>)}</nav><Link className="button button-primary" href="/fahrt-anfragen/" onClick={() => setOpen(false)}>Fahrt anfragen<ArrowUpRight size={18}/></Link></div>}</header>;
+  return (
+    <>
+      <div className="utility">
+        <div className="container utility-inner">
+          <span>
+            <MapPin size={13} aria-hidden="true" />
+            Regional & bundesweit
+          </span>
+          <span>
+            <Clock3 size={13} aria-hidden="true" />
+            Täglich 24 Stunden für Sie erreichbar
+            <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a>
+          </span>
+        </div>
+      </div>
+      <header className="site-header">
+        <div className="container header-inner">
+          <Brand />
+          <nav className="desktop-nav" aria-label="Hauptnavigation">
+            {nav.map((n) => (
+              <Link
+                key={n.href}
+                href={n.href}
+                aria-current={pathname === n.href ? 'page' : undefined}
+              >
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="header-actions">
+            <WhatsAppButton>WhatsApp</WhatsAppButton>
+            <EmailButton>E-Mail</EmailButton>
+            <CallButton />
+          </div>
+          <button
+            className="menu-toggle"
+            ref={toggle}
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
+            aria-label={open ? 'Menü schließen' : 'Menü öffnen'}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
+        {open && (
+          <nav
+            className="mobile-nav"
+            ref={menu}
+            id="mobile-navigation"
+            aria-label="Mobile Hauptnavigation"
+          >
+            {nav.map((n) => (
+              <Link
+                key={n.href}
+                href={n.href}
+                aria-current={pathname === n.href ? 'page' : undefined}
+                onClick={() => setOpen(false)}
+              >
+                {n.label}
+                <ArrowUpRight size={17} />
+              </Link>
+            ))}
+            <Link href="/fahrt-anfragen" onClick={() => setOpen(false)}>
+              Fahrt anfragen
+              <ArrowUpRight size={17} />
+            </Link>
+            <WhatsAppButton />
+            <EmailButton />
+            <CallButton>{company.phoneDisplay}</CallButton>
+          </nav>
+        )}
+      </header>
+    </>
+  );
 }
 export function Footer() {
-  return <footer className="site-footer"><div className="container"><div className="footer-main"><div><Brand footer/><p>Hier zu Hause.<br/>Für Sie unterwegs.</p><p className="footer-small">Ihr Taxi in Ratzeburg und Umgebung.</p></div><div><h2>Unterwegs mit uns</h2><Link href="/leistungen/">Unsere Leistungen</Link><Link href="/krankenfahrten/">Krankenfahrten</Link><Link href="/flughafentransfer/">Flughafentransfer</Link><Link href="/leistungen/#flotte">Unsere Flotte</Link><Link href="/fahrpreis/">Tarife & Fahrpreise</Link></div><div><h2>Direkt verbunden</h2><a href={`tel:${company.phone}`}>{company.phoneDisplay}</a><a href={whatsappUrl()}>WhatsApp schreiben <ArrowUpRight size={15} aria-hidden="true"/></a><a href={`mailto:${company.email}`}>{company.email}</a><p>{company.street}<br/>{company.postalCode} {company.city}</p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Insel Taxi Ratzeburg</span><div><Link href="/impressum/">Impressum</Link><Link href="/datenschutz/">Datenschutz</Link><Link href="/kontakt/">Kontakt</Link></div><span>Mitten in Ratzeburg. Nah bei Ihnen.</span></div></div></footer>;
-}
-export function ContactDock() {
-  return <aside className="contact-dock" aria-label="Taxi direkt anfragen"><a href={whatsappUrl()} className="dock-whatsapp"><MessageCircle size={20} aria-hidden="true"/><span>WhatsApp</span></a><a href={`tel:${company.phone}`} className="dock-phone"><Phone size={19} aria-hidden="true"/><span>Anrufen</span></a></aside>;
+  return (
+    <>
+      <footer className="site-footer">
+        <div className="container">
+          <div className="footer-grid">
+            <div>
+              <Brand footer />
+              <p>
+                Von hier. Für Ihre Wege.
+                <br />
+                Ihr Fahrpartner – regional und
+                <br />
+                bundesweit. Ausland auf Anfrage.
+              </p>
+            </div>
+            <div>
+              <h2>Unterwegs mit uns</h2>
+              <Link href="/leistungen">Unsere Leistungen</Link>
+              <Link href="/krankenfahrten">Krankenfahrten</Link>
+              <Link href="/flughafentransfer">Flughafentransfer</Link>
+              <Link href="/fahrpreis">Tarifinformationen</Link>
+            </div>
+            <div>
+              <h2>Direkter Kontakt</h2>
+              <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a>
+              <a href={whatsappLink(defaultMessage)} target="_blank" rel="noopener noreferrer">
+                WhatsApp: {company.whatsappDisplay}
+              </a>
+              <a href={`mailto:${company.email}`}>{company.email}</a>
+              <span>
+                {company.street}
+                <br />
+                {company.postalCode} {company.city}
+              </span>
+            </div>
+            <div>
+              <h2>Gut zu wissen</h2>
+              <Link href="/fahrt-anfragen">Fahrt anfragen</Link>
+              <Link href="/kontakt">Kontakt & Erreichbarkeit</Link>
+              <Link href="/datenschutz">Datenschutz</Link>
+              <Link href="/impressum">Impressum</Link>
+              <button
+                className="footer-text-button"
+                onClick={() => window.dispatchEvent(new Event('maps-settings'))}
+              >
+                Datenschutzeinstellungen
+              </button>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© {new Date().getFullYear()} Insel Taxi Ratzeburg</span>
+            <span>Eine Anfrage wird erst mit unserer Bestätigung zur Buchung.</span>
+          </div>
+        </div>
+      </footer>
+      <div className="floating-contact" aria-label="Schneller Kontakt">
+        <a href={emailLink(defaultMessage)} aria-label="Fahrt per E-Mail anfragen">
+          <Mail size={21} />
+        </a>
+        <a
+          className="float-whatsapp"
+          href={whatsappLink(defaultMessage)}
+          aria-label="Fahrt per WhatsApp anfragen"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <MessageCircle size={23} />
+        </a>
+        <a href={`tel:${company.phone}`} aria-label={`Insel Taxi anrufen: ${company.phoneDisplay}`}>
+          <Phone size={21} />
+        </a>
+      </div>
+      <div className="mobile-actions">
+        <a href={emailLink(defaultMessage)}>
+          <Mail size={20} />
+          E-Mail
+        </a>
+        <a href={whatsappLink(defaultMessage)} target="_blank" rel="noopener noreferrer">
+          <MessageCircle size={21} />
+          WhatsApp
+        </a>
+        <a href={`tel:${company.phone}`}>
+          <Phone size={20} />
+          Anrufen
+        </a>
+      </div>
+    </>
+  );
 }
