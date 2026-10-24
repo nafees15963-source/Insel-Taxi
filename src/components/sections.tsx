@@ -12,6 +12,8 @@ import {
   Phone,
   Check,
   MapPin,
+  UserRound,
+  ArrowRight,
 } from 'lucide-react';
 import { company } from '@/config/company';
 import { Eyebrow, TextLink } from './ui';
@@ -78,6 +80,68 @@ export function Services({ full = false }: { full?: boolean }) {
     </div>
   );
 }
+export function Fleet() {
+  return (
+    <section className="section fleet-section" id="fuhrpark" aria-labelledby="fleet-title">
+      <div className="container">
+        <div className="section-heading">
+          <div>
+            <Eyebrow>Unser Fuhrpark</Eyebrow>
+            <h2 id="fleet-title">Platz für Ihre Pläne.</h2>
+          </div>
+          <p>
+            Allein, mit der Familie oder gemeinsam unterwegs.
+            <br />
+            Das passende Fahrzeug stimmen wir mit Ihnen ab.
+          </p>
+        </div>
+        <div className="fleet-grid">
+          {[
+            {
+              title: 'SUV',
+              count: 6,
+              text: 'Für Ihre Fahrt im Alltag und auf längeren Strecken.',
+              className: 'fleet-suv',
+            },
+            {
+              title: 'Großraumtaxi',
+              count: 8,
+              text: 'Gemeinsam ans Ziel – auch mit einer größeren Gruppe.',
+              className: 'fleet-van',
+            },
+          ].map((vehicle) => (
+            <article className={`fleet-card ${vehicle.className}`} key={vehicle.title}>
+              <div className="fleet-card-heading">
+                <h3>{vehicle.title}</h3>
+                <CarFront size={30} strokeWidth={1.4} aria-hidden="true" />
+              </div>
+              <p className="fleet-capacity">
+                <span>Bis zu</span>
+                <strong>{vehicle.count}</strong>
+                <span>Fahrgäste</span>
+              </p>
+              <div className="fleet-passengers" aria-hidden="true">
+                {Array.from({ length: vehicle.count }, (_, i) => (
+                  <span key={i}>
+                    <UserRound size={24} strokeWidth={1.5} />
+                  </span>
+                ))}
+              </div>
+              <p className="fleet-description">{vehicle.text}</p>
+              <Link href="/fahrt-anfragen" className="fleet-link">
+                Fahrt anfragen <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+            </article>
+          ))}
+        </div>
+        <p className="fleet-note">
+          Bitte geben Sie die Personenzahl bei Ihrer Anfrage an. Gepäck, Kindersitze und besondere
+          Wünsche besprechen wir vorab.
+        </p>
+      </div>
+    </section>
+  );
+}
 export function Reviews() {
   return (
     <section className="section reviews-section">
@@ -127,6 +191,10 @@ export function Reviews() {
 }
 const faqs = [
   [
+    'Wie viele Fahrgäste können mitfahren?',
+    'Unser SUV bietet Platz für bis zu 6 Fahrgäste, unser Großraumtaxi für bis zu 8 Fahrgäste. Bitte nennen Sie bei Ihrer Anfrage die Personenzahl und besondere Wünsche, damit wir das passende Fahrzeug abstimmen können.',
+  ],
+  [
     'Fahren Sie auch bundesweit und ins Ausland?',
     'Ja. Wir bieten regionale und bundesweite Fahrten an – auch für Geschäftsreisende, längere private Reisen und Krankenfahrten. Fahrten ins Ausland sind auf Anfrage möglich. Strecke, Verfügbarkeit und Preis stimmen wir persönlich ab.',
   ],
@@ -162,9 +230,9 @@ export function FAQ() {
         <div>
           <Eyebrow>Gut zu wissen</Eyebrow>
           <h2>
-            Kurze Antworten.
+            Noch Fragen?
             <br />
-            Gute Fahrt.
+            Gerne.
           </h2>
           <p>
             Noch eine Frage offen?
@@ -235,7 +303,7 @@ export function Benefits() {
       </span>
       <span>
         <Phone size={16} />
-        24 Stunden erreichbar
+        Rund um die Uhr erreichbar
       </span>
     </div>
   );

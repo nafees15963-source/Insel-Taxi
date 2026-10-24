@@ -3,7 +3,7 @@ import { RideForm } from '@/components/ride-form';
 export const metadata = {
   title: 'Flughafentransfer – regional & bundesweit',
   description:
-    'Flughafentransfers für Reisende und Geschäftsreisende regional und bundesweit anfragen. Hin- und Rückfahrt, Gepäck und Flugnummer per WhatsApp oder E-Mail übermitteln.',
+    'Flughafentransfer einfach per WhatsApp oder E-Mail anfragen. Start, Ziel und Abholzeit angeben. SUV bis 6 und Großraumtaxi bis 8 Fahrgäste.',
   alternates: { canonical: '/flughafentransfer' },
 };
 export default function Page() {
@@ -30,7 +30,7 @@ export default function Page() {
                   'Fahrten zum und vom Flughafen',
                   'Hin- und Rückfahrt gemeinsam anfragen',
                   'Personen und Gepäck vorab abstimmen',
-                  'Flugnummer freiwillig angeben',
+                  'Besondere Wünsche im Feld Anmerkung ergänzen',
                 ]}
               />
               <h2>Diese Flughäfen können Sie anfragen</h2>
@@ -59,9 +59,9 @@ export default function Page() {
                 an.
               </p>
               <p>
-                Bei einer Abholung am Flughafen können Sie Ihre Flugnummer ergänzen. Eine
-                automatische Flugüberwachung findet über diese Website nicht statt. Änderungen
-                teilen Sie uns bitte direkt mit.
+                Bei einer Abholung am Flughafen können Sie Ihre Flugnummer im Feld Anmerkung
+                ergänzen. Eine automatische Flugüberwachung findet über diese Website nicht statt.
+                Änderungen teilen Sie uns bitte direkt mit.
               </p>
             </div>
             <div className="help-panel">

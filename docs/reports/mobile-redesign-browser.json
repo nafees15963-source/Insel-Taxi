@@ -1,0 +1,542 @@
+{
+  "testedAt": "2026-10-24T21:31:08.238Z",
+  "baseUrl": "http://localhost:3000",
+  "browsers": [
+    {
+      "name": "Chromium",
+      "version": "154.0.8037.57"
+    }
+  ],
+  "pages": [
+    {
+      "width": 320,
+      "route": "/",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/leistungen",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/fahrt-anfragen",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/fahrpreis",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/krankenfahrten",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/flughafentransfer",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/kontakt",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/impressum",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/datenschutz",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/leistungen",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/fahrt-anfragen",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/fahrpreis",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/krankenfahrten",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/flughafentransfer",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/kontakt",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/impressum",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/datenschutz",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/leistungen",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/fahrt-anfragen",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/fahrpreis",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/krankenfahrten",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/flughafentransfer",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/kontakt",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/impressum",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/datenschutz",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/leistungen",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/fahrt-anfragen",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/fahrpreis",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/krankenfahrten",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/flughafentransfer",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/kontakt",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/impressum",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/datenschutz",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/leistungen",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/fahrt-anfragen",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/fahrpreis",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/krankenfahrten",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/flughafentransfer",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/kontakt",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/impressum",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/datenschutz",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/leistungen",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/fahrt-anfragen",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/fahrpreis",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/krankenfahrten",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/flughafentransfer",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/kontakt",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/impressum",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/datenschutz",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    }
+  ],
+  "flows": [
+    {
+      "name": "Hero, fleet and compact form match the brief",
+      "passed": true
+    },
+    {
+      "name": "Visible form and WhatsApp/E-Mail data: /fahrt-anfragen",
+      "passed": true
+    },
+    {
+      "name": "Visible form and WhatsApp/E-Mail data: /krankenfahrten",
+      "passed": true
+    },
+    {
+      "name": "Visible form and WhatsApp/E-Mail data: /flughafentransfer",
+      "passed": true
+    },
+    {
+      "name": "Mobile menu keyboard operation and responsive close",
+      "passed": true
+    },
+    {
+      "name": "Keyboard skip link, reduced motion, and 200% equivalent reflow",
+      "passed": true
+    },
+    {
+      "name": "Existing tariff and consent flow still work",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript fallback and contact links",
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "runtimeErrors": [],
+  "externalRequests": [],
+  "resourceFailures": [],
+  "limitations": [
+    "WebKit is not installed. iPhone Safari was not tested on a real device; native date/time containment was checked in Chromium at 320–1440px.",
+    "External WhatsApp and E-Mail window opening is intercepted. Encoded links and the copy fallback are inspected; no real messages are sent.",
+    "200% reflow uses a 640px CSS viewport equivalent to a 1280px browser at 200% page zoom. Real browser zoom, assistive technology and physical devices were not tested."
+  ],
+  "passed": true
+}

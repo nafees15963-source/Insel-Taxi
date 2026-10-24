@@ -10,10 +10,7 @@ export const metadata = {
 export default function Page() {
   return (
     <>
-      <PageIntro
-        eyebrow="Persönlich planen. Klar abstimmen."
-        title="Tarife & Fahrpreise"
-      >
+      <PageIntro eyebrow="Persönlich planen. Klar abstimmen." title="Tarife & Fahrpreise">
         <p>
           Ob Geschäftsreise, Krankenfahrt, Flughafentransfer oder lange Strecke: Fragen Sie uns nach
           dem voraussichtlichen Gesamtpreis. Wir berücksichtigen Ihre Strecke und die konkreten

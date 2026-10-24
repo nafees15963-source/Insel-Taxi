@@ -54,7 +54,9 @@ Dieses Projekt ist ein lauffähiger Arbeitsstand mit bewusst gesperrter Suchmasc
 
 ## Funktionen
 
-Die Fahrtanfrage, der Assistent mit sechs Schritten und das Transferformular öffnen wahlweise einen `wa.me`-Link oder einen E-Mail-Entwurf mit den eingegebenen Daten. Es wird nichts automatisch an Insel Taxi gesendet, nichts als bestätigt dargestellt und keine Onlinezahlung verlangt. Der Nutzer muss die Nachricht selbst in WhatsApp senden. Alle Seiten bieten `tel:`-Links.
+Die Gestaltung greift das Original-Logo mit goldenen Wellen, hellen Flächen und dunkelblauer Schrift auf. Dekorative Bewegung respektiert `prefers-reduced-motion`. Auf der Startseite stehen „Ihr Ziel. Unser Weg.“ und ein Fuhrpark mit SUV für bis zu 6 bzw. Großraumtaxi für bis zu 8 Fahrgäste.
+
+Alle Fahrtformulare – auch Krankenfahrt und Flughafentransfer – zeigen dieselben übersichtlichen Felder direkt an: Name, Fahrttyp, Start, Ziel, Datum, Uhrzeit, Personen (1–8) und eine optionale Anmerkung. Der Fahrttyp ist passend zur Seite vorbelegt. WhatsApp benötigt keine separate Telefonnummer; bei E-Mail-Anfragen kommt ein Pflichtfeld für Rückfragen hinzu. Die Auswahl öffnet einen `wa.me`-Link oder einen E-Mail-Entwurf mit den eingegebenen Daten. Es wird nichts automatisch an Insel Taxi gesendet, nichts als bestätigt dargestellt und keine Onlinezahlung verlangt. Der Nutzer muss die Nachricht selbst in WhatsApp senden. Alle Seiten bieten `tel:`-Links.
 
 Die Formulare speichern Eingaben nur im Browser-Arbeitsspeicher. Medizinische Diagnosen werden nicht abgefragt. Es gibt keine Registrierung und keine Buchungsdatenbank.
 
@@ -85,7 +87,7 @@ Alle Fahrtformulare bieten denselben validierten Inhalt wahlweise per WhatsApp o
 
 ## Bereitstellung
 
-Für lokale Vorschau keine Veröffentlichung nötig. Dieses Projekt wurde im vorhandenen Workspace implementiert; weder die bestehende Domain noch der Webserver wurden geändert. Der Sites-Helfer und das Vinext-Starterpaket waren in dieser Ausführungsumgebung nicht installiert. Es wurde deshalb keine Sites-Veröffentlichung erstellt.
+Das vorhandene GitHub-Repository `nafees15963-source/Insel-Taxi` wird auf dem Branch `main2` gepflegt. Vercel ist mit dem Repository verbunden; die aktuelle Website liegt unter https://insel-taxi.vercel.app/. Änderungen am Branch werden über diese Integration bereitgestellt. DNS und die bestehende Hauptdomain werden dadurch nicht geändert.
 
 Geeignet: ein Next.js-fähiger Hosting-Anbieter oder ein Node.js-Server. Ein reines PHP-/FTP-Webspace-Paket genügt für die Serverfunktion nicht. Alle Variablen mit `NEXT_PUBLIC_` werden beim Build fest eingebunden: nach Änderungen neu bauen.
 
@@ -122,4 +124,4 @@ Das vom Betreiber auf GitHub bereitgestellte Original liegt unter `public/logo-o
 
 ## Browserprüfungen wiederholen
 
-Zuerst `npm run build` und `npm start` ausführen. In einem zweiten Terminal `npm run test:browser` starten. Das Skript verwendet unter Linux vorhandenes `/usr/bin/chromium`; andernfalls vorher `npx playwright install chromium` ausführen. Einen anderen Browserpfad können Sie über `CHROMIUM_PATH` angeben. Die Ergebnisse und Screenshots werden unter `work/` abgelegt. Es werden keine WhatsApp-Nachrichten versendet; der Browser fängt das Öffnen zu Testzwecken ab.
+Zuerst `npm run build` und `npm start` ausführen. In einem zweiten Terminal `npm run test:browser` starten. Das Skript verwendet unter Linux vorhandenes `/usr/bin/chromium`; andernfalls vorher `npx playwright install chromium` ausführen. Einen anderen Browserpfad können Sie über `CHROMIUM_PATH` angeben. Die Screenshots werden unter `work/` abgelegt; aktuelle Prüfergebnisse sind im Prüfbericht verlinkt. Es werden keine WhatsApp-Nachrichten versendet; der Browser fängt das Öffnen zu Testzwecken ab.

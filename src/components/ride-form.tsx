@@ -1,41 +1,24 @@
 'use client';
 import { useId, useRef, useState } from 'react';
+import { MessageCircle, Mail, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { company } from '@/config/company';
 import {
-  MessageCircle,
-  Mail,
-  ArrowRight,
-  ArrowLeft,
-  Check,
-  Phone,
-  Users,
-  CalendarDays,
-  Clock3,
-  ShieldCheck,
-  ChevronDown,
-} from 'lucide-react';
-import { company, airports } from '@/config/company';
-import {
-  Booking,
+  type Booking,
+  type Errors,
+  type RequestChannel,
+  type RideMode,
   bookingMessage,
   emptyBooking,
-  Errors,
-  formatDate,
+  initialRideType,
   localDate,
-  RideMode,
+  rideTypes,
   validateBooking,
   whatsappLink,
   emailLink,
 } from '@/lib/booking';
 import { AddressField, MapsOption } from './maps';
-import Link from 'next/link';
-const medicalSteps = [
-  'Art der Fahrt',
-  'Ihre Strecke',
-  'Datum & Uhrzeit',
-  'Rückfahrt',
-  'Zusammenfassung',
-  'Anfrage senden',
-];
+
 export function RideForm({
   mode = 'ride',
   compact = false,
@@ -44,241 +27,76 @@ export function RideForm({
   compact?: boolean;
 }) {
   const prefix = useId();
-  const [b, setB] = useState<Booking>({
-    ...emptyBooking,
-    destination: mode === 'airport' ? 'Flughafen Hamburg (HAM)' : '',
-  });
-  const [errors, setErrors] = useState<Errors>({}),
-    [step, setStep] = useState(0),
-    [extra, setExtra] = useState(false),
-    [ready, setReady] = useState(false),
-    [channel, setChannel] = useState<'whatsapp' | 'email'>('whatsapp');
   const form = useRef<HTMLFormElement>(null);
-  const stepHeading = useRef<HTMLHeadingElement>(null);
-  function update<K extends keyof Booking>(k: K, v: Booking[K]) {
-    setB((old) => ({ ...old, [k]: v }));
-    setErrors((old) => ({ ...old, [k]: undefined }));
+  const [booking, setBooking] = useState<Booking>({
+    ...emptyBooking,
+    rideType: initialRideType(mode),
+  });
+  const [errors, setErrors] = useState<Errors>({});
+  const [channel, setChannel] = useState<RequestChannel>('whatsapp');
+  const [ready, setReady] = useState(false);
+  const id = (key: string) => `${prefix}-${key}`;
+
+  function update(key: keyof Booking, value: string) {
+    setBooking((old) => ({ ...old, [key]: value }));
+    // Date and time are validated together, so editing either clears that shared error.
+    setErrors((old) => ({
+      ...old,
+      [key]: undefined,
+      ...(key === 'date' || key === 'time' ? { date: undefined, time: undefined } : {}),
+    }));
     setReady(false);
   }
-  const id = (key: string) => `${prefix}-${key}`;
-  function focusFirst(e: Errors) {
-    setTimeout(() => form.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus(), 0);
-    setErrors(e);
-  }
-  function changeStep(next: number) {
-    setStep(next);
-    setErrors({});
-    setTimeout(() => stepHeading.current?.focus(), 0);
-  }
-  function next() {
-    const all = validateBooking(b, mode);
-    const keys: (keyof Booking)[] =
-      step === 1
-        ? ['pickup', 'destination']
-        : step === 2
-          ? ['date', 'time', 'passengers']
-          : step === 3
-            ? ['returnDate', 'returnTime']
-            : [];
-    const local: Errors = {};
-    keys.forEach((k) => {
-      if (all[k]) local[k] = all[k];
-    });
-    if (Object.keys(local).length) {
-      focusFirst(local);
+  const message = bookingMessage(booking, mode, channel);
+  const href = channel === 'email' ? emailLink(message) : whatsappLink(message);
+  function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const nextErrors = validateBooking(booking, channel);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      requestAnimationFrame(() =>
+        form.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus(),
+      );
+      setReady(false);
       return;
     }
-    changeStep(step + 1);
-  }
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
-    const all = validateBooking(b, mode);
-    if (Object.keys(all).length) {
-      if (mode === 'medical') {
-        changeStep(all.pickup || all.destination ? 1 : all.date || all.time ? 2 : 3);
-      }
-      focusFirst(all);
-      return;
-    }
-    const selected =
-      ((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null)?.value === 'email'
-        ? 'email'
-        : 'whatsapp';
-    setChannel(selected);
     setReady(true);
-    const message = bookingMessage(b, mode);
-    window.open(
-      selected === 'email' ? emailLink(message) : whatsappLink(message),
-      selected === 'email' ? '_self' : '_blank',
-      'noopener,noreferrer',
-    );
+    // Keep the form and copy fallback available when no external app is configured.
+    window.open(href, '_blank', 'noopener,noreferrer');
   }
-  function field(
-    key: keyof Booking,
-    label: string,
-    type = 'text',
-    optional = false,
-    icon?: React.ReactNode,
-  ) {
+  function error(key: keyof Booking) {
+    return errors[key] ? (
+      <p id={id(`${key}-error`)} className="field-error">
+        {errors[key]}
+      </p>
+    ) : null;
+  }
+  function field(key: 'name' | 'date' | 'time' | 'phone', label: string, type = 'text') {
     return (
       <div className="field">
         <label htmlFor={id(key)}>
-          {label}
-          {optional ? (
-            <span className="optional"> optional</span>
-          ) : (
-            <span aria-hidden="true"> *</span>
-          )}
+          {label} <span aria-hidden="true">*</span>
         </label>
-        <div className={icon ? 'input-with-icon' : ''}>
-          {icon}
-          <input
-            id={id(key)}
-            name={key}
-            type={type}
-            value={b[key]}
-            onChange={(e) => update(key, e.target.value)}
-            min={type === 'date' ? localDate() : type === 'number' ? 0 : undefined}
-            max={type === 'number' ? 20 : undefined}
-            maxLength={type === 'text' ? 100 : undefined}
-            required={!optional}
-            aria-invalid={!!errors[key]}
-            aria-describedby={errors[key] ? id(`${key}-error`) : undefined}
-          />
-        </div>
-        {errors[key] && (
-          <p id={id(`${key}-error`)} className="field-error">
-            {errors[key]}
-          </p>
-        )}
+        <input
+          id={id(key)}
+          name={key}
+          type={type}
+          value={booking[key]}
+          onChange={(event) => update(key, event.target.value)}
+          autoComplete={key === 'name' ? 'name' : key === 'phone' ? 'tel' : undefined}
+          min={key === 'date' ? localDate() : undefined}
+          max={key === 'date' ? '9999-12-31' : undefined}
+          maxLength={key === 'name' ? 100 : key === 'phone' ? 40 : undefined}
+          required
+          aria-invalid={!!errors[key]}
+          aria-describedby={
+            errors[key] ? id(`${key}-error`) : key === 'phone' ? id('phone-note') : undefined
+          }
+        />
+        {error(key)}
       </div>
     );
   }
-  const addresses = (
-    <>
-      <AddressField
-        id={id('pickup')}
-        label="Wo dürfen wir Sie abholen?"
-        value={b.pickup}
-        onChange={(v) => update('pickup', v)}
-        error={errors.pickup}
-        placeholder="Abholadresse eingeben"
-      />
-      <AddressField
-        id={id('destination')}
-        label="Wohin möchten Sie fahren?"
-        value={b.destination}
-        onChange={(v) => update('destination', v)}
-        error={errors.destination}
-        placeholder="Zieladresse eingeben"
-      />
-    </>
-  );
-  const schedule = (
-    <div className="form-grid">
-      {field('date', 'Datum', 'date', false, <CalendarDays size={17} aria-hidden="true" />)}
-      {field('time', 'Uhrzeit', 'time', false, <Clock3 size={17} aria-hidden="true" />)}
-    </div>
-  );
-  const passengers = (
-    <div className="field">
-      <label htmlFor={id('passengers')}>
-        Fahrgäste <span aria-hidden="true">*</span>
-      </label>
-      <div className="input-with-icon">
-        <Users size={17} aria-hidden="true" />
-        <select
-          id={id('passengers')}
-          value={b.passengers}
-          onChange={(e) => update('passengers', e.target.value)}
-          aria-invalid={!!errors.passengers}
-        >
-          {[1, 2, 3, 4].map((n) => (
-            <option key={n} value={n}>
-              {n} {n === 1 ? 'Person' : 'Personen'}
-            </option>
-          ))}
-        </select>
-      </div>
-      {errors.passengers && <p className="field-error">{errors.passengers}</p>}
-    </div>
-  );
-  const returns = (
-    <>
-      <div className="field">
-        <label htmlFor={id('returnTrip')}>Möchten Sie auch eine Rückfahrt anfragen?</label>
-        <select
-          id={id('returnTrip')}
-          value={b.returnTrip}
-          onChange={(e) => update('returnTrip', e.target.value)}
-        >
-          <option>Nein</option>
-          <option>Ja</option>
-        </select>
-      </div>
-      {b.returnTrip === 'Ja' && (
-        <>
-          <div className="form-grid">
-            {field('returnDate', 'Datum der Rückfahrt', 'date')}
-            {field('returnTime', 'Uhrzeit der Rückfahrt', 'time', true)}
-          </div>
-          <p className="field-note">
-            Ist die Uhrzeit noch offen? Wir stimmen sie persönlich mit Ihnen ab.
-          </p>
-        </>
-      )}
-    </>
-  );
-  const extras = (
-    <>
-      <div className="form-grid">
-        {field('luggage', 'Gepäckstücke', 'number', true)}
-        {field('name', 'Ihr Name', 'text', true)}
-      </div>
-      <div className="field">
-        <label htmlFor={id('wishes')}>
-          Besondere Wünsche <span className="optional">optional</span>
-        </label>
-        <textarea
-          id={id('wishes')}
-          value={b.wishes}
-          onChange={(e) => update('wishes', e.target.value)}
-          maxLength={800}
-          rows={3}
-          placeholder={
-            mode === 'medical'
-              ? 'Zum Beispiel: Rollator oder Hilfe beim Einsteigen. Bitte keine Diagnosen angeben.'
-              : 'Zum Beispiel: Kindersitz oder Rollator'
-          }
-        />
-      </div>
-    </>
-  );
-  const summary = (
-    <div className="booking-summary">
-      <h3>Ihre Fahrt auf einen Blick</h3>
-      <dl>
-        {Object.entries({
-          Abholort: b.pickup,
-          Zielort: b.destination,
-          Datum: formatDate(b.date),
-          Uhrzeit: b.time,
-          Fahrgäste: b.passengers,
-          ...(mode === 'medical' ? { 'Art der Fahrt': b.rideType } : {}),
-          ...(b.returnTrip === 'Ja'
-            ? {
-                Rückfahrt: `${formatDate(b.returnDate)} ${b.returnTime || 'Uhrzeit nach Absprache'}`,
-              }
-            : {}),
-        }).map(([label, value]) => (
-          <div key={label}>
-            <dt>{label}</dt>
-            <dd>{value}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  );
   return (
     <form
       ref={form}
@@ -286,267 +104,166 @@ export function RideForm({
       onSubmit={submit}
       noValidate
     >
-      {mode === 'medical' && (
-        <>
-          <ol className="step-indicator" aria-label="Fortschritt">
-            {medicalSteps.map((s, i) => (
-              <li
-                key={s}
-                aria-current={step === i ? 'step' : undefined}
-                className={step >= i ? 'reached' : ''}
-              >
-                <span>{step > i ? <Check size={14} /> : i + 1}</span>
-                <small>{s}</small>
-              </li>
+      <p className="field-note">Alle Felder mit * sind Pflichtfelder.</p>
+      <div className="form-grid">
+        {field('name', 'Name')}
+        <div className="field">
+          <label htmlFor={id('rideType')}>
+            Fahrttyp <span aria-hidden="true">*</span>
+          </label>
+          <select
+            id={id('rideType')}
+            name="rideType"
+            value={booking.rideType}
+            onChange={(event) => update('rideType', event.target.value)}
+            required
+            aria-invalid={!!errors.rideType}
+            aria-describedby={errors.rideType ? id('rideType-error') : undefined}
+          >
+            {rideTypes.map((type) => (
+              <option key={type}>{type}</option>
             ))}
-          </ol>
-          <p className="step-count">Schritt {step + 1} von 6</p>
-          <h3 className="step-title" tabIndex={-1} ref={stepHeading}>
-            {medicalSteps[step]}
-          </h3>
-        </>
-      )}
-      {mode === 'medical' && step === 0 && (
-        <>
-          <p>
-            Wählen Sie, was am besten zu Ihrer Fahrt passt. Medizinische Angaben benötigen wir
-            nicht.
+          </select>
+          {error('rideType')}
+        </div>
+      </div>
+      <div className="form-grid">
+        <AddressField
+          id={id('pickup')}
+          label="Start"
+          value={booking.pickup}
+          onChange={(value) => update('pickup', value)}
+          error={errors.pickup}
+        />
+        <AddressField
+          id={id('destination')}
+          label="Ziel"
+          value={booking.destination}
+          onChange={(value) => update('destination', value)}
+          error={errors.destination}
+        />
+      </div>
+      <MapsOption />
+      <div className="form-grid">
+        {field('date', 'Datum', 'date')}
+        {field('time', 'Uhrzeit', 'time')}
+      </div>
+      <p className="field-note">Datum und Uhrzeit gelten für Deutschland.</p>
+      <div className="field">
+        <label htmlFor={id('passengers')}>
+          Personen <span aria-hidden="true">*</span>
+        </label>
+        <select
+          id={id('passengers')}
+          name="passengers"
+          value={booking.passengers}
+          onChange={(event) => update('passengers', event.target.value)}
+          required
+          aria-invalid={!!errors.passengers}
+          aria-describedby={errors.passengers ? id('passengers-error') : undefined}
+        >
+          {Array.from({ length: 8 }, (_, index) => index + 1).map((count) => (
+            <option key={count} value={count}>
+              {count} {count === 1 ? 'Person' : 'Personen'}
+            </option>
+          ))}
+        </select>
+        {error('passengers')}
+      </div>
+      <div className="field">
+        <label htmlFor={id('wishes')}>
+          Anmerkung <span className="optional">optional</span>
+        </label>
+        <textarea
+          id={id('wishes')}
+          name="wishes"
+          value={booking.wishes}
+          onChange={(event) => update('wishes', event.target.value)}
+          rows={3}
+          maxLength={800}
+          placeholder="Zum Beispiel Gepäck, Kindersitz oder eine Rückfahrt"
+          aria-invalid={!!errors.wishes}
+          aria-describedby={errors.wishes ? id('wishes-error') : undefined}
+        />
+        {error('wishes')}
+        {booking.rideType === 'Krankenfahrt' && (
+          <p className="field-note">
+            Bitte keine Diagnosen angeben. Eine Kostenübernahme klären Sie vorab mit Ihrer
+            Krankenkasse.
           </p>
-          <div className="radio-cards">
-            {[
-              'Arzt- oder Kliniktermin',
-              'Regelmäßige Behandlungsfahrt',
-              'Reha oder Entlassung',
-              'Andere Fahrt / Rückfrage',
-            ].map((v) => (
-              <label key={v}>
-                <input
-                  type="radio"
-                  name={id('rideType')}
-                  value={v}
-                  checked={b.rideType === v}
-                  onChange={() => update('rideType', v)}
-                />
-                <span>{v}</span>
-              </label>
-            ))}
-          </div>
-        </>
-      )}
-      {mode === 'airport' && (
-        <>
-          <div className="form-grid">
-            <div className="field">
-              <label htmlFor={id('airport')}>Flughafen *</label>
-              <select
-                id={id('airport')}
-                value={b.airport}
-                onChange={(e) => {
-                  update('airport', e.target.value);
-                  update(
-                    b.direction === 'Zum Flughafen' ? 'destination' : 'pickup',
-                    e.target.value,
-                  );
-                }}
-              >
-                {airports.map((a) => (
-                  <option key={a}>{a}</option>
-                ))}
-              </select>
-            </div>
-            <div className="field">
-              <label htmlFor={id('direction')}>Richtung *</label>
-              <select
-                id={id('direction')}
-                value={b.direction}
-                onChange={(e) => {
-                  const direction = e.target.value;
-                  setB((old) => ({
-                    ...old,
-                    direction,
-                    pickup: direction === 'Vom Flughafen' ? old.airport : '',
-                    destination: direction === 'Zum Flughafen' ? old.airport : '',
-                  }));
-                  setReady(false);
-                }}
-              >
-                <option>Zum Flughafen</option>
-                <option>Vom Flughafen</option>
-              </select>
-            </div>
-          </div>
-        </>
-      )}
-      {(mode !== 'medical' || step === 1) && (
-        <>
-          <MapsOption />
-          {addresses}
-        </>
-      )}
-      {(mode !== 'medical' || step === 2) && (
-        <>
-          {schedule}
-          {compact ? (
-            <button
-              type="button"
-              className="form-expand"
-              aria-expanded={extra}
-              onClick={() => setExtra(!extra)}
-            >
-              <Users size={15} /> {b.passengers} {b.passengers === '1' ? 'Person' : 'Personen'} ·
-              Gepäck & weitere Angaben
-              <ChevronDown size={15} />
-            </button>
-          ) : (
-            passengers
-          )}
-        </>
-      )}
-      {mode === 'medical' && step === 3 && returns}
-      {mode === 'medical' && step === 4 && (
-        <>
-          {summary}
-          {extras}
-        </>
-      )}
-      {mode === 'medical' && step === 5 && (
-        <>
-          {summary}
-          <p className="notice">
-            Wir prüfen Ihre Anfrage persönlich. Eine Kostenübernahme muss mit Ihrer Krankenkasse
-            geklärt sein.
-          </p>
-        </>
-      )}
-      {mode === 'ride' && (!compact || extra) && (
-        <>
-          {compact && passengers}
-          {extras}
-        </>
-      )}
-      {mode === 'airport' && (
-        <>
-          <div className="form-grid">
-            {field('luggage', 'Gepäckstücke', 'number', true)}
-            {field('flight', 'Flugnummer', 'text', true)}
-          </div>
-          {returns}
-          {field('name', 'Ihr Name', 'text', true)}
-          <div className="field">
-            <label htmlFor={id('wishes')}>
-              Besondere Wünsche <span className="optional">optional</span>
-            </label>
-            <textarea
-              id={id('wishes')}
-              value={b.wishes}
-              onChange={(e) => update('wishes', e.target.value)}
-              maxLength={800}
-              rows={3}
+        )}
+      </div>
+      <fieldset className="request-channel">
+        <legend>Anfrage senden über</legend>
+        {(['whatsapp', 'email'] as const).map((value) => (
+          <label key={value}>
+            <input
+              type="radio"
+              name={id('channel')}
+              value={value}
+              checked={channel === value}
+              onChange={() => {
+                setChannel(value);
+                setReady(false);
+                setErrors((old) => ({ ...old, phone: undefined }));
+              }}
             />
-          </div>
-        </>
+            {value === 'whatsapp' ? (
+              <MessageCircle size={18} aria-hidden="true" />
+            ) : (
+              <Mail size={18} aria-hidden="true" />
+            )}
+            <span>{value === 'whatsapp' ? 'WhatsApp' : 'E-Mail'}</span>
+          </label>
+        ))}
+      </fieldset>
+      {channel === 'email' && (
+        <div>
+          {field('phone', 'Telefonnummer', 'tel')}
+          <p id={id('phone-note')} className="field-note">
+            Für Rückfragen zu Ihrer E-Mail-Anfrage.
+          </p>
+        </div>
       )}
-      {Object.values(errors).filter(Boolean).length > 0 && (
+      {Object.values(errors).some(Boolean) && (
         <p role="alert" className="form-error">
           Bitte prüfen Sie die markierten Angaben.
         </p>
       )}
-      {mode === 'medical' && step < 5 ? (
-        <div className="step-buttons">
-          {step > 0 && (
-            <button
-              type="button"
-              className="button button-outline"
-              onClick={() => changeStep(step - 1)}
-            >
-              <ArrowLeft size={17} />
-              Zurück
-            </button>
-          )}
-          <button type="button" className="button button-primary" onClick={next}>
-            Weiter
-            <ArrowRight size={17} />
-          </button>
-        </div>
-      ) : (
-        <>
-          <button
-            className="button button-primary submit-button"
-            type="submit"
-            name="channel"
-            value="whatsapp"
-          >
-            <MessageCircle size={20} />
-            Per WhatsApp anfragen
-            <ArrowRight size={18} className="button-end" />
-          </button>
-          <button
-            className="button button-outline submit-button"
-            type="submit"
-            name="channel"
-            value="email"
-          >
-            <Mail size={19} />
-            Per E-Mail anfragen
-          </button>
-          {ready && (
-            <div className="notice" role="status">
-              {channel === 'email'
-                ? 'Ihr E-Mail-Entwurf wurde vorbereitet. Bitte senden Sie ihn in Ihrem E-Mail-Programm selbst ab. Falls sich kein Programm öffnet, können Sie die Nachricht unten kopieren.'
-                : 'Ihre Nachricht wurde vorbereitet. Bitte senden Sie sie in WhatsApp selbst ab.'}{' '}
-              Ihre Fahrt ist noch nicht bestätigt.{' '}
-              <a
-                href={
-                  channel === 'email'
-                    ? emailLink(bookingMessage(b, mode))
-                    : whatsappLink(bookingMessage(b, mode))
-                }
-                target={channel === 'email' ? undefined : '_blank'}
-                rel="noopener noreferrer"
-              >
-                {channel === 'email' ? 'E-Mail-Entwurf erneut öffnen' : 'WhatsApp erneut öffnen'}
-              </a>
-              {channel === 'email' && (
-                <div className="email-draft">
-                  <p>Empfänger: {company.email}</p>
-                  <label htmlFor={id('email-draft')}>Ihre Nachricht zum Kopieren</label>
-                  <textarea
-                    id={id('email-draft')}
-                    readOnly
-                    rows={9}
-                    value={bookingMessage(b, mode)}
-                  />
-                </div>
-              )}
+      <button className="button button-primary submit-button" type="submit">
+        {channel === 'whatsapp' ? (
+          <MessageCircle size={20} aria-hidden="true" />
+        ) : (
+          <Mail size={20} aria-hidden="true" />
+        )}
+        {channel === 'whatsapp' ? 'Per WhatsApp anfragen' : 'Per E-Mail anfragen'}
+        <ArrowRight size={18} className="button-end" aria-hidden="true" />
+      </button>
+      {ready && (
+        <div className="notice" role="status">
+          <p>
+            Ihre Nachricht ist vorbereitet. Bitte senden Sie sie in{' '}
+            {channel === 'email' ? 'Ihrem E-Mail-Programm' : 'WhatsApp'} selbst ab. Die Fahrt ist
+            erst nach unserer Bestätigung gebucht.
+          </p>
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            {channel === 'email' ? 'E-Mail-Entwurf erneut öffnen' : 'WhatsApp erneut öffnen'}
+          </a>
+          {channel === 'email' && (
+            <div className="email-draft">
+              <p>Empfänger: {company.email}</p>
+              <label htmlFor={id('email-draft')}>Nachricht zum Kopieren</label>
+              <textarea id={id('email-draft')} readOnly rows={8} value={message} />
             </div>
           )}
-          <p className="form-disclaimer">
-            <ShieldCheck size={14} aria-hidden="true" />
-            <span>
-              Unverbindliche Anfrage. Buchung erst nach Bestätigung.
-              <br />
-              {!compact && (
-                <>
-                  Ihre Daten bleiben bis zum Öffnen von WhatsApp oder Ihres E-Mail-Programms im
-                  Browser.{' '}
-                </>
-              )}
-              <Link href="/datenschutz">Datenschutzhinweise</Link>
-            </span>
-          </p>
-          {!compact && (
-            <a className="button button-outline submit-button" href={`tel:${company.phone}`}>
-              <Phone size={18} />
-              Lieber telefonisch: {company.phoneDisplay}
-            </a>
-          )}
-          {mode === 'medical' && (
-            <button type="button" className="text-button" onClick={() => changeStep(4)}>
-              Angaben bearbeiten
-            </button>
-          )}
-        </>
+        </div>
       )}
+      <p className="form-disclaimer">
+        <span>
+          Unverbindliche Anfrage. Buchung erst nach Bestätigung.{' '}
+          <Link href="/datenschutz">Datenschutzhinweise</Link>
+        </span>
+      </p>
     </form>
   );
 }

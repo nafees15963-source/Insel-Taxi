@@ -5,7 +5,7 @@ import { company } from '@/config/company';
 export const metadata = {
   title: 'Krankenfahrten regional & bundesweit – einfach anfragen',
   description:
-    'Krankenfahrt zum Arzt, zur Klinik oder zur regelmäßigen Behandlung regional und bundesweit anfragen. Einfacher Assistent und persönliche Hilfe per Telefon.',
+    'Krankenfahrt zum Arzt, zur Klinik oder zur Behandlung anfragen. Einfaches Formular, persönliche Abstimmung und Hilfe per Telefon.',
   alternates: { canonical: '/krankenfahrten' },
 };
 export default function Page() {
@@ -18,7 +18,7 @@ export default function Page() {
         <p>
           Wir bieten Krankenfahrten zum Arzt, in die Klinik, zur Reha und zu regelmäßigen
           Behandlungen an – regional und bundesweit, auch über längere Entfernungen. Fragen Sie Ihre
-          Fahrt mit unserem einfachen Assistenten an – oder sprechen Sie direkt mit uns.
+          Fahrt mit unserem einfachen Formular an – oder sprechen Sie direkt mit uns.
         </p>
       </PageIntro>
       <section className="page-content">
@@ -54,9 +54,8 @@ export default function Page() {
                 sollten Sie vorher klären.
               </p>
               <p>
-                Die bisherige Unternehmenswebsite nennt die Direktabrechnung mit Krankenkassen.
-                Bitte stimmen Sie die konkrete Abrechnung und die erforderlichen Unterlagen vorab
-                telefonisch mit uns ab.
+                Bitte stimmen Sie die Abrechnung mit Ihrer Krankenkasse und die erforderlichen
+                Unterlagen vorab telefonisch mit uns ab.
               </p>
             </div>
             <div className="help-panel">
@@ -73,7 +72,10 @@ export default function Page() {
           </div>
           <div className="form-panel">
             <h2>Krankenfahrt einfach anfragen</h2>
-            <p className="form-description">Sechs kurze Schritte. Ohne Gesundheitsdaten.</p>
+            <p className="form-description">
+              Alle Angaben auf einen Blick. Bitte keine Diagnosen oder medizinischen Unterlagen
+              eingeben.
+            </p>
             <RideForm mode="medical" />
             <div className="help-panel">
               <h3>Lieber gemeinsam besprechen?</h3>

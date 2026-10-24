@@ -40,3 +40,7 @@ Diese neue bereitgestellte Primärquelle löst den früheren Abrufblocker ab. PD
 ## Original-Logo nachgereicht
 
 Am 22.10.2026 wurde das vom Betreiber auf GitHub hochgeladene `public/logo-original.png` übernommen (PNG, 1254 × 1254 Pixel). Die Datei bleibt unverändert; Next.js liefert passende Darstellungsgrößen aus. Der frühere Aktivierungsschalter wurde entfernt.
+
+## Design- und Formularauftrag vom 24.10.2026
+
+Neue Betreiberangaben: SUV bis 6 Fahrgäste, Großraumtaxi bis 8 Fahrgäste. Die bereitgestellten mobilen Screenshots zeigen eine überlange Überschrift, überlaufende native Datums-/Zeitfelder und versteckte Zusatzangaben. Die aktuelle Überarbeitung behebt diese Punkte, beschränkt die Überschrift auf „Ihr Ziel. Unser Weg.“ und vereinfacht alle Fahrtanfragen. Die zusätzlich gezeigten goldenen Wellenbilder dienen als gestalterische Referenz. Das Original-Logo bleibt unverändert.

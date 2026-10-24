@@ -4,7 +4,7 @@ import { company } from '@/config/company';
 import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
 import type { ReactNode } from 'react';
 export function WhatsAppButton({
-  children = 'WhatsApp-Anfrage starten',
+  children = 'Per WhatsApp anfragen',
   message = defaultMessage,
   className = '',
 }: {
@@ -109,20 +109,20 @@ export function ContactStrip() {
         <div>
           <Eyebrow light>Persönlich für Sie da</Eyebrow>
           <h2>
-            Ihre nächste Fahrt?
+            Wohin es auch geht.
             <br />
-            Einfach kurz melden.
+            Wir sind für Sie da.
           </h2>
           <p>Per WhatsApp oder E-Mail anfragen – oder direkt mit uns sprechen.</p>
         </div>
         <div className="contact-strip-actions">
           <WhatsAppButton />
-          <EmailButton />
           <a className="contact-big-phone" href={`tel:${company.phone}`}>
             <Phone size={24} aria-hidden="true" />
             {company.phoneDisplay}
           </a>
           <span>Täglich, rund um die Uhr erreichbar</span>
+          <EmailButton />
         </div>
       </div>
     </section>

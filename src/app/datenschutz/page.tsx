@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <>
       <PageIntro eyebrow="Ihre Daten. Verständlich erklärt." title="Datenschutzhinweise">
-        <p>Technische Informationen zur neuen Website. Stand: 21. Oktober 2026.</p>
+        <p>Informationen zur Website. Stand: 24. Oktober 2026.</p>
       </PageIntro>
       <section className="page-content">
         <div className="container prose-narrow">
@@ -54,8 +54,10 @@ export default function Page() {
               Browserspeicher. Beim Neuladen gehen Ihre Eingaben verloren.
             </p>
             <p>
-              Für eine Anfrage sind insbesondere Abholort, Ziel, Datum, Uhrzeit und Personenzahl
-              vorgesehen. Name, Gepäck und besondere Wünsche sind freiwillig. Bitte geben Sie keine
+              Für eine Anfrage benötigen wir Ihren Namen, den Fahrttyp, Start, Ziel, Datum, Uhrzeit
+              und Personenzahl. Bei einer E-Mail-Anfrage wird zusätzlich eine Telefonnummer für
+              Rückfragen abgefragt; bei WhatsApp ist sie nicht erforderlich und wird nicht in den
+              Nachrichtentext übernommen. Eine Anmerkung ist freiwillig. Bitte geben Sie keine
               Diagnosen, medizinischen Unterlagen oder sonstigen unnötigen Gesundheitsdaten ein.
             </p>
             <h2>4. WhatsApp, E-Mail und telefonischer Kontakt</h2>

@@ -23,7 +23,6 @@ export default function Page() {
         <div className="container content-grid">
           <div className="form-panel">
             <h2>Ihre Fahrtanfrage</h2>
-            <p className="form-description">Felder mit * benötigen wir für Ihre Anfrage.</p>
             <RideForm />
           </div>
           <aside>

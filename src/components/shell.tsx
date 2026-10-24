@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Phone, Mail, MessageCircle, ArrowUpRight, Clock3, MapPin } from 'lucide-react';
+import { Menu, X, Phone, Mail, MessageCircle, ArrowUpRight } from 'lucide-react';
 import { company, nav } from '@/config/company';
 import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
 import { CallButton, WhatsAppButton, EmailButton } from './ui';
@@ -31,6 +31,14 @@ export function Header() {
   const toggle = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLElement>(null);
   useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1051px)');
+    const closeOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false);
+    };
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => desktop.removeEventListener('change', closeOnDesktop);
+  }, []);
+  useEffect(() => {
     if (!open) return;
     const close = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -54,19 +62,6 @@ export function Header() {
   }, [open]);
   return (
     <>
-      <div className="utility">
-        <div className="container utility-inner">
-          <span>
-            <MapPin size={13} aria-hidden="true" />
-            Regional & bundesweit
-          </span>
-          <span>
-            <Clock3 size={13} aria-hidden="true" />
-            Täglich 24 Stunden für Sie erreichbar
-            <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a>
-          </span>
-        </div>
-      </div>
       <header className="site-header">
         <div className="container header-inner">
           <Brand />
@@ -82,9 +77,11 @@ export function Header() {
             ))}
           </nav>
           <div className="header-actions">
-            <WhatsAppButton>WhatsApp</WhatsAppButton>
-            <EmailButton>E-Mail</EmailButton>
-            <CallButton />
+            <CallButton>{company.phoneDisplay}</CallButton>
+            <Link className="button button-primary" href="/fahrt-anfragen">
+              Fahrt anfragen
+              <ArrowUpRight size={17} aria-hidden="true" />
+            </Link>
           </div>
           <button
             className="menu-toggle"
@@ -201,7 +198,7 @@ export function Footer() {
           <Phone size={21} />
         </a>
       </div>
-      <div className="mobile-actions">
+      <nav className="mobile-actions" aria-label="Schneller Kontakt">
         <a href={emailLink(defaultMessage)}>
           <Mail size={20} />
           E-Mail
@@ -214,7 +211,7 @@ export function Footer() {
           <Phone size={20} />
           Anrufen
         </a>
-      </div>
+      </nav>
     </>
   );
 }

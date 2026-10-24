@@ -1,5 +1,5 @@
 import { PageIntro, ContactStrip } from '@/components/ui';
-import { Services } from '@/components/sections';
+import { Fleet, Services } from '@/components/sections';
 export const metadata = {
   title: 'Leistungen – Taxi, Krankenfahrten & Transfers',
   description:
@@ -24,6 +24,7 @@ export default function Page() {
           </p>
         </div>
       </section>
+      <Fleet />
       <ContactStrip />
     </>
   );
