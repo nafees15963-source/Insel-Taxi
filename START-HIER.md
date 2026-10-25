@@ -1,6 +1,6 @@
 # Willkommen – hier beginnen
 
-Stand: **Redesign vom 24. Oktober 2026** mit goldenen Wellen, „Ihr Ziel. Unser Weg.“, SUV bis 6 und Großraumtaxi bis 8 Fahrgästen sowie vereinfachten Formularen.
+Stand: **Redesign vom 24. Oktober 2026** mit goldenen Wellen, „Ihr Ziel. Unser Weg.“, SUV bis 6 und Großraumtaxi bis 8 Fahrgästen sowie vereinfachten Formularen. Jede Leistung hat eine eigene Informationsseite mit passendem Anfrageformular.
 
 - Website: https://insel-taxi.vercel.app/
 - Aktueller Quellcode: https://github.com/nafees15963-source/Insel-Taxi/tree/main2

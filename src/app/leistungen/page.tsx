@@ -12,7 +12,8 @@ export default function Page() {
       <PageIntro eyebrow="Für jeden Anlass der passende Weg" title="Unsere Leistungen.">
         <p>
           Für Ihre täglichen Wege, wichtige Termine und die nächste Reise. In Ratzeburg, im Kreis
-          Herzogtum Lauenburg und bundesweit. Fahrten ins Ausland auf Anfrage.
+          Herzogtum Lauenburg und bundesweit. Fahrten ins Ausland auf Anfrage. Wählen Sie eine
+          Leistung für weitere Informationen und das passende Anfrageformular.
         </p>
       </PageIntro>
       <section className="page-content">

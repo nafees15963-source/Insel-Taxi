@@ -2603,3 +2603,10 @@ main:focus {
     transition: none !important;
   }
 }
+
+.service-back-link {
+  margin-bottom: 24px;
+}
+.service-details > section + section {
+  margin-top: 32px;
+}

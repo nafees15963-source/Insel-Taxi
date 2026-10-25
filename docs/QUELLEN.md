@@ -44,3 +44,5 @@ Am 22.10.2026 wurde das vom Betreiber auf GitHub hochgeladene `public/logo-origi
 ## Design- und Formularauftrag vom 24.10.2026
 
 Neue Betreiberangaben: SUV bis 6 Fahrgäste, Großraumtaxi bis 8 Fahrgäste. Die bereitgestellten mobilen Screenshots zeigen eine überlange Überschrift, überlaufende native Datums-/Zeitfelder und versteckte Zusatzangaben. Die aktuelle Überarbeitung behebt diese Punkte, beschränkt die Überschrift auf „Ihr Ziel. Unser Weg.“ und vereinfacht alle Fahrtanfragen. Die zusätzlich gezeigten goldenen Wellenbilder dienen als gestalterische Referenz. Das Original-Logo bleibt unverändert.
+
+Die ergänzten Detailseiten für Taxi-, Geschäfts-, Kinder- und Kurierfahrten erläutern die bereits aufgeführten Leistungen. Ihre Inhalte bleiben bei den vorhandenen Unternehmensangaben; Transportbedingungen, Sitzlösungen, wiederkehrende Fahrten und Rechnungswünsche werden persönlich abgestimmt. Keine zusätzlichen Leistungs- oder Liefergarantien wurden ergänzt.

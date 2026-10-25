@@ -55,10 +55,11 @@ export default function Page() {
             </p>
             <p>
               Für eine Anfrage benötigen wir Ihren Namen, den Fahrttyp, Start, Ziel, Datum, Uhrzeit
-              und Personenzahl. Bei einer E-Mail-Anfrage wird zusätzlich eine Telefonnummer für
-              Rückfragen abgefragt; bei WhatsApp ist sie nicht erforderlich und wird nicht in den
-              Nachrichtentext übernommen. Eine Anmerkung ist freiwillig. Bitte geben Sie keine
-              Diagnosen, medizinischen Unterlagen oder sonstigen unnötigen Gesundheitsdaten ein.
+              und Personenzahl (außer bei Kurierfahrten). Bei einer E-Mail-Anfrage wird zusätzlich
+              eine Telefonnummer für Rückfragen abgefragt; bei WhatsApp ist sie nicht erforderlich
+              und wird nicht in den Nachrichtentext übernommen. Eine Anmerkung ist freiwillig. Bitte
+              geben Sie keine Diagnosen, medizinischen Unterlagen oder sonstigen unnötigen
+              Gesundheitsdaten ein.
             </p>
             <h2>4. WhatsApp, E-Mail und telefonischer Kontakt</h2>
             <p>

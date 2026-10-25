@@ -119,6 +119,8 @@ test('all ride types appear in the request even when changed from a page preset'
     'Krankenfahrt',
     'Flughafentransfer',
     'Geschäftsfahrt',
+    'Kinderfahrt',
+    'Kurierfahrt',
     'Sonstige Fahrt',
   ]) {
     const changed = { ...booking, rideType };
@@ -168,4 +170,22 @@ test('email draft preserves complete booking data without sending', () => {
   assert.equal(url.pathname, 'info@inseltaxi-ratzeburg.de');
   assert.equal(url.searchParams.get('body'), message);
   assert.equal(url.searchParams.get('subject'), 'Fahrtanfrage – Insel Taxi');
+});
+
+test('courier requests omit passengers while keeping route, shipment notes and email contact', () => {
+  const courier = {
+    ...booking,
+    rideType: 'Kurierfahrt',
+    passengers: '',
+    wishes: '2 Pakete, je 30 x 20 x 15 cm, 4 kg',
+    phone: '+49 173 1234567',
+  };
+  assert.deepEqual(validateBooking(courier), {});
+  assert.deepEqual(validateBooking(courier, 'email'), {});
+  const message = bookingMessage(courier, 'ride', 'email');
+  assert.match(message, /Fahrttyp: Kurierfahrt/);
+  assert.ok(message.includes(courier.wishes));
+  assert.ok(message.includes(courier.phone));
+  assert.doesNotMatch(message, /Personen:/);
+  assert.ok(validateBooking({ ...courier, rideType: 'Taxifahrt' }).passengers);
 });

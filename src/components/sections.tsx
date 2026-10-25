@@ -22,7 +22,7 @@ export const services = [
     icon: CarFront,
     title: 'Taxi & Alltagsfahrten',
     text: 'Ob kurzer Weg oder lange Strecke: Wir fahren regional und bundesweit. Fahrten ins Ausland auf Anfrage.',
-    href: '/fahrt-anfragen',
+    href: '/taxifahrten',
     tag: 'Ihre täglichen Wege',
   },
   {
@@ -43,21 +43,21 @@ export const services = [
     icon: BriefcaseBusiness,
     title: 'Geschäftsfahrten',
     text: 'Für Geschäftsreisende, Mitarbeitende und Gäste – auch auf langen Strecken bundesweit. Rechnung nach Vereinbarung.',
-    href: '/kontakt',
+    href: '/geschaeftsfahrten',
     tag: 'Beruflich unterwegs',
   },
   {
     icon: Baby,
     title: 'Kinderfahrten',
     text: 'Zur Schule, zum Sport oder zu einem Termin. Passenden Kindersitz bitte vorab anfragen.',
-    href: '/fahrt-anfragen',
+    href: '/kinderfahrten',
     tag: 'Für die Familie',
   },
   {
     icon: Package,
     title: 'Kurierfahrten',
     text: 'Dokumente, Pakete und Waren – regional und auf längeren Strecken nach persönlicher Abstimmung.',
-    href: '/kontakt',
+    href: '/kurierfahrten',
     tag: 'Wichtiges auf den Weg bringen',
   },
 ];

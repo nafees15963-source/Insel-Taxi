@@ -1,6 +1,6 @@
 # Prüfbericht – Redesign vom 24. Oktober 2026
 
-Geprüft mit lokalem Next.js-Produktionsbuild und systemseitigem Chromium. Ältere Berichte in `docs/reports/` beziehen sich auf frühere Website-Stände; für dieses Redesign gelten ausschließlich die unten genannten Ergebnisse.
+Geprüft mit lokalem Next.js-Produktionsbuild und systemseitigem Chromium. Veraltete Berichte wurden entfernt. Die enthaltenen Berichte dokumentieren das aktuelle Redesign und die ergänzten Leistungsseiten.
 
 ## Umsetzung
 
@@ -47,3 +47,11 @@ npm start
 ```
 
 In einem zweiten Terminal `npm run test:browser` ausführen. Screenshots liegen danach im ignorierten Ordner `work/redesign/`; der Browserbericht wird zusätzlich nach `docs/reports/mobile-redesign-browser.json` geschrieben. Bei Bedarf `CHROMIUM_PATH` auf den lokalen Browser setzen.
+
+## Ergänzung: eigene Leistungsseiten
+
+Die sechs Leistungskarten verlinken auf eigene Detailseiten mit direkt eingebundenen Formularen. Neu sind `/taxifahrten`, `/geschaeftsfahrten`, `/kinderfahrten` und `/kurierfahrten`; Krankenfahrten und Flughafentransfer verwenden ihre vorhandenen Detailseiten. Der Fahrttyp wird jeweils vorbelegt. Bei Kurierfahrten entfallen Personenzahl und deren Übertragung; beim Wechsel zu einer Personenfahrt wird das Feld wieder eingeblendet.
+
+Produktionsbuild, ESLint, Formatprüfung und alle **14 fachlichen Tests** erfolgreich. Zusätzlich wurden **18 Leistungsseiten-/Breitenkombinationen** (alle sechs Seiten bei 320, 390 und 1440 Pixeln) über echte Klicks auf die Leistungskarten geprüft: richtige Zielseite und Formularvorgabe, Canonical-URL, kein horizontaler Überlauf, keine automatisierten axe-Befunde. Für alle sechs Leistungen wurden WhatsApp- und E-Mail-Nachrichten, Pflichtfelder und die E-Mail-Kopiervorlage geprüft, ohne Nachrichten zu versenden. Keine JavaScript-Laufzeitfehler. Sitemap enthält alle Leistungsseiten.
+
+Bericht: [service-pages-browser.json](reports/service-pages-browser.json). Wiederholen mit `node tests/service-pages-qa.mjs` bei laufendem Produktionsserver; optional `QA_BASE_URL` setzen. Die oben genannten Grenzen zu echtem iPhone/Safari gelten weiterhin. Frühere Lighthouse-Werte wurden für diese Inhaltsergänzung nicht neu gemessen.

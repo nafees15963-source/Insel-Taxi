@@ -11,6 +11,10 @@ const widths = [320, 375, 390, 430, 768, 1440];
 const routes = [
   '/',
   '/leistungen',
+  '/taxifahrten',
+  '/geschaeftsfahrten',
+  '/kinderfahrten',
+  '/kurierfahrten',
   '/fahrt-anfragen',
   '/fahrpreis',
   '/krankenfahrten',

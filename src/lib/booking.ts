@@ -7,8 +7,11 @@ export const rideTypes = [
   'Krankenfahrt',
   'Flughafentransfer',
   'Geschäftsfahrt',
+  'Kinderfahrt',
+  'Kurierfahrt',
   'Sonstige Fahrt',
 ] as const;
+export type RideType = (typeof rideTypes)[number];
 export type Booking = {
   name: string;
   rideType: string;
@@ -96,7 +99,7 @@ export function bookingMessage(
     `Ziel: ${b.destination.trim()}`,
     `Datum: ${formatDate(b.date)}`,
     `Uhrzeit: ${b.time} (Ortszeit Deutschland)`,
-    `Personen: ${b.passengers}`,
+    ...(b.rideType === 'Kurierfahrt' ? [] : [`Personen: ${b.passengers}`]),
   ];
   if (channel === 'email' && b.phone.trim()) lines.push(`Telefon: ${b.phone.trim()}`);
   if (b.wishes.trim()) lines.push(`Anmerkung: ${b.wishes.trim()}`);
@@ -130,7 +133,8 @@ export function validateBooking(
     else if (!instants.some((instant) => instant > now.getTime()))
       errors.date = 'Bitte wählen Sie einen Zeitpunkt in der Zukunft (Ortszeit Deutschland).';
   }
-  if (!/^[1-8]$/.test(b.passengers)) errors.passengers = 'Bitte wählen Sie 1 bis 8 Personen.';
+  if (b.rideType !== 'Kurierfahrt' && !/^[1-8]$/.test(b.passengers))
+    errors.passengers = 'Bitte wählen Sie 1 bis 8 Personen.';
   if (b.wishes.length > 800) errors.wishes = 'Bitte verwenden Sie höchstens 800 Zeichen.';
   if (channel === 'email') {
     const phone = b.phone.trim();

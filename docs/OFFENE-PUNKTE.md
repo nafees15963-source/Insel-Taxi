@@ -34,3 +34,5 @@ Original-Logo ist inzwischen unter `public/logo-original.png` vorhanden und ohne
 ## Betreiberangaben und mobile Überarbeitung vom 24.10.2026
 
 Der Betreiber nennt SUV bis zu 6 Fahrgästen und Großraumtaxi bis zu 8 Fahrgästen. Diese Angaben sind im Fuhrpark und der Personenauswahl berücksichtigt. Fahrtformulare enthalten Name, Fahrttyp, Start, Ziel, Datum, Uhrzeit, Personen und eine optionale Anmerkung. Nur bei E-Mail-Anfragen wird zusätzlich eine Telefonnummer für Rückfragen benötigt. Alle Felder sind unmittelbar sichtbar; keine Zusatzangaben-Klappe und kein mehrstufiger Assistent.
+
+Alle sechs Leistungen haben nun eigene Detailseiten mit Formular. Kurierfahrten fragen keine Personenzahl ab; die Sendung wird in der Anmerkung beschrieben. Der jeweilige Fahrttyp ist vorausgewählt.

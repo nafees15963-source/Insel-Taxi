@@ -1,0 +1,147 @@
+{
+  "testedAt": "2026-10-24T21:58:19.632Z",
+  "pages": [
+    {
+      "route": "/taxifahrten",
+      "width": 320,
+      "preset": "Taxifahrt",
+      "violations": 0
+    },
+    {
+      "route": "/krankenfahrten",
+      "width": 320,
+      "preset": "Krankenfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/flughafentransfer",
+      "width": 320,
+      "preset": "Flughafentransfer",
+      "violations": 0
+    },
+    {
+      "route": "/geschaeftsfahrten",
+      "width": 320,
+      "preset": "Geschäftsfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/kinderfahrten",
+      "width": 320,
+      "preset": "Kinderfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/kurierfahrten",
+      "width": 320,
+      "preset": "Kurierfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/taxifahrten",
+      "width": 390,
+      "preset": "Taxifahrt",
+      "violations": 0
+    },
+    {
+      "route": "/krankenfahrten",
+      "width": 390,
+      "preset": "Krankenfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/flughafentransfer",
+      "width": 390,
+      "preset": "Flughafentransfer",
+      "violations": 0
+    },
+    {
+      "route": "/geschaeftsfahrten",
+      "width": 390,
+      "preset": "Geschäftsfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/kinderfahrten",
+      "width": 390,
+      "preset": "Kinderfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/kurierfahrten",
+      "width": 390,
+      "preset": "Kurierfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/taxifahrten",
+      "width": 1440,
+      "preset": "Taxifahrt",
+      "violations": 0
+    },
+    {
+      "route": "/krankenfahrten",
+      "width": 1440,
+      "preset": "Krankenfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/flughafentransfer",
+      "width": 1440,
+      "preset": "Flughafentransfer",
+      "violations": 0
+    },
+    {
+      "route": "/geschaeftsfahrten",
+      "width": 1440,
+      "preset": "Geschäftsfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/kinderfahrten",
+      "width": 1440,
+      "preset": "Kinderfahrt",
+      "violations": 0
+    },
+    {
+      "route": "/kurierfahrten",
+      "width": 1440,
+      "preset": "Kurierfahrt",
+      "violations": 0
+    }
+  ],
+  "requests": [
+    {
+      "route": "/taxifahrten",
+      "whatsapp": true,
+      "email": true
+    },
+    {
+      "route": "/krankenfahrten",
+      "whatsapp": true,
+      "email": true
+    },
+    {
+      "route": "/flughafentransfer",
+      "whatsapp": true,
+      "email": true
+    },
+    {
+      "route": "/geschaeftsfahrten",
+      "whatsapp": true,
+      "email": true
+    },
+    {
+      "route": "/kinderfahrten",
+      "whatsapp": true,
+      "email": true
+    },
+    {
+      "route": "/kurierfahrten",
+      "whatsapp": true,
+      "email": true
+    }
+  ],
+  "runtimeErrors": [],
+  "passed": true
+}

@@ -4,6 +4,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     '',
     '/leistungen',
+    '/taxifahrten',
+    '/geschaeftsfahrten',
+    '/kinderfahrten',
+    '/kurierfahrten',
     '/fahrt-anfragen',
     '/fahrpreis',
     '/krankenfahrten',

@@ -8,6 +8,7 @@ import {
   type Errors,
   type RequestChannel,
   type RideMode,
+  type RideType,
   bookingMessage,
   emptyBooking,
   initialRideType,
@@ -22,15 +23,17 @@ import { AddressField, MapsOption } from './maps';
 export function RideForm({
   mode = 'ride',
   compact = false,
+  initialType,
 }: {
   mode?: RideMode;
   compact?: boolean;
+  initialType?: RideType;
 }) {
   const prefix = useId();
   const form = useRef<HTMLFormElement>(null);
   const [booking, setBooking] = useState<Booking>({
     ...emptyBooking,
-    rideType: initialRideType(mode),
+    rideType: initialType ?? initialRideType(mode),
   });
   const [errors, setErrors] = useState<Errors>({});
   const [channel, setChannel] = useState<RequestChannel>('whatsapp');
@@ -149,27 +152,29 @@ export function RideForm({
         {field('time', 'Uhrzeit', 'time')}
       </div>
       <p className="field-note">Datum und Uhrzeit gelten für Deutschland.</p>
-      <div className="field">
-        <label htmlFor={id('passengers')}>
-          Personen <span aria-hidden="true">*</span>
-        </label>
-        <select
-          id={id('passengers')}
-          name="passengers"
-          value={booking.passengers}
-          onChange={(event) => update('passengers', event.target.value)}
-          required
-          aria-invalid={!!errors.passengers}
-          aria-describedby={errors.passengers ? id('passengers-error') : undefined}
-        >
-          {Array.from({ length: 8 }, (_, index) => index + 1).map((count) => (
-            <option key={count} value={count}>
-              {count} {count === 1 ? 'Person' : 'Personen'}
-            </option>
-          ))}
-        </select>
-        {error('passengers')}
-      </div>
+      {booking.rideType !== 'Kurierfahrt' && (
+        <div className="field">
+          <label htmlFor={id('passengers')}>
+            Personen <span aria-hidden="true">*</span>
+          </label>
+          <select
+            id={id('passengers')}
+            name="passengers"
+            value={booking.passengers}
+            onChange={(event) => update('passengers', event.target.value)}
+            required
+            aria-invalid={!!errors.passengers}
+            aria-describedby={errors.passengers ? id('passengers-error') : undefined}
+          >
+            {Array.from({ length: 8 }, (_, index) => index + 1).map((count) => (
+              <option key={count} value={count}>
+                {count} {count === 1 ? 'Person' : 'Personen'}
+              </option>
+            ))}
+          </select>
+          {error('passengers')}
+        </div>
+      )}
       <div className="field">
         <label htmlFor={id('wishes')}>
           Anmerkung <span className="optional">optional</span>
@@ -181,7 +186,11 @@ export function RideForm({
           onChange={(event) => update('wishes', event.target.value)}
           rows={3}
           maxLength={800}
-          placeholder="Zum Beispiel Gepäck, Kindersitz oder eine Rückfahrt"
+          placeholder={
+            booking.rideType === 'Kurierfahrt'
+              ? 'Art, Anzahl, ungefähre Maße und Gewicht der Sendung'
+              : 'Zum Beispiel Gepäck, Kindersitz oder eine Rückfahrt'
+          }
           aria-invalid={!!errors.wishes}
           aria-describedby={errors.wishes ? id('wishes-error') : undefined}
         />
