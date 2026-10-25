@@ -1,6 +1,6 @@
 # Willkommen – hier beginnen
 
-Stand: **Redesign vom 24. Oktober 2026** mit goldenen Wellen, „Ihr Ziel. Unser Weg.“, SUV bis 6 und Großraumtaxi bis 8 Fahrgästen sowie vereinfachten Formularen. Jede Leistung hat eine eigene Informationsseite mit passendem Anfrageformular.
+Stand: **Redesign vom 25. Oktober 2026** mit goldenen Wellen, „Ihr Ziel. Unser Weg.“, SUV bis 6 und Großraumtaxi bis 8 Fahrgästen sowie vereinfachten Formularen. Jede Leistung hat eine eigene Informationsseite mit passendem Anfrageformular.
 
 - Website: https://insel-taxi.vercel.app/
 - Aktueller Quellcode: https://github.com/nafees15963-source/Insel-Taxi/tree/main2
@@ -43,3 +43,5 @@ Weitere Dateien:
 Der Redesign-Code ist im Branch `main2` veröffentlicht. Das vorhandene Vercel-Projekt ist mit diesem Repository verbunden. Die eigene Hauptdomain und deren DNS-Einträge wurden nicht geändert.
 
 Original-Logo ist inzwischen unter `public/logo-original.png` vorhanden und ohne Aktivierungsschalter in Header, Footer und Favicon eingebunden.
+
+Neu: WhatsApp-Gestaltung mit Nachrichtenvorschau sowie größere Bildzeichen bei den Leistungen.

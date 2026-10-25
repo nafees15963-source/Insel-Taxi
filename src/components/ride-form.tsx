@@ -1,6 +1,6 @@
 'use client';
 import { useId, useRef, useState } from 'react';
-import { MessageCircle, Mail, ArrowRight } from 'lucide-react';
+import { MessageCircle, Mail, ArrowRight, Send, ClipboardList, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import { company } from '@/config/company';
 import {
@@ -104,9 +104,37 @@ export function RideForm({
     <form
       ref={form}
       className={`ride-form ${compact ? 'compact-form' : ''}`}
+      data-channel={channel}
       onSubmit={submit}
       noValidate
     >
+      <div className="message-form-header">
+        <span className="message-avatar" aria-hidden="true">
+          {channel === 'whatsapp' ? <MessageCircle size={27} /> : <Mail size={27} />}
+        </span>
+        <div>
+          <strong>Ihre Anfrage an Insel Taxi</strong>
+          <span>
+            {channel === 'whatsapp'
+              ? 'Nachricht für WhatsApp vorbereiten'
+              : 'Nachricht für E-Mail vorbereiten'}
+          </span>
+        </div>
+      </div>
+      <ol className="message-steps" aria-label="So funktioniert die Anfrage">
+        <li>
+          <ClipboardList size={17} aria-hidden="true" />
+          <span>Ausfüllen</span>
+        </li>
+        <li>
+          <Send size={17} aria-hidden="true" />
+          <span>Selbst senden</span>
+        </li>
+        <li>
+          <CheckCircle2 size={17} aria-hidden="true" />
+          <span>Bestätigung abwarten</span>
+        </li>
+      </ol>
       <p className="field-note">Alle Felder mit * sind Pflichtfelder.</p>
       <div className="form-grid">
         {field('name', 'Name')}
@@ -234,6 +262,67 @@ export function RideForm({
           </p>
         </div>
       )}
+      <details className="message-preview">
+        <summary>
+          <MessageCircle size={18} aria-hidden="true" />
+          Ihre Nachricht ansehen<span aria-hidden="true">+</span>
+        </summary>
+        <div className="message-preview-canvas">
+          <p className="message-preview-label">VORSCHAU · NOCH NICHT GESENDET</p>
+          <div className="message-bubble">
+            <strong>Hallo Insel Taxi 👋</strong>
+            <p>Ich möchte gerne eine Fahrt anfragen.</p>
+            <dl>
+              <div>
+                <dt>Name</dt>
+                <dd>{booking.name.trim() || 'Noch eintragen'}</dd>
+              </div>
+              <div>
+                <dt>Fahrttyp</dt>
+                <dd>{booking.rideType}</dd>
+              </div>
+              <div>
+                <dt>Von</dt>
+                <dd>{booking.pickup.trim() || 'Startadresse eintragen'}</dd>
+              </div>
+              <div>
+                <dt>Nach</dt>
+                <dd>{booking.destination.trim() || 'Zieladresse eintragen'}</dd>
+              </div>
+              <div>
+                <dt>Wann</dt>
+                <dd>
+                  {booking.date ? booking.date.split('-').reverse().join('.') : 'Datum wählen'} ·{' '}
+                  {booking.time || 'Uhrzeit wählen'}
+                </dd>
+              </div>
+              {booking.rideType !== 'Kurierfahrt' && (
+                <div>
+                  <dt>Personen</dt>
+                  <dd>{booking.passengers}</dd>
+                </div>
+              )}
+              {channel === 'email' && booking.phone && (
+                <div>
+                  <dt>Telefon</dt>
+                  <dd>{booking.phone}</dd>
+                </div>
+              )}
+              {booking.wishes && (
+                <div>
+                  <dt>Anmerkung</dt>
+                  <dd>{booking.wishes}</dd>
+                </div>
+              )}
+            </dl>
+            <p>Bitte bestätigen Sie mir die Verfügbarkeit und die Fahrt.</p>
+          </div>
+          <p className="message-preview-note">
+            Der Button öffnet {channel === 'whatsapp' ? 'WhatsApp' : 'Ihr E-Mail-Programm'}. Dort
+            prüfen und senden Sie Ihre Nachricht selbst.
+          </p>
+        </div>
+      </details>
       {Object.values(errors).some(Boolean) && (
         <p role="alert" className="form-error">
           Bitte prüfen Sie die markierten Angaben.

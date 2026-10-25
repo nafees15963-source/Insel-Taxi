@@ -67,7 +67,10 @@ export function Services({ full = false }: { full?: boolean }) {
       {services.slice(0, full ? 6 : 4).map((s, i) => (
         <Link key={s.title} href={s.href} className="service-card">
           <div className="service-card-top">
-            <s.icon size={25} strokeWidth={1.5} aria-hidden="true" />
+            <span className="service-visual" aria-hidden="true">
+              <s.icon size={42} strokeWidth={1.4} />
+              <span className="service-visual-route" />
+            </span>
             <ArrowUpRight size={19} aria-hidden="true" />
           </div>
           <p className="service-index">

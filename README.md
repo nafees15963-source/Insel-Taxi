@@ -54,6 +54,8 @@ Dieses Projekt ist ein lauffähiger Arbeitsstand mit bewusst gesperrter Suchmasc
 
 ## Funktionen
 
+Die Anfrageformulare zeigen einen Chat-Kopf, eine WhatsApp-Nachrichtenvorschau und einen grünen WhatsApp-Button. Die Vorschau aktualisiert sich aus den Eingaben; gesendet wird erst in der gewählten App. Die Website verwendet dazu Dunkelblau, Gold und dezente grüne Nachrichtenflächen.
+
 Jede der sechs Leistungskarten öffnet eine eigene Informationsseite mit Anfrageformular: `/taxifahrten`, `/krankenfahrten`, `/flughafentransfer`, `/geschaeftsfahrten`, `/kinderfahrten` und `/kurierfahrten`. Der Fahrttyp ist passend vorbelegt. Bei Kurierfahrten entfällt die Personenzahl; Sendungsdetails gehören in die Anmerkung.
 
 Die Gestaltung greift das Original-Logo mit goldenen Wellen, hellen Flächen und dunkelblauer Schrift auf. Dekorative Bewegung respektiert `prefers-reduced-motion`. Auf der Startseite stehen „Ihr Ziel. Unser Weg.“ und ein Fuhrpark mit SUV für bis zu 6 bzw. Großraumtaxi für bis zu 8 Fahrgäste.

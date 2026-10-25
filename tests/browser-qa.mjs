@@ -201,7 +201,10 @@ try {
       (await form.locator('select[name="passengers"] option').count()) === 8,
       'Compact passenger choices do not include exactly 1–8',
     );
-    check((await form.locator('details').count()) === 0, 'Fields still hidden in an accordion');
+    check(
+      (await form.locator('details:not(.message-preview)').count()) === 0,
+      'Fields still hidden in an accordion',
+    );
     check(
       !(await form.innerText()).includes('weitere Angaben'),
       'Old extra-data accordion remains',

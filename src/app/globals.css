@@ -2610,3 +2610,232 @@ main:focus {
 .service-details > section + section {
   margin-top: 32px;
 }
+
+/* Messaging-inspired requests, in the Insel Taxi brand palette. */
+.message-form-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--navy);
+  color: white;
+  padding: 18px;
+  border-radius: 12px 12px 0 0;
+  margin-top: 10px;
+}
+.message-form-header strong {
+  display: block;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.message-form-header > div > span {
+  display: block;
+  font-size: 13px;
+  color: #dce6ed;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+.message-avatar {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #d9f8e6;
+  color: #075e42;
+}
+.ride-form[data-channel='email'] .message-avatar {
+  background: #fff0ba;
+  color: var(--navy);
+}
+.message-steps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.3fr;
+  gap: 10px;
+  padding: 16px 8px;
+  margin: 0 0 22px;
+  border: 1px solid #e1e8e4;
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+  background: #f6faf7;
+}
+.message-steps li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--navy);
+}
+.message-steps svg {
+  color: #14704c;
+}
+.message-preview {
+  margin: 22px 0;
+  border: 1px solid #c9dcd1;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.message-preview summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  min-height: 52px;
+  padding: 12px 14px;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 700;
+  list-style: none;
+  background: #f4faf5;
+}
+.message-preview summary::-webkit-details-marker {
+  display: none;
+}
+.message-preview summary > span {
+  margin-left: auto;
+  font-size: 22px;
+}
+.message-preview[open] summary > span {
+  transform: rotate(45deg);
+}
+.message-preview-canvas {
+  padding: 18px 14px;
+  background-color: #f4f1e6;
+  background-image: radial-gradient(#c8c7b650 0.8px, transparent 0.8px);
+  background-size: 16px 16px;
+}
+.message-preview-label {
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  color: #4b5c55;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.message-bubble {
+  margin-left: 8px;
+  padding: 17px;
+  border-radius: 12px 0 12px 12px;
+  background: #e1f6df;
+  border: 1px solid #c9e5c5;
+  box-shadow: 0 3px 8px #24364a08;
+  color: #203b2d;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.message-bubble p {
+  color: #203b2d;
+  margin-top: 10px;
+}
+.message-bubble dl {
+  margin-block: 16px;
+}
+.message-bubble dl > div {
+  margin-top: 8px;
+}
+.message-bubble dt {
+  font-weight: 700;
+}
+.message-bubble dd {
+  margin: 0;
+  white-space: pre-wrap;
+}
+.message-preview-note {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #42534b;
+  line-height: 1.65;
+}
+.ride-form[data-channel='whatsapp'] .submit-button {
+  background: #087f51;
+  border-color: #087f51;
+  color: #fff;
+  box-shadow: 0 5px 15px #087f5118;
+}
+.ride-form[data-channel='whatsapp'] .submit-button:hover {
+  background: #066740;
+  border-color: #066740;
+}
+.ride-form[data-channel='email'] .message-bubble {
+  background: #fff6d9;
+  border-color: #eadba3;
+}
+.service-card {
+  position: relative;
+}
+.service-visual {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: calc(100% - 35px);
+  min-height: 94px;
+  color: var(--navy);
+}
+.service-visual > svg {
+  padding: 12px;
+  width: 70px;
+  height: 70px;
+  border-radius: 22px 22px 22px 5px;
+  background: #fff0b7;
+  border: 1px solid #ecd78e;
+  transition: transform 0.2s;
+}
+.service-card:hover .service-visual > svg {
+  transform: translateY(-4px) rotate(-3deg);
+}
+.service-visual-route {
+  width: 44px;
+  height: 26px;
+  border-bottom: 2px dashed #a5b1b3;
+  border-right: 2px dashed #a5b1b3;
+  border-radius: 0 0 15px 0;
+  position: relative;
+}
+.service-visual-route::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #d6a90b;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px #d6a90b;
+  border-radius: 50%;
+  position: absolute;
+  right: -5px;
+  top: -7px;
+}
+.fleet-passengers {
+  padding: 16px 0;
+  position: relative;
+  border-top: 1px dashed #a5b1b350;
+  border-bottom: 1px dashed #a5b1b350;
+}
+.process-steps > li > span {
+  background: #fff0b7;
+  border-color: #dfc568;
+  color: var(--navy);
+}
+@media (max-width: 380px) {
+  .message-form-header {
+    padding: 14px 10px;
+    gap: 9px;
+  }
+  .message-avatar {
+    width: 38px;
+    height: 38px;
+  }
+  .message-form-header strong {
+    font-size: 14px;
+  }
+  .message-form-header > div > span {
+    font-size: 12px;
+  }
+  .message-preview summary {
+    font-size: 13px;
+    padding-inline: 10px;
+  }
+}
