@@ -1,4 +1,19 @@
-# Prüfbericht – Redesign vom 24. Oktober 2026
+# Prüfbericht
+
+## Aktualisierung vom 1. November 2026
+
+- Produktionsbuild und TypeScript erfolgreich; ESLint ohne Fehler/Warnungen; Formatierung geprüft.
+- 15 fachliche Tests bestanden. Neue Regression: direkte Kontaktlinks enthalten weder Nachrichtentext noch Betreff; ausgefüllte Formulare behalten ihre vollständige URL-codierte Nachricht.
+- Gesamte Browserprüfung: 78 Seiten-/Breitenkombinationen (13 Seiten × 320/375/390/430/768/1440 Pixel) und acht Funktionsabläufe bestanden. Keine horizontalen Überläufe, axe-core-Befunde, Laufzeitfehler, fehlgeschlagenen Ressourcen oder automatischen externen Anfragen. Bericht: [mobile-redesign-browser.json](reports/mobile-redesign-browser.json). Tastaturmenü, reduzierte Bewegung, Reflow, Tarif und Datenschutzdialog ebenfalls geprüft. Kein Test auf einem physischen iPhone/Safari.
+- `tests/contact-entry-qa.mjs`: Formular-Sprung und Tastaturfokus bei 320, 390, 768, 1100 und 1440 Pixeln geprüft; sechs feste/Footer-Kontaktlinks ohne Vorgabetext auch nach Formulareingaben. Unternehmensdaten und Entfernung der öffentlichen Entwurfsplatzhalter auf beiden Rechtsseiten geprüft. Bericht: [contact-entry-browser.json](reports/contact-entry-browser.json).
+- `tests/service-pages-qa.mjs`: 18 Kombinationen (6 Leistungsseiten × 3 Breiten), ohne Overflow oder automatisierte WCAG-A/AA-Befunde; sechs vollständige WhatsApp-/E-Mail-Abläufe bestanden. Nachrichten werden im Test abgefangen, nicht tatsächlich gesendet.
+- Sichtkontrolle der Startseite auf Smartphone und Desktop. Vorschauen unter `docs/Vorschau-Mobil.png` und `docs/Vorschau-Desktop.png` aktualisiert.
+- Original-Firmenlogo weiterhin unverändert (SHA-256 siehe unten). Keine zusätzlichen externen Skripte oder Bildabrufe für die Dekoration; WhatsApp-Symbol lokal.
+- Die Rechtstexte wurden anhand der Betreiberangaben, amtlicher Behördeninformationen und des implementierten Datenablaufs angepasst. Dies ist keine anwaltliche Prüfung und keine Verifikation der Verträge oder Löschabläufe im Unternehmen.
+
+Die folgenden historischen Messergebnisse behalten ihr jeweiliges Prüfdatum. Insbesondere wurden die Lighthouse-Werte nicht als neue Messung ausgegeben.
+
+## Redesign vom 24. Oktober 2026
 
 Geprüft mit lokalem Next.js-Produktionsbuild und systemseitigem Chromium. Veraltete Berichte wurden entfernt. Die enthaltenen Berichte dokumentieren das aktuelle Redesign und die ergänzten Leistungsseiten.
 

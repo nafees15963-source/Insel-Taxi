@@ -1,7 +1,8 @@
-/** Verifiziert anhand der bisherigen Unternehmenswebsite am 21.10.2026. Siehe docs/QUELLEN.md. */
+/** Unternehmensangaben vom Betreiber bestätigt am 01.11.2026. Siehe docs/QUELLEN.md. */
 export const company = {
   name: 'Insel Taxi Ratzeburg',
   owner: 'Naeem Ahmed',
+  legalName: 'Insel Taxi',
   phoneDisplay: '04541 802080',
   phone: '+494541802080',
   whatsapp: '491739189239',
@@ -12,6 +13,7 @@ export const company = {
   postalCode: '23909',
   hours: 'Täglich, rund um die Uhr',
   vatId: 'DE221613879',
+  taxNumber: '27 001 02189',
   institutionId: '600138210',
   reviewUrl: process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL || '',
 };

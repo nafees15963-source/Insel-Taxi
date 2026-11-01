@@ -54,7 +54,7 @@ Dieses Projekt ist ein lauffähiger Arbeitsstand mit bewusst gesperrter Suchmasc
 
 ## Funktionen
 
-Die Anfrageformulare zeigen einen Chat-Kopf, eine WhatsApp-Nachrichtenvorschau und einen grünen WhatsApp-Button. Die Vorschau aktualisiert sich aus den Eingaben; gesendet wird erst in der gewählten App. Die Website verwendet dazu Dunkelblau, Gold und dezente grüne Nachrichtenflächen.
+Die Startseite verlinkt über „Zum WhatsApp-Formular“ direkt auf `#whatsapp-formular`. Die Anfrageformulare zeigen einen grünen Chat-Kopf mit WhatsApp-Zeichen, eine Nachrichtenvorschau und einen grünen WhatsApp-Button. Die Vorschau aktualisiert sich aus den Eingaben; gesendet wird erst in der gewählten App. Direkte Kontaktlinks (einschließlich der festen mobilen Leiste) verwenden dagegen `wa.me/NUMMER` ohne Text und `mailto:ADRESSE` ohne Betreff oder Nachricht. Anruf-Buttons sind gelb. Das WhatsApp-Zeichen stammt aus Simple Icons (CC0); das Firmenlogo bleibt unverändert.
 
 Jede der sechs Leistungskarten öffnet eine eigene Informationsseite mit Anfrageformular: `/taxifahrten`, `/krankenfahrten`, `/flughafentransfer`, `/geschaeftsfahrten`, `/kinderfahrten` und `/kurierfahrten`. Der Fahrttyp ist passend vorbelegt. Bei Kurierfahrten entfällt die Personenzahl; Sendungsdetails gehören in die Anmerkung.
 
@@ -91,7 +91,7 @@ Alle Fahrtformulare bieten denselben validierten Inhalt wahlweise per WhatsApp o
 
 ## Bereitstellung
 
-Das vorhandene GitHub-Repository `nafees15963-source/Insel-Taxi` wird auf dem Branch `main2` gepflegt. Vercel ist mit dem Repository verbunden; die aktuelle Website liegt unter https://insel-taxi.vercel.app/. Änderungen am Branch werden über diese Integration bereitgestellt. DNS und die bestehende Hauptdomain werden dadurch nicht geändert.
+Das vorhandene GitHub-Repository `nafees15963-source/Insel-Taxi` wird auf dem Branch `main2` gepflegt. Vercel ist mit dem Repository verbunden; die Produktionsadresse lautet https://insel-taxi.vercel.app/. Damit Änderungen unter dieser Adresse erscheinen, muss `main2` als Produktionsbranch eingerichtet oder das aktuelle Deployment zu Production hochgestuft werden. Ein erfolgreicher Preview-Build allein aktualisiert die Produktionsadresse nicht. DNS und die bestehende Hauptdomain werden dadurch nicht geändert.
 
 Geeignet: ein Next.js-fähiger Hosting-Anbieter oder ein Node.js-Server. Ein reines PHP-/FTP-Webspace-Paket genügt für die Serverfunktion nicht. Alle Variablen mit `NEXT_PUBLIC_` werden beim Build fest eingebunden: nach Änderungen neu bauen.
 

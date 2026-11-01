@@ -1,11 +1,12 @@
 import Link from 'next/link';
-import { ArrowUpRight, MessageCircle, Phone, Mail, ArrowRight, Check } from 'lucide-react';
+import { ArrowUpRight, Phone, Mail, ArrowRight, Check } from 'lucide-react';
 import { company } from '@/config/company';
-import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
+import { whatsappLink, emailLink } from '@/lib/booking';
+import { WhatsAppIcon } from './whatsapp-icon';
 import type { ReactNode } from 'react';
 export function WhatsAppButton({
   children = 'Per WhatsApp anfragen',
-  message = defaultMessage,
+  message,
   className = '',
 }: {
   children?: ReactNode;
@@ -14,12 +15,12 @@ export function WhatsAppButton({
 }) {
   return (
     <a
-      className={`button button-primary ${className}`}
+      className={`button button-whatsapp ${className}`}
       href={whatsappLink(message)}
       target="_blank"
       rel="noopener noreferrer"
     >
-      <MessageCircle size={20} aria-hidden="true" />
+      <WhatsAppIcon size={20} />
       {children}
       <ArrowUpRight size={17} className="button-end" aria-hidden="true" />
     </a>
@@ -27,7 +28,7 @@ export function WhatsAppButton({
 }
 export function EmailButton({
   children = 'Per E-Mail anfragen',
-  message = defaultMessage,
+  message,
   className = '',
 }: {
   children?: ReactNode;
@@ -49,7 +50,7 @@ export function CallButton({
   className?: string;
 }) {
   return (
-    <a className={`button button-outline ${className}`} href={`tel:${company.phone}`}>
+    <a className={`button button-call ${className}`} href={`tel:${company.phone}`}>
       <Phone size={19} aria-hidden="true" />
       {children}
     </a>

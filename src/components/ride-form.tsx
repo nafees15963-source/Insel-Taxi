@@ -19,6 +19,7 @@ import {
   emailLink,
 } from '@/lib/booking';
 import { AddressField, MapsOption } from './maps';
+import { WhatsAppIcon } from './whatsapp-icon';
 
 export function RideForm({
   mode = 'ride',
@@ -110,14 +111,16 @@ export function RideForm({
     >
       <div className="message-form-header">
         <span className="message-avatar" aria-hidden="true">
-          {channel === 'whatsapp' ? <MessageCircle size={27} /> : <Mail size={27} />}
+          {channel === 'whatsapp' ? <WhatsAppIcon size={27} /> : <Mail size={27} />}
         </span>
         <div>
-          <strong>Ihre Anfrage an Insel Taxi</strong>
+          <strong>
+            {channel === 'whatsapp' ? 'Ihre WhatsApp-Fahrtanfrage' : 'Ihre E-Mail-Fahrtanfrage'}
+          </strong>
           <span>
             {channel === 'whatsapp'
-              ? 'Nachricht für WhatsApp vorbereiten'
-              : 'Nachricht für E-Mail vorbereiten'}
+              ? 'An Insel Taxi · Sie senden erst in WhatsApp'
+              : 'An Insel Taxi · Sie senden erst im E-Mail-Programm'}
           </span>
         </div>
       </div>
@@ -246,7 +249,7 @@ export function RideForm({
               }}
             />
             {value === 'whatsapp' ? (
-              <MessageCircle size={18} aria-hidden="true" />
+              <WhatsAppIcon size={18} />
             ) : (
               <Mail size={18} aria-hidden="true" />
             )}
@@ -330,7 +333,7 @@ export function RideForm({
       )}
       <button className="button button-primary submit-button" type="submit">
         {channel === 'whatsapp' ? (
-          <MessageCircle size={20} aria-hidden="true" />
+          <WhatsAppIcon size={20} />
         ) : (
           <Mail size={20} aria-hidden="true" />
         )}

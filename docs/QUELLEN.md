@@ -1,5 +1,16 @@
 # Analyse und Quellen
 
+## Aktualisierung vom 01.11.2026
+
+- Betreiber bestätigt ausdrücklich: Insel Taxi, Inhaber Naeem Ahmed; Zittschower Weg 11a, 23909 Ratzeburg; IK 600138210; Steuernummer 27 001 02189; USt-ID DE221613879. Diese Bestätigung ersetzt die früheren Vorbehalte zu diesen Angaben.
+- Aktuelle Genehmigungsbehörde: Kreis Herzogtum Lauenburg, Fachdienst 141 Straßenverkehr, Kesselflickerstraße 2, 21493 Elmenhorst, 04541 801-0141. Quellen: https://www.kreis-rz.de/Adressen/Fachdienst-141-Stra%C3%9Fenverkehr.php?FID=327.93.1&ModID=9 und https://www.kreis-rz.de/Terminvereinbarung. Die alte Barlachstraße wurde nicht übernommen. Die Kreiswebsite nennt die Straßenverkehrsbehörde ausdrücklich für PBefG-Anträge (Taxi/Mietwagen).
+- Hosting: Vercel laut Betreiberauftrag und vorhandenem Projekt; Anbieteranschrift und Datenschutzbedingungen aus https://vercel.com/legal/dpa und https://vercel.com/legal/privacy-notice. Keine konkrete Logfrist oder Vertragsunterzeichnung als Tatsache behauptet.
+- WhatsApp: https://www.whatsapp.com/legal/privacy-policy-eea (WhatsApp Ireland Limited, Merrion Road, Dublin 4). Google: https://policies.google.com/privacy?hl=de und https://policies.google.com/privacy/frameworks?hl=de.
+- Datenschutzaufsicht: https://www.datenschutzzentrum.de/datenschutzerklaerung/ und offizielle Informationen des Landes Schleswig-Holstein; Holstenstraße 98, 24103 Kiel, mail@datenschutzzentrum.de.
+- WhatsApp-Zeichen: Simple Icons 16.36.0, CC0, https://github.com/simple-icons/simple-icons. Als lokales SVG eingebunden, keine externe Bildabfrage. Das Original-Firmenlogo bleibt unverändert.
+
+Die nachfolgenden Abschnitte dokumentieren historische Recherche- und Umsetzungsstände.
+
 Prüfdatum: **21.10.2026**. Die bestehende Website wurde über den Web-Connector gelesen. Das Repository `/workspace/Insel-Taxi` enthielt zu Beginn nur Git-Metadaten und keinen Anwendungscode. Es wurden keine bestehenden Dateien ersetzt.
 
 | Quelle | Erfasste Informationen | Umgang im Relaunch |

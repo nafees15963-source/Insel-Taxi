@@ -1350,8 +1350,8 @@ main:focus {
   border: 1px solid #ffffff70;
 }
 .floating-contact > a.float-whatsapp {
-  background: var(--yellow);
-  color: var(--navy);
+  background: #087f51;
+  color: white;
 }
 .floating-contact > a:hover {
   outline: 2px solid var(--navy);
@@ -1870,7 +1870,7 @@ main:focus {
   }
 }
 @media (max-width: 1200px) {
-  .header-actions > .button-outline {
+  .header-actions > a:last-child {
     display: none;
   }
   .hero-grid {
@@ -2448,11 +2448,13 @@ main:focus {
     height: 17px;
   }
   .mobile-actions > a:nth-child(2) {
-    background: var(--yellow);
+    background: #087f51;
+    color: white;
   }
   .mobile-actions > a:last-child {
-    background: var(--navy);
-    color: white;
+    background: var(--yellow);
+    color: var(--navy);
+    box-shadow: 0 3px 12px #c99c2030;
   }
   .page-intro {
     padding-block: 35px 36px;
@@ -2611,12 +2613,189 @@ main:focus {
   margin-top: 32px;
 }
 
+/* Clear channel cues: green for WhatsApp, taxi yellow for a direct call. */
+.button-whatsapp {
+  background: #087f51;
+  color: #fff;
+  border-color: #087f51;
+}
+.button-whatsapp:hover {
+  background: #066740;
+  border-color: #066740;
+  box-shadow: 0 5px 18px #087f5126;
+}
+.button-call,
+.floating-contact > a.float-call {
+  background: var(--yellow);
+  color: var(--navy);
+  border-color: #e8bb23;
+  box-shadow: 0 4px 14px #c99c2020;
+}
+.button-call:hover {
+  background: #f5c21c;
+  border-color: #d6a60e;
+}
+.header-actions > a:last-child {
+  background: white;
+  border-color: var(--line);
+}
+.request-guide {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 440px;
+  padding: 17px 18px;
+  margin-top: 24px;
+  border: 1px solid #cfdfd5;
+  border-radius: 14px 14px 14px 3px;
+  background: #f1f8f2;
+  box-shadow: 0 6px 20px #173d3805;
+  color: #174e39;
+  animation: wave-arrive 0.7s 0.1s both;
+}
+.request-guide strong,
+.request-guide small {
+  display: block;
+  line-height: 1.6;
+}
+.request-guide strong {
+  font-size: 14px;
+}
+.request-guide small {
+  font-size: 13px;
+  color: #466353;
+}
+.request-guide > svg {
+  margin-left: auto;
+}
+.request-guide-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #c3dfcf;
+  border-radius: 50%;
+  background: white;
+  color: #087f51;
+}
+.request-guide:hover {
+  border-color: #087f51;
+  background: #e8f4ec;
+}
+#whatsapp-formular {
+  scroll-margin-block: 20px 110px;
+  border-radius: 18px;
+}
+#whatsapp-formular:target .booking-card {
+  border-color: #087f51;
+  box-shadow:
+    0 0 0 3px #087f5120,
+    0 16px 40px #172d4510;
+}
+.booking-card {
+  border-top: 4px solid #087f51;
+}
+.booking-card-title .small-label {
+  color: #176443;
+}
+.ride-form[data-channel='whatsapp'] .request-channel label:has(input:checked) {
+  border-color: #087f51;
+  background: #edf8f0;
+  color: #14573c;
+}
+.ride-form[data-channel='whatsapp'] input[type='radio'] {
+  accent-color: #087f51;
+}
+/* Quiet route motifs add depth without photographs or background downloads. */
+.services-section {
+  background: radial-gradient(ellipse at 95% 0, #fff6d8, transparent 48%), #fff;
+}
+.service-card {
+  border-bottom: 2px solid #e9dfba;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    border-color 0.2s;
+}
+.service-card:hover {
+  border-color: #dfb01a;
+  box-shadow: 0 12px 26px #172d4509;
+}
+.feature-grid > article {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.feature-grid > article::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 220px;
+  height: 220px;
+  right: -110px;
+  top: -110px;
+  border: 28px solid #dfb01a16;
+  outline: 1px solid #dfb01a30;
+  outline-offset: 13px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.process-steps {
+  position: relative;
+  isolation: isolate;
+}
+.process-steps::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 20px;
+  bottom: 40px;
+  left: 23px;
+  border-left: 2px dashed #d9bd61;
+}
+.legal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.legal-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 14px;
+  background: #f7f6ef;
+  border: 1px solid #e5e1d2;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.legal-nav a:hover {
+  background: #fff0b7;
+}
+.prose h2[id] {
+  scroll-margin-top: 24px;
+}
+@media (max-width: 600px) {
+  .hero-actions .button-whatsapp {
+    flex-basis: 100%;
+    font-size: 15px;
+  }
+  .request-guide {
+    padding: 14px;
+    gap: 10px;
+    margin-top: 18px;
+  }
+}
+
 /* Messaging-inspired requests, in the Insel Taxi brand palette. */
 .message-form-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--navy);
+  background: #173d38;
   color: white;
   padding: 18px;
   border-radius: 12px 12px 0 0;
@@ -2647,6 +2826,9 @@ main:focus {
 .ride-form[data-channel='email'] .message-avatar {
   background: #fff0ba;
   color: var(--navy);
+}
+.ride-form[data-channel='email'] .message-form-header {
+  background: var(--navy);
 }
 .message-steps {
   list-style: none;

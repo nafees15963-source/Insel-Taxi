@@ -1,0 +1,16 @@
+{
+  "testedAt": "2026-11-01T15:58:23.377Z",
+  "anchorWidths": [
+    320,
+    390,
+    768,
+    1100,
+    1440
+  ],
+  "directLinks": 6,
+  "legalPages": [
+    "/impressum",
+    "/datenschutz"
+  ],
+  "runtimeErrors": []
+}

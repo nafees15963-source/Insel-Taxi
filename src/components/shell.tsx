@@ -3,9 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Phone, Mail, MessageCircle, ArrowUpRight } from 'lucide-react';
+import { Menu, X, Phone, Mail, ArrowUpRight } from 'lucide-react';
 import { company, nav } from '@/config/company';
-import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
+import { whatsappLink, emailLink } from '@/lib/booking';
+import { WhatsAppIcon } from './whatsapp-icon';
 import { CallButton, WhatsAppButton, EmailButton } from './ui';
 function Brand({ footer = false }: { footer?: boolean }) {
   return (
@@ -151,7 +152,7 @@ export function Footer() {
             <div>
               <h2>Direkter Kontakt</h2>
               <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a>
-              <a href={whatsappLink(defaultMessage)} target="_blank" rel="noopener noreferrer">
+              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
                 WhatsApp: {company.whatsappDisplay}
               </a>
               <a href={`mailto:${company.email}`}>{company.email}</a>
@@ -182,29 +183,33 @@ export function Footer() {
         </div>
       </footer>
       <div className="floating-contact" aria-label="Schneller Kontakt">
-        <a href={emailLink(defaultMessage)} aria-label="Fahrt per E-Mail anfragen">
+        <a href={emailLink()} aria-label="Leere E-Mail an Insel Taxi öffnen">
           <Mail size={21} />
         </a>
         <a
           className="float-whatsapp"
-          href={whatsappLink(defaultMessage)}
-          aria-label="Fahrt per WhatsApp anfragen"
+          href={whatsappLink()}
+          aria-label="WhatsApp-Chat mit Insel Taxi öffnen"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <MessageCircle size={23} />
+          <WhatsAppIcon size={23} />
         </a>
-        <a href={`tel:${company.phone}`} aria-label={`Insel Taxi anrufen: ${company.phoneDisplay}`}>
+        <a
+          className="float-call"
+          href={`tel:${company.phone}`}
+          aria-label={`Insel Taxi anrufen: ${company.phoneDisplay}`}
+        >
           <Phone size={21} />
         </a>
       </div>
       <nav className="mobile-actions" aria-label="Schneller Kontakt">
-        <a href={emailLink(defaultMessage)}>
+        <a href={emailLink()}>
           <Mail size={20} />
           E-Mail
         </a>
-        <a href={whatsappLink(defaultMessage)} target="_blank" rel="noopener noreferrer">
-          <MessageCircle size={21} />
+        <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
+          <WhatsAppIcon size={21} />
           WhatsApp
         </a>
         <a href={`tel:${company.phone}`}>

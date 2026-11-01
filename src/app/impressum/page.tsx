@@ -1,31 +1,31 @@
+import Link from 'next/link';
 import { PageIntro } from '@/components/ui';
 import { company } from '@/config/company';
+
 export const metadata = {
   title: 'Impressum',
   description:
-    'Unternehmens- und Kontaktangaben von Insel Taxi Ratzeburg. Prüfhinweise für die Betreiberfreigabe.',
+    'Anbieterkennzeichnung von Insel Taxi, Inhaber Naeem Ahmed, in Ratzeburg. Kontakt, steuerliche Angaben und zuständige Aufsichtsbehörde.',
   alternates: { canonical: '/impressum' },
 };
 export default function Page() {
   return (
     <>
       <PageIntro eyebrow="Unternehmensangaben" title="Impressum">
-        <p>
-          Angaben aus dem bisherigen Unternehmensauftritt. Stand der Übernahme: 21. Oktober 2026.
-        </p>
+        <p>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).</p>
       </PageIntro>
       <section className="page-content">
         <div className="container prose-narrow">
-          <div className="legal-status">
-            <strong>Entwurf – Betreiberprüfung erforderlich</strong>Die bisherige Website enthält
-            widersprüchliche Angaben zum Inhaber und zur Anschrift. Die folgenden Angaben stammen
-            aus deren Impressum und Kontaktseite. Bitte vor Veröffentlichung bestätigen und
-            rechtlich prüfen lassen. Dieser Text ist nicht rechtlich geprüft.
-          </div>
+          <nav className="legal-nav" aria-label="Impressum – Inhalt">
+            <a href="#anbieter">Anbieter</a>
+            <a href="#kontakt">Kontakt</a>
+            <a href="#aufsicht">Aufsichtsbehörde</a>
+            <a href="#kennzeichen">Kennzeichen</a>
+          </nav>
           <div className="prose">
-            <h2>Anbieter</h2>
+            <h2 id="anbieter">Anbieter und Inhaber</h2>
             <p>
-              {company.name}
+              {company.legalName}
               <br />
               Inhaber: {company.owner}
               <br />
@@ -35,45 +35,105 @@ export default function Page() {
               <br />
               Deutschland
             </p>
-            <h2>Kontakt</h2>
+            <h2 id="kontakt">Kontakt</h2>
             <p>
-              Telefon: <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a>
+              Telefon: <a href={'tel:' + company.phone}>{company.phoneDisplay}</a>
               <br />
-              WhatsApp: {company.whatsappDisplay}
+              WhatsApp:{' '}
+              <a
+                href={'https://wa.me/' + company.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {company.whatsappDisplay}
+              </a>
               <br />
-              E-Mail: <a href={`mailto:${company.email}`}>{company.email}</a>
+              E-Mail: <a href={'mailto:' + company.email}>{company.email}</a>
             </p>
-            <h2>Umsatzsteuer-Identifikationsnummer</h2>
+            <h2 id="kennzeichen">Steuerliche Angaben und Institutionskennzeichen</h2>
             <p>
-              {company.vatId}
+              Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:{' '}
+              <strong>{company.vatId}</strong>
+            </p>
+            <p>Steuernummer: {company.taxNumber}</p>
+            <p>Institutionskennzeichen (IK): {company.institutionId}</p>
+            <p>
+              Das Institutionskennzeichen dient der Zuordnung bei der Abrechnung mit
+              Sozialversicherungsträgern. Es ist keine Zusage einer Kostenübernahme für eine
+              bestimmte Fahrt.
+            </p>
+            <h2 id="aufsicht">Zuständige Genehmigungs- und Aufsichtsbehörde</h2>
+            <p>
+              Kreis Herzogtum Lauenburg
               <br />
-              Aus der bisherigen Website übernommen; durch den Betreiber zu bestätigen.
+              Fachdienst 141 Straßenverkehr – Straßenverkehrsbehörde
+              <br />
+              Kesselflickerstraße 2<br />
+              21493 Elmenhorst
+              <br />
+              Telefon: <a href="tel:+4945418010141">04541 801-0141</a>
+              <br />
+              E-Mail: <a href="mailto:strassenverkehr@kreis-rz.de">strassenverkehr@kreis-rz.de</a>
             </p>
-            <h2>Genehmigung und Aufsicht</h2>
             <p>
-              Die bisherige Website nennt eine Genehmigung nach § 47 Personenbeförderungsgesetz und
-              als zuständige Behörde den Kreis Herzogtum Lauenburg, Barlachstraße 2, 23909
-              Ratzeburg. Aktuelle Zuständigkeit, Behördenanschrift und Genehmigungsangaben sind vor
-              Veröffentlichung zu bestätigen.
-            </p>
-            <p>
-              <a href="https://www.kreis-rz.de/" target="_blank" rel="noopener noreferrer">
-                Website des Kreises Herzogtum Lauenburg
+              <a
+                href="https://www.kreis-rz.de/Strassenverkehr"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Fachdienst Straßenverkehr beim Kreis Herzogtum Lauenburg
               </a>
             </p>
-            <h2>Weitere erforderliche Angaben</h2>
+            <h2>Rechtliche Grundlagen des Taxiverkehrs</h2>
             <p>
-              [VOM BETREIBER ZU PRÜFEN: Rechtsform, gegebenenfalls Registereintrag, zuständige
-              Aufsichtsbehörde, berufsrechtliche Pflichtangaben und Angaben zur
-              Verbraucherschlichtung.]
+              Für den Taxiverkehr gelten insbesondere das Personenbeförderungsgesetz (PBefG),
+              darunter § 47 zum Verkehr mit Taxen, und die Verordnung über den Betrieb von
+              Kraftfahrunternehmen im Personenverkehr (BOKraft).
             </p>
-            <h2>Inhalte und Original-Logo</h2>
+            <ul>
+              <li>
+                <a
+                  href="https://www.gesetze-im-internet.de/pbefg/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Personenbeförderungsgesetz (PBefG)
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.gesetze-im-internet.de/bokraft/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  BOKraft
+                </a>
+              </li>
+              <li>
+                <Link href="/fahrpreis">Aktuelle Tarifinformationen und Kreisverordnung</Link>
+              </li>
+            </ul>
+            <h2>Fahrtanfragen und Buchung</h2>
             <p>
-              Das vom Betreiber bereitgestellte Original-Logo darf ausschließlich mit den
-              entsprechenden Nutzungsrechten verwendet werden. Es wird kein Ersatzlogo erstellt. Der
-              vollständige Marken- und Bildnachweis ist vor Veröffentlichung durch den Betreiber zu
-              bestätigen.
+              Die Formulare auf dieser Website bereiten eine Nachricht für WhatsApp oder Ihr
+              E-Mail-Programm vor. Das Öffnen oder Versenden einer Anfrage bestätigt noch keine
+              Fahrt. Eine Buchung kommt erst nach unserer ausdrücklichen Bestätigung zustande.
+              Verfügbarkeit, Abholzeit und besondere Anforderungen stimmen wir persönlich mit Ihnen
+              ab.
             </p>
+            <h2>Inhalte und Nutzungsrechte</h2>
+            <p>
+              Die Inhalte dieser Website und das Logo von Insel Taxi unterliegen den jeweils
+              geltenden Schutzrechten. Eine Nutzung außerhalb der gesetzlichen Erlaubnisse bedarf
+              der Zustimmung des jeweiligen Rechteinhabers. Marken und Kennzeichen externer Dienste
+              gehören ihren jeweiligen Inhabern.
+            </p>
+            <h2>Datenschutz</h2>
+            <p>
+              Wie wir personenbezogene Daten verarbeiten und welche Rechte Sie haben, erläutern wir
+              in unserer <Link href="/datenschutz">Datenschutzerklärung</Link>.
+            </p>
+            <p>Stand: 1. November 2026.</p>
           </div>
         </div>
       </section>

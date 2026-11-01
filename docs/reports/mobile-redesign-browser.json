@@ -1,6 +1,6 @@
 {
-  "testedAt": "2026-10-24T21:31:08.238Z",
-  "baseUrl": "http://localhost:3000",
+  "testedAt": "2026-11-01T15:58:21.136Z",
+  "baseUrl": "http://localhost:3200",
   "browsers": [
     {
       "name": "Chromium",
@@ -20,6 +20,42 @@
     {
       "width": 320,
       "route": "/leistungen",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/taxifahrten",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/geschaeftsfahrten",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/kinderfahrten",
+      "status": 200,
+      "scroll": 320,
+      "client": 320,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "route": "/kurierfahrten",
       "status": 200,
       "scroll": 320,
       "client": 320,
@@ -101,6 +137,42 @@
     {
       "width": 375,
       "route": "/leistungen",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/taxifahrten",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/geschaeftsfahrten",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/kinderfahrten",
+      "status": 200,
+      "scroll": 375,
+      "client": 375,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 375,
+      "route": "/kurierfahrten",
       "status": 200,
       "scroll": 375,
       "client": 375,
@@ -182,6 +254,42 @@
     {
       "width": 390,
       "route": "/leistungen",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/taxifahrten",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/geschaeftsfahrten",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/kinderfahrten",
+      "status": 200,
+      "scroll": 390,
+      "client": 390,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "route": "/kurierfahrten",
       "status": 200,
       "scroll": 390,
       "client": 390,
@@ -263,6 +371,42 @@
     {
       "width": 430,
       "route": "/leistungen",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/taxifahrten",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/geschaeftsfahrten",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/kinderfahrten",
+      "status": 200,
+      "scroll": 430,
+      "client": 430,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "route": "/kurierfahrten",
       "status": 200,
       "scroll": 430,
       "client": 430,
@@ -344,6 +488,42 @@
     {
       "width": 768,
       "route": "/leistungen",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/taxifahrten",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/geschaeftsfahrten",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/kinderfahrten",
+      "status": 200,
+      "scroll": 768,
+      "client": 768,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 768,
+      "route": "/kurierfahrten",
       "status": 200,
       "scroll": 768,
       "client": 768,
@@ -425,6 +605,42 @@
     {
       "width": 1440,
       "route": "/leistungen",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/taxifahrten",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/geschaeftsfahrten",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/kinderfahrten",
+      "status": 200,
+      "scroll": 1440,
+      "client": 1440,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "route": "/kurierfahrten",
       "status": 200,
       "scroll": 1440,
       "client": 1440,

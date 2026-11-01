@@ -1,15 +1,9 @@
 import Link from 'next/link';
 import { ArrowDown, ArrowRight, HeartPulse, Plane, Phone } from 'lucide-react';
 import { company } from '@/config/company';
-import {
-  WhatsAppButton,
-  EmailButton,
-  CallButton,
-  Eyebrow,
-  TextLink,
-  ContactStrip,
-} from '@/components/ui';
+import { EmailButton, CallButton, Eyebrow, TextLink, ContactStrip } from '@/components/ui';
 import { RideForm } from '@/components/ride-form';
+import { WhatsAppIcon } from '@/components/whatsapp-icon';
 import { Benefits, FAQ, Fleet, Services } from '@/components/sections';
 
 export const metadata = { alternates: { canonical: '/' } };
@@ -77,14 +71,28 @@ export default function Home() {
               <span>Ihr Ziel.</span> <span className="hero-title-accent">Unser Weg.</span>
             </h1>
             <p className="hero-description">
-              Zum nächsten Termin oder quer durch Deutschland: Wir bringen Sie auf den Weg.
-              Persönlich erreichbar, einfach anzufragen.
+              Ihre Fahrt beginnt mit einer Nachricht. Tragen Sie unten Ihre Fahrtdaten ein und
+              fragen Sie direkt per WhatsApp an.
             </p>
             <div className="hero-actions">
-              <WhatsAppButton>WhatsApp-Anfrage</WhatsAppButton>
+              <a className="button button-whatsapp" href="#whatsapp-formular">
+                <WhatsAppIcon size={22} />
+                Zum WhatsApp-Formular
+                <ArrowDown size={18} aria-hidden="true" />
+              </a>
               <CallButton>Anrufen</CallButton>
               <EmailButton className="button-text">Lieber per E-Mail</EmailButton>
             </div>
+            <a className="request-guide" href="#whatsapp-formular">
+              <span className="request-guide-icon">
+                <WhatsAppIcon size={24} />
+              </span>
+              <span>
+                <strong>Ausfüllen. In WhatsApp senden.</strong>
+                <small>Wir antworten Ihnen persönlich.</small>
+              </span>
+              <ArrowDown size={20} aria-hidden="true" />
+            </a>
             <div className="hero-phone-block">
               <span>Direkt mit uns sprechen · rund um die Uhr</span>
               <a className="hero-phone" href={`tel:${company.phone}`}>
@@ -104,13 +112,20 @@ export default function Home() {
               Unsere Fahrzeuge entdecken <ArrowDown size={17} aria-hidden="true" />
             </a>
           </div>
-          <div className="hero-booking">
+          <div
+            className="hero-booking"
+            id="whatsapp-formular"
+            tabIndex={-1}
+            aria-labelledby="request-title"
+          >
             <div className="booking-card">
               <div className="booking-card-body">
                 <div className="booking-card-title">
-                  <p className="small-label">Ihre Fahrt beginnt hier</p>
-                  <h2>Wohin darf’s gehen?</h2>
-                  <p>Fahrtdaten eintragen. Nachricht senden. Persönliche Bestätigung erhalten.</p>
+                  <p className="small-label">Das WhatsApp-Formular für Ihre Fahrt</p>
+                  <h2 id="request-title">Wohin darf’s gehen?</h2>
+                  <p>
+                    Hier ausfüllen, anschließend in WhatsApp selbst senden. Auch per E-Mail möglich.
+                  </p>
                 </div>
                 <RideForm compact />
               </div>

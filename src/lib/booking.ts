@@ -41,8 +41,9 @@ export function initialRideType(mode: RideMode) {
       ? 'Flughafentransfer'
       : 'Taxifahrt';
 }
-export function whatsappLink(message: string) {
-  return `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(message)}`;
+export function whatsappLink(message?: string) {
+  const chat = `https://wa.me/${company.whatsapp}`;
+  return message ? `${chat}?text=${encodeURIComponent(message)}` : chat;
 }
 export function formatDate(value: string) {
   if (!value) return 'nach Absprache';
@@ -106,8 +107,6 @@ export function bookingMessage(
   lines.push('', 'Bitte bestätigen Sie mir die Verfügbarkeit und die Fahrt.');
   return lines.join('\n');
 }
-export const defaultMessage =
-  'Hallo Insel Taxi, ich möchte gerne eine Fahrt anfragen.\n\nName:\nFahrttyp:\nStart:\nZiel:\nDatum:\nUhrzeit:\nPersonen:\nAnmerkung:\n\nBitte bestätigen Sie mir die Verfügbarkeit und die Fahrt.';
 export type Errors = Partial<Record<keyof Booking, string>>;
 export function validateBooking(
   b: Booking,
@@ -151,6 +150,7 @@ export function validateBooking(
 }
 
 /** Öffnet nur einen E-Mail-Entwurf, versendet nichts automatisch. */
-export function emailLink(message: string = defaultMessage) {
+export function emailLink(message?: string) {
+  if (!message) return `mailto:${company.email}`;
   return `mailto:${company.email}?subject=${encodeURIComponent('Fahrtanfrage – Insel Taxi')}&body=${encodeURIComponent(message)}`;
 }

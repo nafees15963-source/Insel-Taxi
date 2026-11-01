@@ -18,6 +18,14 @@ const booking = {
   time: '12:30',
   wishes: 'Rollator & Hilfe beim Einsteigen 🚕\nRückfahrt später',
 };
+test('direct contact links open without a subject or prepared message', () => {
+  for (const message of [undefined, '']) {
+    const whatsapp = new URL(whatsappLink(message));
+    assert.equal(whatsapp.href, 'https://wa.me/491739189239');
+    assert.equal(whatsapp.search, '');
+    assert.equal(emailLink(message), 'mailto:info@inseltaxi-ratzeburg.de');
+  }
+});
 test('WhatsApp preserves all fields and Unicode without confirming a booking', () => {
   const message = bookingMessage(booking);
   const url = new URL(whatsappLink(message));

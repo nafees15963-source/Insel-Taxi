@@ -8,7 +8,7 @@ import './globals.css';
 import { Header, Footer } from '@/components/shell';
 import { MapsProvider } from '@/components/maps';
 import { company, launchReady, siteUrl } from '@/config/company';
-import { defaultMessage, whatsappLink, emailLink } from '@/lib/booking';
+import { whatsappLink, emailLink } from '@/lib/booking';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -77,8 +77,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <p className="notice">
                 Ihre Fahrt können Sie direkt telefonisch unter{' '}
                 <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a> oder{' '}
-                <a href={whatsappLink(defaultMessage)}>per WhatsApp</a> oder{' '}
-                <a href={emailLink(defaultMessage)}>per E-Mail anfragen</a>.
+                <a href={whatsappLink()}>per WhatsApp</a> oder{' '}
+                <a href={emailLink()}>per E-Mail anfragen</a>.
               </p>
             </div>
           </noscript>

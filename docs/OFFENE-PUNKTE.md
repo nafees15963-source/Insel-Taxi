@@ -2,9 +2,8 @@
 
 ## Erforderlich
 
-- **Inhaber und Adresse**: bisheriges Impressum nennt Naeem Ahmed / Zittschower Weg 11a. Der bisherige Datenschutztext weist abweichende Schreibweisen auf. Betreiberbestätigung erforderlich.
-- **Vollständiges Impressum**: Rechtsform, Registerpflicht, Aufsicht und Streitbeilegungsangaben durch Betreiber prüfen; vorhandene USt-ID bestätigen.
-- **Datenschutzerklärung**: auf den realen Hosting-Anbieter, Logs, Dienstleister, WhatsApp-Nutzung und optionale Google-Dienste abstimmen und rechtlich prüfen lassen. Markierte Stellen in den Seiten vervollständigen.
+- **Bestätigte Unternehmensdaten (01.11.2026)**: Insel Taxi, Inhaber Naeem Ahmed, Zittschower Weg 11a, 23909 Ratzeburg; IK 600138210, Steuernummer 27 001 02189 und USt-ID DE221613879. Diese Angaben sind im Impressum enthalten. Die aktuelle Anschrift des zuständigen Fachdienstes Straßenverkehr wurde auf der Kreiswebsite geprüft.
+- **Rechtstexte**: Die öffentlichen Seiten enthalten keine Entwurfs- oder Ausfüllplatzhalter mehr. Die Datenschutzerklärung beschreibt Vercel, die tatsächlich implementierten Formulare und optionalen Google-Dienste. Sie ist nicht anwaltlich geprüft. Nicht belegte Tatsachen (etwa ein abgeschlossener AV-Vertrag, konkrete Provider-Logfristen, Registereintrag oder Teilnahme an Verbraucherschlichtung) wurden nicht erfunden. Tatsächliche Provider-Verträge, betriebliche Löschabläufe und gegebenenfalls einschlägige VSBG-Pflichten müssen im Betrieb erfüllt werden. Bei einem Hostingwechsel den Text aktualisieren.
 - **Hauptdomain**: Die aktuelle Website nutzt das vorhandene Vercel-Projekt unter insel-taxi.vercel.app. Für die eigene Hauptdomain gegebenenfalls DNS zuordnen und `NEXT_PUBLIC_SITE_URL` setzen. DNS-Einträge wurden hier nicht geändert.
 
 ## Für die optionalen Zusatzfunktionen
