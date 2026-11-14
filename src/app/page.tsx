@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowDown, ArrowRight, HeartPulse, Plane, Phone } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUpRight, HeartPulse, Plane, Phone } from 'lucide-react';
 import { company } from '@/config/company';
 import { EmailButton, CallButton, Eyebrow, TextLink, ContactStrip } from '@/components/ui';
 import { RideForm } from '@/components/ride-form';
@@ -11,59 +11,7 @@ export const metadata = { alternates: { canonical: '/' } };
 export default function Home() {
   return (
     <>
-      <section className="hero" aria-labelledby="hero-title">
-        <svg
-          className="hero-waves"
-          viewBox="0 0 1440 500"
-          preserveAspectRatio="none"
-          fill="none"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient
-              id="gold-wave"
-              x1="0"
-              y1="500"
-              x2="1100"
-              y2="100"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#e3a913" stopOpacity=".35" />
-              <stop offset=".4" stopColor="#ffc000" stopOpacity=".9" />
-              <stop offset="1" stopColor="#eeb81d" stopOpacity=".55" />
-            </linearGradient>
-            <linearGradient
-              id="gold-thread"
-              x1="0"
-              y1="400"
-              x2="1440"
-              y2="50"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#e2ae22" stopOpacity=".1" />
-              <stop offset=".55" stopColor="#e6b426" stopOpacity=".7" />
-              <stop offset="1" stopColor="#ffdc61" stopOpacity=".1" />
-            </linearGradient>
-          </defs>
-          <path
-            className="wave-main"
-            d="M-80 420C270 620 480 480 740 295S1180 60 1510 210"
-            stroke="url(#gold-wave)"
-            strokeWidth="92"
-          />
-          <path
-            className="wave-fine"
-            d="M-60 360C260 580 510 470 760 280S1180 40 1520 160"
-            stroke="url(#gold-thread)"
-            strokeWidth="2"
-          />
-          <path
-            className="wave-fine"
-            d="M-80 395C270 605 480 480 740 295S1180 60 1510 210"
-            stroke="url(#gold-thread)"
-            strokeWidth="1"
-          />
-        </svg>
+      <section className="hero atlas-hero" aria-labelledby="hero-title">
         <div className="container hero-grid">
           <div className="hero-copy">
             <Eyebrow>Insel Taxi · Ratzeburg</Eyebrow>
@@ -71,8 +19,8 @@ export default function Home() {
               <span>Ihr Ziel.</span> <span className="hero-title-accent">Unser Weg.</span>
             </h1>
             <p className="hero-description">
-              Ihre Fahrt beginnt mit einer Nachricht. Tragen Sie unten Ihre Fahrtdaten ein und
-              fragen Sie direkt per WhatsApp an.
+              Von Ratzeburg dorthin, wo Sie sein möchten. Fahrtdaten eintragen, per WhatsApp
+              anfragen – wir stimmen Ihre Fahrt persönlich mit Ihnen ab.
             </p>
             <div className="hero-actions">
               <a className="button button-whatsapp" href="#whatsapp-formular">
@@ -83,30 +31,48 @@ export default function Home() {
               <CallButton>Anrufen</CallButton>
               <EmailButton className="button-text">Lieber per E-Mail</EmailButton>
             </div>
-            <a className="request-guide" href="#whatsapp-formular">
-              <span className="request-guide-icon">
-                <WhatsAppIcon size={24} />
-              </span>
-              <span>
-                <strong>Ausfüllen. In WhatsApp senden.</strong>
-                <small>Wir antworten Ihnen persönlich.</small>
-              </span>
-              <ArrowDown size={20} aria-hidden="true" />
-            </a>
-            <div className="hero-phone-block">
-              <span>Direkt mit uns sprechen · rund um die Uhr</span>
-              <a className="hero-phone" href={`tel:${company.phone}`}>
-                <Phone size={22} aria-hidden="true" />
-                {company.phoneDisplay}
-              </a>
-            </div>
-            <div className="hero-route" aria-label="Regional und bundesweit. Ausland auf Anfrage.">
-              <span className="hero-route-start">Ratzeburg</span>
-              <span className="hero-route-track" aria-hidden="true">
-                <span />
-              </span>
-              <span>Ihr Ziel</span>
-              <p>Regional & bundesweit. Ausland auf Anfrage.</p>
+            <div className="journey-atlas">
+              <div className="atlas-caption">
+                <span>VON DER INSEL. IN ALLE RICHTUNGEN.</span>
+                <ArrowUpRight size={24} aria-hidden="true" />
+              </div>
+              <svg viewBox="0 0 560 310" fill="none" aria-hidden="true" className="atlas-drawing">
+                <path
+                  className="atlas-water"
+                  d="M0 75C75 25 127 42 168 93S218 199 170 246S61 266 0 300ZM313 0C269 57 303 91 346 117S436 112 462 166S487 253 560 269V0Z"
+                />
+                <path
+                  className="atlas-shore"
+                  d="M0 92C75 42 114 61 151 103S199 190 151 232M331 0C286 60 318 78 360 101S452 98 477 152S504 238 560 250"
+                />
+                <path
+                  className="atlas-street"
+                  d="M0 173L560 173M245 0V310M93 0L428 310M75 310L454 0"
+                />
+                <path
+                  className="atlas-road"
+                  d="M113 242H196Q245 242 245 193V135Q245 84 299 84H455"
+                />
+                <path
+                  className="atlas-road-track"
+                  d="M113 242H196Q245 242 245 193V135Q245 84 299 84H455"
+                />
+                <circle cx="113" cy="242" r="12" fill="#ffd02c" />
+                <circle cx="113" cy="242" r="4" fill="#152b40" />
+                <circle cx="455" cy="84" r="12" fill="#fff" />
+                <circle cx="455" cy="84" r="4" fill="#152b40" />
+                <rect x="221" y="148" width="48" height="32" rx="10" fill="#ffd02c" />
+                <path d="M232 159h7v7h-7zm7 7h7v7h-7zm7-7h7v7h-7zm7 7h7v7h-7z" fill="#152b40" />
+                <text x="94" y="280">
+                  Ratzeburg
+                </text>
+                <text x="414" y="53">
+                  Ihr Ziel
+                </text>
+              </svg>
+              <p>
+                Regional & bundesweit <span>Ausland auf Anfrage</span>
+              </p>
             </div>
             <a className="hero-discover" href="#fuhrpark">
               Unsere Fahrzeuge entdecken <ArrowDown size={17} aria-hidden="true" />
@@ -119,9 +85,13 @@ export default function Home() {
             aria-labelledby="request-title"
           >
             <div className="booking-card">
+              <div className="booking-channel-banner">
+                <WhatsAppIcon size={23} />
+                <span>Ihre Fahrt. Direkt per WhatsApp.</span>
+              </div>
               <div className="booking-card-body">
                 <div className="booking-card-title">
-                  <p className="small-label">Das WhatsApp-Formular für Ihre Fahrt</p>
+                  <p className="small-label">Hier beginnt Ihre Anfrage</p>
                   <h2 id="request-title">Wohin darf’s gehen?</h2>
                   <p>
                     Hier ausfüllen, anschließend in WhatsApp selbst senden. Auch per E-Mail möglich.
@@ -156,7 +126,7 @@ export default function Home() {
             </div>
             <TextLink href="/leistungen">Alle Leistungen</TextLink>
           </div>
-          <Services />
+          <Services full />
         </div>
       </section>
       <section className="section feature-section">

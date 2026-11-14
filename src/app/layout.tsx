@@ -5,6 +5,7 @@ import '@fontsource/manrope/latin-600.css';
 import '@fontsource/manrope/latin-700.css';
 import '@fontsource/manrope/latin-800.css';
 import './globals.css';
+import './redesign.css';
 import { Header, Footer } from '@/components/shell';
 import { MapsProvider } from '@/components/maps';
 import { company, launchReady, siteUrl } from '@/config/company';

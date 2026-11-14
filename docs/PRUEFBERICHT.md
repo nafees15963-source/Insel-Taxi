@@ -1,5 +1,25 @@
 # Prüfbericht
 
+
+## Ergänzungen vom 14. November 2026
+
+- Anfrage-Button in Desktop-Header und Mobilmenü führt auf der Startseite unmittelbar zum vorhandenen WhatsApp-Formular. Auf Unterseiten bleibt die allgemeine Anfrageseite erreichbar.
+- Die dekorative Fahrtwege-Animation endet nach vier Sekunden und bleibt bei reduzierter Bewegung abgeschaltet.
+- Produktionsbuild und ESLint erneut bestanden. Kontakt-Einstieg bei fünf Bildschirmbreiten erneut geprüft; zusätzlich Desktop- und Mobilnavigation bei den vier Breiten mit sichtbarem Anfrage-Button.
+
+
+## Redesign vom 13. November 2026
+
+- Dunkelblauer Einstieg mit gelber Typografie und eigener schematischer Fahrtwege-Grafik. Das WhatsApp-Formular bleibt im Einstieg sichtbar; am Desktop daneben, auf Mobilgeräten direkt unter dem Einleitungstext.
+- UX-Referenzen umgesetzt: große Klickflächen, klarer primärer Kontaktweg, konsistente Icons, sichtbare Fokus-/Hover-/Druckzustände, abgestimmte Rundungen und Abstände. Sechs Leistungsseiten direkt von der Startseite erreichbar. Fuhrpark, Leistungskarten, Ablauf und FAQ neu gestaltet.
+- `npm run build`, `npm run lint`, `npm run format:check`: bestanden. `npm test`: 15 Tests bestanden.
+- Browserprüfung: 78 Seiten-/Breitenkombinationen und acht Abläufe bestanden; keine automatisierten axe-core-Befunde, horizontalen Überläufe, Laufzeitfehler oder unerwarteten externen Anfragen. Ergänzend sechs Leistungsseiten bei drei Breiten und sechs Nachrichtenabläufe bestanden.
+- Nach abschließender Vereinfachung des Einstiegs erneut gebaut und den Kontakt-Einstieg geprüft: WhatsApp-Kennzeichnung ohne Scrollen sichtbar, Formular-Sprung und Fokus bei fünf Breiten; Direktkontakte weiterhin ohne vorgegebenen Text. Die Formulare senden keine Nachrichten automatisch.
+- Desktop- und Mobilvorschauen zeigen den neuen Einstiegsbereich. Die separate ZIP-Kopie wurde entfernt; aktueller Download über GitHub → Code → Download ZIP im Branch `main2`.
+- Original-Logo unverändert. Rechtstexte und Kontaktdaten unverändert. Kein Test auf physischem iPhone/Safari und keine neue Lighthouse-Messung. Keine Veröffentlichung auf Vercel durch diese Prüfung.
+
+Die folgenden Abschnitte dokumentieren frühere Stände; aktuelle maschinenlesbare Browserberichte stehen unter `docs/reports/`.
+
 ## Aktualisierung vom 1. November 2026
 
 - Produktionsbuild und TypeScript erfolgreich; ESLint ohne Fehler/Warnungen; Formatierung geprüft.

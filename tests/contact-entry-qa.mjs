@@ -24,6 +24,13 @@ try {
     await page.goto(base);
     await page.waitForLoadState('networkidle');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    const channelBanner = page.locator('.hero #whatsapp-formular .booking-channel-banner');
+    await channelBanner.waitFor({ state: 'visible' });
+    const bannerBounds = await channelBanner.boundingBox();
+    assert.ok(
+      bannerBounds.y + bannerBounds.height < 800,
+      `WhatsApp entry below first screen at ${width}`,
+    );
     if (width === 390 || width === 1440) {
       await page.screenshot({ path: `work/contact-entry/home-${width}.png`, fullPage: true });
       await page.screenshot({ path: `work/contact-entry/hero-${width}.png` });
@@ -39,6 +46,18 @@ try {
     );
     assert.equal(await page.evaluate(() => document.activeElement?.id), 'whatsapp-formular');
     report.anchorWidths.push(width);
+    // At 1051–1200px the compact desktop header shows only the call action.
+    if (width > 1050 && width <= 1200) continue;
+    await page.goto(base);
+    if (width <= 1050) await page.getByRole('button', { name: 'Menü öffnen' }).click();
+    await page
+      .locator('.site-header')
+      .getByRole('link', { name: 'Fahrt anfragen', exact: true })
+      .filter({ visible: true })
+      .click();
+    await page.waitForURL('**/#whatsapp-formular');
+    assert.equal(new URL(page.url()).hash, '#whatsapp-formular');
+    if (width <= 1050) assert.equal(await page.locator('.mobile-nav').count(), 0);
   }
   await page.setViewportSize({ width: 390, height: 900 });
   await page.goto(base);

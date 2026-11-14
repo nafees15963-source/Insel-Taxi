@@ -1,0 +1,542 @@
+/* Insel Taxi: a route-led visual identity with familiar, accessible controls. */
+:root {
+  --navy: #152b40;
+  --ink: #263b4d;
+  --surface: #f4f5f0;
+  --yellow: #ffd02c;
+}
+.button {
+  border-radius: 12px;
+  min-height: 52px;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+.button:active {
+  transform: translateY(2px);
+}
+.button:focus-visible {
+  outline-width: 3px;
+  outline-offset: 4px;
+}
+.site-header {
+  border-bottom: 1px solid #e5e8e7;
+}
+.section {
+  padding-block: 96px;
+}
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.atlas-hero {
+  background: #152b40;
+  border: 0;
+}
+.atlas-hero::after {
+  display: none;
+}
+.atlas-hero::before {
+  background: radial-gradient(ellipse at 8% 55%, #25485c 0, transparent 60%);
+}
+.atlas-hero .hero-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  padding-block: 56px 64px;
+}
+.atlas-hero .hero-copy {
+  padding-top: 18px;
+}
+.atlas-hero .eyebrow {
+  color: #cad9df;
+}
+.atlas-hero h1 {
+  font-size: clamp(56px, 6.7vw, 88px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.065em;
+}
+.atlas-hero .hero-title > span {
+  color: #fff;
+}
+.atlas-hero .hero-title > .hero-title-accent {
+  color: #ffd02c;
+}
+.atlas-hero .hero-title-accent::after {
+  display: none;
+}
+.atlas-hero .hero-description {
+  color: #d3dfe5;
+  font-size: 18px;
+  line-height: 1.75;
+  margin-top: 28px;
+}
+.atlas-hero .hero-actions {
+  gap: 12px;
+  margin-top: 28px;
+}
+.atlas-hero .hero-actions .button-whatsapp {
+  background: #fff;
+  color: #126446;
+  border-color: #fff;
+}
+.atlas-hero .hero-actions .button-whatsapp:hover {
+  background: #e6f6ed;
+}
+.atlas-hero .hero-actions .button-text {
+  color: #e0e9ed;
+  border-color: transparent;
+  background: transparent;
+  padding-left: 0;
+  min-height: 44px;
+}
+.atlas-hero .hero-phone-block {
+  margin-top: 24px;
+}
+.atlas-hero .hero-phone-block > span {
+  color: #becfd8;
+}
+.atlas-hero .hero-phone {
+  color: #fff;
+  font-size: 25px;
+}
+.atlas-hero .hero-discover {
+  color: #d3dfe5;
+}
+.atlas-hero :focus-visible {
+  outline-color: #ffd02c;
+}
+.journey-atlas {
+  margin-top: 40px;
+  padding-top: 22px;
+  border-top: 1px solid #ffffff26;
+}
+.atlas-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  color: #c1d3db;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+.atlas-caption > span:last-child {
+  color: #ffd02c;
+  font-size: 28px;
+}
+.atlas-drawing {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-block: 6px;
+}
+.atlas-water {
+  fill: #254c60;
+}
+.atlas-shore {
+  stroke: #3f6b7b;
+  stroke-width: 1.5;
+}
+.atlas-street {
+  stroke: #b7d3db;
+  stroke-opacity: 0.12;
+  stroke-width: 1;
+}
+.atlas-road {
+  stroke: #ffd02c;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.atlas-road-track {
+  stroke: #152b40;
+  stroke-width: 2;
+  stroke-dasharray: 4 14;
+  animation: route-travel 4s ease-out 1;
+}
+.atlas-drawing text {
+  fill: #e4eef1;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 700;
+}
+.journey-atlas > p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #f3f6f7;
+  font-size: 13px;
+}
+.journey-atlas > p > span {
+  color: #bed0d8;
+}
+@keyframes route-travel {
+  to {
+    stroke-dashoffset: -180;
+  }
+}
+.booking-card {
+  border: 0;
+  border-radius: 24px;
+  box-shadow: 0 24px 70px #06142025;
+}
+.booking-channel-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 28px;
+  background: #dff3e8;
+  color: #15573c;
+  border-radius: 24px 24px 0 0;
+  font-weight: 800;
+  font-size: 15px;
+}
+.booking-card-body {
+  padding: 26px 28px;
+}
+.booking-card-title {
+  margin-bottom: 22px;
+}
+.booking-card-title h2 {
+  font-size: 31px;
+  letter-spacing: -0.045em;
+}
+.booking-card-title .small-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+}
+.booking-card-bottom {
+  border-radius: 0 0 24px 24px;
+  background: #f0f4f1;
+}
+.compact-form .message-form-header {
+  display: none;
+}
+.compact-form .message-steps {
+  margin-top: 0;
+}
+.field input,
+.field select,
+.field textarea {
+  border-radius: 10px;
+  background: #fafcfb;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  background: #fff;
+}
+.ride-form[data-channel='whatsapp'] :is(input, select, textarea):focus-visible {
+  outline-color: #087f51;
+}
+.submit-button {
+  min-height: 56px;
+}
+.benefits-line {
+  padding-block: 28px;
+  border-bottom: 1px solid #e0e5df;
+}
+.fleet-section {
+  background: #fff;
+}
+.fleet-grid {
+  gap: 24px;
+}
+.fleet-card {
+  border: 0;
+  border-radius: 24px;
+  padding: 32px;
+  background: #f0f2ed;
+  overflow: hidden;
+}
+.fleet-card::after {
+  width: 240px;
+  height: 240px;
+  border: 35px solid #152b4006;
+  border-radius: 50%;
+  right: -90px;
+  top: 45px;
+}
+.fleet-van {
+  background: #152b40;
+}
+.fleet-van::after {
+  border-color: #ffffff06;
+}
+.fleet-capacity {
+  margin-block: 22px;
+}
+.fleet-capacity strong {
+  font-size: 112px;
+  line-height: 0.95;
+  letter-spacing: -0.08em;
+}
+.fleet-passengers {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 7px;
+  border: 0;
+  padding: 0;
+  margin-block: 24px;
+}
+.fleet-passengers > span {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  background: #fff;
+  border: 0;
+}
+.fleet-van .fleet-passengers > span {
+  background: #294357;
+  color: #ffd02c;
+}
+.fleet-description {
+  max-width: 340px;
+}
+.fleet-link {
+  min-height: 48px;
+  margin-top: 18px;
+}
+.services-section {
+  background: #f3f4ee;
+  border: 0;
+}
+.services-grid,
+.services-grid.services-full {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.service-card {
+  border: 0;
+  border-radius: 18px;
+  padding: 26px;
+  background: #fff;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px #152b400c;
+}
+.service-card-top {
+  margin-bottom: 22px;
+}
+.service-visual {
+  min-height: 54px;
+}
+.service-visual > svg {
+  width: 54px;
+  height: 54px;
+  padding: 12px;
+  border: 0;
+  border-radius: 14px;
+  background: #f8e8a5;
+}
+.service-visual-route {
+  display: none;
+}
+.service-card-top > svg {
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border-radius: 50%;
+  background: #f3f4ee;
+}
+.service-card h3 {
+  font-size: 22px;
+}
+.service-index {
+  font-size: 11px;
+  letter-spacing: 0.025em;
+}
+.feature-grid {
+  gap: 24px;
+}
+.feature-grid > article {
+  border-radius: 24px;
+}
+.process-section {
+  background: #152b40;
+}
+.process-section :is(h2, h3) {
+  color: #fff;
+}
+.process-section :is(p, .eyebrow, .text-link) {
+  color: #d0dce2;
+}
+.process-steps > li {
+  border-color: #ffffff25;
+}
+.process-steps > li > span {
+  border: 0;
+  border-radius: 12px;
+  background: #ffd02c;
+}
+.faq-list details {
+  background: #f5f6f1;
+  border: 0;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  padding-inline: 22px;
+}
+.faq-list summary {
+  min-height: 64px;
+}
+.page-intro {
+  background: #f1f3ed;
+}
+@media (max-width: 1050px) {
+  .atlas-hero .hero-grid {
+    gap: 28px;
+    padding-block: 38px;
+  }
+  .atlas-hero h1 {
+    font-size: clamp(46px, 6.6vw, 68px);
+  }
+  .atlas-hero .hero-description {
+    font-size: 16px;
+  }
+  .booking-card-body {
+    padding: 24px;
+  }
+  .booking-channel-banner {
+    padding-inline: 24px;
+  }
+  .services-grid,
+  .services-grid.services-full {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 800px) {
+  .atlas-hero .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-block: 30px 36px;
+  }
+  .atlas-hero .hero-copy {
+    padding-top: 0;
+  }
+  .atlas-hero h1 {
+    font-size: clamp(44px, 9vw, 68px);
+  }
+  .atlas-hero .hero-description {
+    max-width: 560px;
+    margin-top: 18px;
+    line-height: 1.65;
+  }
+  .atlas-hero .hero-actions {
+    margin-top: 18px;
+  }
+  .atlas-hero .hero-phone-block,
+  .journey-atlas,
+  .atlas-hero .hero-discover {
+    display: none;
+  }
+  .atlas-hero .hero-booking {
+    margin-top: 0;
+  }
+  .section {
+    padding-block: 64px;
+  }
+  .fleet-capacity strong {
+    font-size: 88px;
+  }
+  .fleet-card {
+    padding: 24px;
+  }
+}
+@media (max-width: 600px) {
+  .atlas-hero .hero-grid {
+    padding-top: 26px;
+    gap: 24px;
+  }
+  .atlas-hero .eyebrow {
+    margin-bottom: 14px;
+    font-size: 10px;
+  }
+  .atlas-hero h1 {
+    font-size: clamp(43px, 11vw, 62px);
+  }
+  .atlas-hero .hero-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+  .atlas-hero .hero-actions .button {
+    padding-inline: 12px;
+    font-size: 13px;
+    min-height: 48px;
+  }
+  .atlas-hero .hero-actions .button-whatsapp {
+    width: 100%;
+  }
+  .atlas-hero .hero-actions .button-whatsapp > svg:last-child {
+    display: none;
+  }
+  .atlas-hero .hero-actions .button-text {
+    display: none;
+  }
+  .booking-channel-banner {
+    padding: 16px 18px;
+    font-size: 13px;
+    gap: 10px;
+  }
+  .booking-card-body {
+    padding: 22px 18px;
+  }
+  .booking-card-title h2 {
+    font-size: 27px;
+  }
+  .booking-card-title > p:last-child {
+    font-size: 14px;
+  }
+  .services-grid,
+  .services-grid.services-full {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .service-card {
+    padding: 24px;
+  }
+  .service-card-top {
+    margin-bottom: 14px;
+  }
+  .service-card > p:last-child {
+    font-size: 15px;
+  }
+  .fleet-capacity strong {
+    font-size: 96px;
+  }
+  .fleet-grid {
+    gap: 16px;
+  }
+  .fleet-passengers {
+    gap: 5px;
+  }
+  .fleet-passengers > span {
+    height: 34px;
+  }
+  .fleet-passengers svg {
+    width: 19px;
+  }
+  .faq-list details {
+    padding-inline: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atlas-road-track {
+    animation: none;
+  }
+  .service-card,
+  .button {
+    transition: none;
+  }
+  .service-card:hover,
+  .button:active {
+    transform: none;
+  }
+}

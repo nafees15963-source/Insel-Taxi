@@ -79,7 +79,10 @@ export function Header() {
           </nav>
           <div className="header-actions">
             <CallButton>{company.phoneDisplay}</CallButton>
-            <Link className="button button-primary" href="/fahrt-anfragen">
+            <Link
+              className="button button-primary"
+              href={pathname === '/' ? '#whatsapp-formular' : '/fahrt-anfragen'}
+            >
               Fahrt anfragen
               <ArrowUpRight size={17} aria-hidden="true" />
             </Link>
@@ -113,7 +116,10 @@ export function Header() {
                 <ArrowUpRight size={17} />
               </Link>
             ))}
-            <Link href="/fahrt-anfragen" onClick={() => setOpen(false)}>
+            <Link
+              href={pathname === '/' ? '#whatsapp-formular' : '/fahrt-anfragen'}
+              onClick={() => setOpen(false)}
+            >
               Fahrt anfragen
               <ArrowUpRight size={17} />
             </Link>

@@ -4,7 +4,7 @@ Sie müssen nicht programmieren können. Die Website ist vorbereitet. Für die n
 
 ## 1. Projekt speichern
 
-Falls Sie die ZIP-Datei verwenden: herunterladen, mit der rechten Maustaste „Alle extrahieren“ wählen und den Ordner öffnen. Im Projektordner finden Sie unter anderem `package.json`, `src`, `public` und diese Anleitung.
+Für die aktuelle ZIP-Datei auf GitHub den Branch `main2` und dann **Code → Download ZIP** wählen. Anschließend herunterladen, mit der rechten Maustaste „Alle extrahieren“ wählen und den Ordner öffnen. Im Projektordner finden Sie unter anderem `package.json`, `src`, `public` und diese Anleitung.
 
 Falls Sie direkt im bereitgestellten Workspace arbeiten: Das Projekt liegt unter `/workspace/Insel-Taxi`.
 
