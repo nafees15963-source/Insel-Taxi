@@ -1,6 +1,6 @@
 # Willkommen – hier beginnen
 
-Stand: **14. November 2026**. Neuer dunkelblauer Einstieg mit gelber Typografie und eigener Fahrtwege-Grafik. Das WhatsApp-Formular bleibt direkt auf der Startseite sichtbar, am Desktop neben der Überschrift und mobil unmittelbar darunter. Direkter Einstieg zum WhatsApp-Formular, grüne WhatsApp-Akzente und gelbe Anruf-Buttons. Feste Kontaktbuttons öffnen WhatsApp und E-Mail ohne vorbereiteten Text. Die Formulare übernehmen weiterhin die eingegebenen Fahrtdaten. Impressum und Datenschutzerklärung enthalten die bestätigten Unternehmensangaben und beschreiben den Betrieb auf Vercel.
+Stand: **14. November 2026**. Neuer heller Einstieg mit dunkler Typografie, gelben Akzenten und eigenen Fahrzeugillustrationen. Die dunkle Gestaltung wurde ersetzt; Leistungen, Fuhrpark und Fahrziele sind neu gegliedert. Das WhatsApp-Formular bleibt direkt auf der Startseite sichtbar, am Desktop neben der Überschrift und mobil unmittelbar darunter. Direkter Einstieg zum WhatsApp-Formular, grüne WhatsApp-Akzente und gelbe Anruf-Buttons. Feste Kontaktbuttons öffnen WhatsApp und E-Mail ohne vorbereiteten Text. Die Formulare übernehmen weiterhin die eingegebenen Fahrtdaten. Impressum und Datenschutzerklärung enthalten die bestätigten Unternehmensangaben und beschreiben den Betrieb auf Vercel.
 
 - Website: https://insel-taxi.vercel.app/
 - Aktueller Quellcode: https://github.com/nafees15963-source/Insel-Taxi/tree/main2

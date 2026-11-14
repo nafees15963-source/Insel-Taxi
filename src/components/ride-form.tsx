@@ -124,7 +124,10 @@ export function RideForm({
           </span>
         </div>
       </div>
-      <ol className="message-steps" aria-label="So funktioniert die Anfrage">
+      <ol
+        className={`message-steps ${compact ? 'message-steps-compact' : ''}`}
+        aria-label="So funktioniert die Anfrage"
+      >
         <li>
           <ClipboardList size={17} aria-hidden="true" />
           <span>Ausfüllen</span>
@@ -215,7 +218,7 @@ export function RideForm({
           name="wishes"
           value={booking.wishes}
           onChange={(event) => update('wishes', event.target.value)}
-          rows={3}
+          rows={compact ? 2 : 3}
           maxLength={800}
           placeholder={
             booking.rideType === 'Kurierfahrt'

@@ -1,6 +1,21 @@
 # Prüfbericht
 
 
+## Heller Neuaufbau vom 14. November 2026
+
+Der zuvor veröffentlichte dunkle Entwurf wurde ersetzt. Warme helle Flächen, dunkle Schrift, Taxi-Gelb und grüne WhatsApp-Akzente bilden die neue Gestaltung. Die lokal eingebundenen SVG-Fahrzeuge sind Illustrationen, keine Fotos des tatsächlichen Fuhrparks.
+
+- Anfrageformular weiterhin unmittelbar im Einstieg, mit sichtbarem WhatsApp-Kopf. Auf Mobilgeräten folgt es direkt dem Einleitungstext; alle Felder bleiben ohne zusätzlichen Öffnungsschritt erreichbar.
+- Leistungsliste, Fahrzeugdarstellung, Fahrzielübersicht, Ablauf und Kontaktbereich neu gegliedert. Original-Logo und Unternehmensdaten unverändert.
+- Kompaktes Startseitenformular mit kürzeren Abständen und zweizeiligem optionalem Notizfeld, weiterhin vollständigen Nachrichten und Fehlerhinweisen. Feste Kontaktbuttons öffnen leere WhatsApp-/E-Mail-Nachrichten.
+- Produktionsbuild, ESLint, Formatprüfung und 15 Fachtests bestanden. Sechs Leistungsseiten bei drei Breiten und sechs Nachrichtenabläufe bestanden. Formular-Einstieg bei fünf Breiten geprüft.
+- Bei der ersten Browsermatrix zeigte der gelbe Kontaktbereich zwei zu helle Texte. Die Textfarben wurden korrigiert; die anschließende Startseiten-Kontrastprüfung meldet keine Befunde. Die abschließende Gesamtprüfung mit 78 Seiten-/Breitenkombinationen und acht Abläufen ist bestanden: keine automatisierten axe-core-Befunde, Überläufe, Laufzeitfehler oder unerwarteten externen Anfragen. Bericht: `reports/mobile-redesign-browser.json`.
+- Dekorative Bewegung dauert 1,1 Sekunden und wird bei `prefers-reduced-motion` abgeschaltet. Keine zusätzlichen externen Bilder, Schriften oder Skripte.
+- Grenzen: Chromium-Simulation, keine Prüfung auf einem physischen iPhone. Keine echten Nachrichten gesendet; keine neue Lighthouse-Messung und keine manuelle Vercel-Veröffentlichung.
+
+Die folgenden Abschnitte sind historische Prüfungen früherer Entwürfe.
+
+
 ## Ergänzungen vom 14. November 2026
 
 - Anfrage-Button in Desktop-Header und Mobilmenü führt auf der Startseite unmittelbar zum vorhandenen WhatsApp-Formular. Auf Unterseiten bleibt die allgemeine Anfrageseite erreichbar.

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { company } from '@/config/company';
 import { Eyebrow, TextLink } from './ui';
+import { RideVisual } from './ride-visual';
 export const services = [
   {
     icon: CarFront,
@@ -118,6 +119,7 @@ export function Fleet() {
                 <h3>{vehicle.title}</h3>
                 <CarFront size={30} strokeWidth={1.4} aria-hidden="true" />
               </div>
+              <RideVisual van={vehicle.count === 8} />
               <p className="fleet-capacity">
                 <span>Bis zu</span>
                 <strong>{vehicle.count}</strong>

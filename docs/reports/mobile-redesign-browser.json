@@ -1,6 +1,6 @@
 {
-  "testedAt": "2026-11-13T21:27:22.496Z",
-  "baseUrl": "http://localhost:3200",
+  "testedAt": "2026-11-14T22:04:54.297Z",
+  "baseUrl": "http://localhost:3301",
   "browsers": [
     {
       "name": "Chromium",
